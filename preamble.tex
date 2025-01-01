@@ -1,0 +1,53 @@
+
+% other stuff
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{authblk}
+\usepackage[%
+plainpages=false,%
+colorlinks,% removes the boxes around links
+urlcolor=black,%
+filecolor=black,%
+citecolor=Blue,%   requires xcolor with option dvipsnames
+pdfpagemode=UseOutlines,%
+pdfauthor={Lars Vilhuber},%
+pdfsubject={Economics, Reproducibility, Open Science},%
+]{hyperref}
+
+\usepackage[
+backend=biber,
+authordate,
+  noibid,
+  natbib,
+  sorting=ydnt,
+  sortcites=true
+  abbreviate=false,
+  citetracker=false,
+  isbn=false,ibidtracker=false]{biblatex-chicago}
+\addbibresource{from-zotero.bib}
+
+\defbibfilter{papers}{
+     type=article or
+     type=inproceedings or
+     type=conference or
+     type=proceedings or
+     type=incollection or
+     type=inbook
+}
+% Clear some stuff from the bibliography
+\AtEveryBibitem{%
+        \clearfield{day}%
+        \clearfield{month}%
+        \clearfield{endday}%
+        \clearfield{endmonth}%
+    \clearlist{language}%
+    \clearfield{issn}%
+    \clearfield{eprint}% - adjust if necessary
+    \iffieldundef{doi}{}{\clearfield{url}}% remove URL field if DOI present    
+}
+
+% acronyms
+\usepackage{acronym}
+
+\input{acronyms}
