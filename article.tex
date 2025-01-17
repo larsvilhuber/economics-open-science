@@ -14,7 +14,20 @@
 \section{Introduction}
 
 
-As a graduate student in economics at Université de Montréal, I also experienced the openness of code sharing, with code samples by prominent authors being available to graduate students, though discovery was much more difficult at the time. Only later would more robust data sharing mechanisms emerge, such as departmental FTP servers or even the replication archive of the Journal of Applied Econometrics, instantiated at Queens University in 1994 under the long-running guidance of James McKinnon.\footnote{The JAE archive was migrated to the ZBW's archives in 2022 and can now be found at \url{https://journaldata.zbw.eu/journals/jae}, but legacy files are still visible as of 2024 at \url{http://qed.econ.queensu.ca/jae/legacy.html}.}
+As a graduate student in economics at Université de Montréal, reading the economics literature was  easy. While the main university library had all the relevant subscriptions, our department librarian, Fethy Mili, would populate the library of the economics department with multi-hued rows of working papers. Mili was also one of the key creators of what was initially known as \ac{WoPEc} and BibEc (for printed working papers) \citep{krichel_wopec_1997,cruz_cataloging_2000,krichel_economics_2009}, populating the latter since 1993 \citep[][p. 450]{batizlazo_brief_2012}. The overall network, known as \ac{RePEc}, was born contemporaneously with the more widely known arXiv and the more centralized \ac{SSRN}. While electronic working papers were mostly free in those days (there was no way to pay for them), Mili's work consisted of sending out postage-paid envelopes to all of the various economics departments that were publishing the working papers, and then cataloging the incoming printed materials electronically, for public consumption. In the end, information about the existence of the working papers was freely available, but access to (printed) working papers still required a small fee to cover the cost of shipping.
+
+I also experienced the openness of code sharing, with code samples by prominent authors being available to graduate students, though discovery was much more difficult at the time.  The \ac{SSC}, primarily but not exclusively for STATA packages, appeared in 1998 \citep{cox_conversation_2010,cox_stata_2022}, providing a convenient and open way to catalog, distribute, and provide open access to additional Stata functionality.\footnote{This kind of functionality was inspired by similar functionality  available for other software, like CPAN for Perl and CRAN for R, but not for most statistical software used by economists.}
+
+Data sharing was harder, of course, with lots of floppies\footnote{\url{https://en.wikipedia.org/wiki/Floppy_disk}} being exchanged, but also the use of departmental FTP\footnote{\url{https://en.wikipedia.org/wiki/File_Transfer_Protocol}} servers (David Card's collection of data, or the NBER's), or even the replication archive of the Journal of Applied Econometrics, instantiated at Queens University in 1994 under the long-running guidance of James McKinnon.\footnote{The JAE archive was migrated to the ZBW's archives in 2022 and can now be found at \url{https://journaldata.zbw.eu/journals/jae}, but legacy files are still visible as of 2024 at \url{http://qed.econ.queensu.ca/jae/legacy.html}.}. On the other hand, administrative data, such as the French administrative data used in AKM required travel to Paris, sitting in a room without windows at an assigned time, and typing the code into the system that had access. For non-local authors, this meant traveling for extended time periods as a Ph.D. student (Margolis) or spending a sabbatical in Paris (Abowd), neither of which is a cheap endeavor.\footnote{Both were, and still are, enjoyable, though.}
+
+When data were available, computing was straightforward: You logged on to the university's big computer, running some variant of Unix, and used whatever software was available. Software licenses were paid by the university, as was the computing hardware itself. Laptops powerful (and light!) enough to do actual work were only then emerging. 
+
+In 2025, there are concerned discussions about the cost of publishing academic articles, of accessing those same academic articles, of the ever increasing use of administrative data \citep{card_expanding_2010,card_expanding_2010-1,chetty_time_2012,einav_economics_2014} that would appear to be hidden behind insurmountable access restrictions,  the use of ``proprietary software'', and the increasing use of large computing infrastructure, all of which would seem to be restricting access to the basic elements of conducting research in economics. In this article, I will draw on my experience working on many aspects of increasing access to data and materials of all kinds, in particular my recent experience as the inaugural data editor of the \ac{AEA} \citep{10.1257/pandp.108.745}, to paint a picture of economics in an era of open science. How different are matters in practice now compared to that early view of the field of economics, back when I was a graduate student?
+%
+In this article, I will discuss the current state of open science in economics as facilitated by and related to reproducibility. I will touch on the tension between accessibility, sharing, and preservation, and some of the approaches that are being implemented, sometimes tentatively, in economics, and sometimes elsewhere. My view will be biased - I am an active participant in this space, primarily via my current appointment as data (and reproducibility) editor of the American Economic Association, but also as a past participant in networks that have and foster access, and a researcher and editor in the space of disclosure limitation.
+
+The guiding theme will be the \textbf{accessibility} of the key ingredients for scholarship: manuscripts (or more generally, documents), data, software, and the necessary technology to combine the latter two in order to produce knowledge as published in manuscripts. My focus will be on the latter three, though I will provide some observations about scholarly publishing in the last section.
+In the conclusion, I will identify a few areas where there is (continued) movement towards greater openness. 
 
 
 \begin{itemize}
@@ -23,12 +36,6 @@ As a graduate student in economics at Université de Montréal, I also experienc
 \item persistence: while there are many solutions for relatively openly available data, what needs to be done for more restricted data (bring example from Swedish data archive, Goncalves case)
 \item collaborative methods: long history of sharing working papers, rarely any issue with sharing code. Possible coding errors may inhibit stronger" standing on others shoulders
 \end{itemize}
-
-In this article, I will discuss the current state of open science in economics as facilitated by and related to reproducibility. I will touch on the tension between accessibility, sharing, and preservation, and some of the approaches that are being implemented, sometimes tentatively, in economics, and sometimes elsewhere. My view will be biased - I am an active participant in this space, primarily via my current appointment as inaugural data (and reproducibility) editor of the American Economic Association.
-
-The guiding theme will be the \textbf{accessibility} of the key ingredients for scholarship: manuscripts (or more generally, documents), data, software, and the necessary technology to combine the latter two in order to produce knowledge as published in manuscripts. My focus will be on the latter three. 
-In the conclusion, I will identify a few areas where there is observed movement towards greater openness. 
-
 
 \section{Concepts}
 
@@ -51,17 +58,23 @@ The Open Knowledge Foundation \parencite{open_knowledge_foundation_defining_2024
 \end{quote}
 
 Less broadly, \cite{vicente-saez_open_2018} identify a consensus that defines open science as ``transparent and accessible knowledge that is shared and developed through collaborative networks.''
-
-
+%
 In this article, I will focus on the what \cite{unesco_understanding_2022} calls open science ``knowledge'' and will briefly discuss ``infrastructures.'' I will highlight how some elements have been quite widespread in economics for some time. I will try to identify limits to fully open accessibility, some of which are intrinsic to the nature of the research conducted in economics, and describe how widespread such limitations may be. In particular, I will highlight how those access restrictions are not, as many think, an impediment to \textbf{open} science, in the sense that aforementioned ``collaborative networks'' can still access these resources. 
 
-One way to start to move away from a black-and-white perspective of access is to consider \textbf{time} as summary metric that captures what is needed in order to access generic resources, whether data, manuscripts, or computing resources. Time might be needed to write an application to access data, or time might be needed in order to obtain access to large-scale computing resources. Time might be needed in order to obtain grant funding that allows to purchase such resources. I choose time, rather than money, as the metric, since it might appear to be slightly more egalitarian, given that much of science has (theoretical) access to subsidies and grants. In the other dimension,  the number of people who have some probability of accessing the resource (the \textbf{size of the network}) can be taken as an approximate measure of openness. Figure~\ref{fig:nxt}, taken from \citep{vilhuber_reproducibility_2023}, serves to illustrate this idea, for access to data, with various institutions that facilitate that access mapped out into the space of time vs. size of network. 
+A key ambiguity will arise in how big such networks need to be in order to be considered ``open.'' Clearly, $n=2$ is not considered a network. The \ac{NBER} defines its affiliated scholars as a network: $n=1804$ as of January 2025, primarily in North America \citep{national_bureau_of_economic_research_affiliated_2025}, but X authors have published Y NBER working papers in 2024 (SOURCE NEEDED). J-PAL has approximately $n=1725$, at 120 universities on all populated continents \citep{abdul_latif_jameel_poverty_action_lab_affiliated_2025}. Between 2001 and June 2024, there had been $n=2023$ researchers on projects that used confidential U.S. Census Bureau in the \ac{FSRDC} \citep{us_census_bureau_uscensusbureaufsrdc-external-census-projects_2024}. In an average year (2013-2023), $n=1238$ students graduate from a U.S. university with a Ph.D. in economics \citep[Table 1-5]{national_science_foundation_doctorate_2024}. In the approximately 30 years since inception of \ac{RePEc}, $n=526$ authors from 52 institutions have published a paper listed on \ac{RePEc} (presumably in economics) \citep{ideasrepec_within_2025}. All of these are measured across different spatio-temporal dimensions. Are they large? Context and purpose matter. Some may intersect. How many U.S. graduate students in the past 10 years have published an NBER working paper and are now at a Norwegian institution? 
+
+One way to start to move away from a polarized perspective of access is to consider \textbf{time} as summary metric that captures what is needed in order to access generic resources, whether data, manuscripts, or computing resources. Time might be needed to write an application to access data, or time might be needed in order to obtain access to large-scale computing resources. Time might be needed in order to obtain grant funding that allows to purchase such resources. I choose time, rather than money, as the metric, since it might appear to be slightly more egalitarian, given that much of science has (theoretical) access to subsidies and grants. In the other dimension,  the number of people who have some probability of accessing the resource (the \textbf{size of the network}) can be taken as an approximate measure of openness. Figure~\ref{fig:nxt}, taken from \citep{vilhuber_reproducibility_2023}, serves to illustrate this idea, for access to data, with various institutions that facilitate that access mapped out into the space of time vs. size of network. 
 
 
 
 \input{figure1}
 
 
+
+
+
+\section{Data Access}
+\label{sec:data_access}
 
 
 Issues:
@@ -71,21 +84,35 @@ Open Access
 Restricted Access
 
 
-\section{Data Access}
-\label{sec:data_access}
-
-
 \section{Access to Software}
 \label{sec:software}
 
 \section{Access to Resources}
 \label{sec:other_resources}
 
-In the template README suggested by several data editors in economics \parencite{templateREADMEv1.1}, we emphasize that a README should provide enough instructions for a reasonable person to re-implement the analysis described in the replication package. Here, authors need to take into account that cutting edge methods, including technology, may require more information and instruction than for standard methods. Authors likely do not need to describe how to run an analysis in Stata, given its ubiquitous use in economics, and the ease with which instructions can be found more generally, but they may need to provide detailed step-by-step information if the technology used is rare or bespoke. For instance, the emerging use of \acp{LLM} and \ac{AI} methods is far from the economic mainstream as of the writing of this article. Recent articles are still identifying ways economists scan actually use these tools, both for personal productivity \parencite{korinek_generative_2023} and as part of the technical toolkit \parencite{athey_machine_2019,dell_deep_2024}. Only one of the articles submitted to any of the AEA journals in 2024 used these techniques (to be named, not yet published).
+In the template README published by myself and several other data editors in economics \parencite{templateREADMEv1.1}, we emphasize that a README should provide enough instructions for a reasonable person to re-implement the analysis described in the replication package. Here, authors need to take into account that cutting edge methods, including technology, may require more information and instruction than for standard methods. Authors likely do not need to describe how to run an analysis in Stata, given its ubiquitous use in economics, and the ease with which instructions can be found more generally, but they may need to provide detailed step-by-step information if the technology used is rare or bespoke. For instance, the emerging use of \acp{LLM} and \ac{AI} methods is far from the economic mainstream as of the writing of this article. Recent articles are still identifying ways economists scan actually use these tools, both for personal productivity \parencite{korinek_generative_2023} and as part of the technical toolkit \parencite{athey_machine_2019,dell_deep_2024}. Only one of the articles submitted to any of the AEA journals in 2024 used these techniques (to be named, not yet published).
 
 The most recent modern toolkits are not the only resource constraints that might restrict broad access. While it might be argued that the use of proprietary software is restrictive, it is one of many resource constraints that may be binding for some researchers. Researchers in lower-ranked (and lower-funded) research institutions, including in \acp{LMIC}, may well not have the funds to purchase proprietary software, but access to computers may be equally constraining. The template README requests information on the type of computer that was used by the original researcher, to provide a benchmark to future re-users. Acquiring access to sufficient memory (\ac{RAM}), storage, and use over time of those resources can be expensive, even when renting such resources in cloud environments (which very few researchers appear to be doing). Traditionally, that access may be embedded within a single purchased computer, which may have (in 2024) around 32GB of RAM, 1-2 TB of storage, and have 4-12 compute cores available exclusively to the owner. More complex analyses may require access to compute clusters (using hundreds or thousands of compute cores), very large storage arrays (measured in the two- to three-digit TB range), and may require up to 1024 GB of RAM. Cutting edge analyses may require specialized chips, such as one or more \acp{GPU}, or even a cluster of \acp{GPU}. We have observed analyses that may run data cleaning or data acquisition processes for months at a time. 
 
-The vast majority of articles published in economics journals usually require no more computing resources than a modern laptop provides, in all the dimensions enumerated in the previous paragraphy. In fact, a formal quantitative measurement of resource usage in economics articles is surprisingly hard to obtain, as most researchers are not very good at reporting the resources they have used to conduct their research. In part, this is because measuring such usage is non-trivial, but to a larger extent, I postulate that this is because most research institutions provide such resources to their researchers in a ``convenient way,'' and researchers conduct research within those constraints. More importantly, however, it suggests an important constraint on how ``open'' access can be for some if not all economics research.
+The vast majority of articles published in economics journals usually require no more computing resources than a modern laptop provides, in all the dimensions enumerated in the previous paragraph. In fact, a formal quantitative measurement of resource usage in economics articles is surprisingly hard to obtain, as most researchers are not very good at reporting the resources they have used to conduct their research. In part, this is because measuring such usage is non-trivial, but to a larger extent, I postulate that this is because most research institutions provide such resources to their researchers in a ``convenient way,'' and researchers conduct research within those constraints. More importantly, however, it suggests an important constraint on how ``open'' access can be for some if not all economics research.
+
+Some newer research requires vastly different types of resources. Studies using raw satellite data may require more than 10TB of data storage (Khachiyan et al, 2022), may need more than 20,000 compute hours on a cloud provider (Rudik, 2020), or the use of one (Dell, 2024, 2025) or dozens (Khachiyan et al, 2022) \acp{GPU}.\footnote{As of January 2025, the type of \ac{GPU} used by Dell, 2025, costs between USD 4500 and USD 7700, or between 2 and 7 times as much as a standard laptop.} But as noted before, access to the code and data for these papers is open. As noted before, the AEA-related replication packages for these articles are licensed under a standard \ac{CC-BY} license. Some of the data not included in Dell's replication package (TBD) is on Huggingface, also under a \ac{CC-BY} license (Dell, 2024b).
+
+Are such computational constraints a problem? No consistent analysis exists that correlates resource requirements to academic outcomes such as citations, primarily because it is very hard to measure consistently the resource requirements of economic articles. The very small sample in the previous paragraph may serve to illustrate this, but without controls for scientific merit, is purely an indicator. 
+
+Dell 2024 was downloaded 98 times in December 2024, six months after the arXiv paper associated with it was published (Dell 2024c).
+
+Rudik (2020): 1432 views, 124 downloads for replication package, 15 citations.
+
+Khachiyan (2022): 2124 views, 175 downloads for replication package, 5 citations
+
+Need: average and median number of views, downloads and citations for packages from the same year in the journals.
+
+
+
+
+
+
 
 \section{Open Infrastructure: Publications}
 \label{sec:publications}
