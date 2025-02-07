@@ -1,0 +1,107 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-suse-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+- Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.0]
+[Previously saved workspace restored]
+
+> # Compute the number of Econ grads
+> # Data file was manually downloaded.
+> 
+> source(here::here("config.R"))
+> library(readxl)
+> library(stringr)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(tidyr)
+> library(tidylog)
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:tidyr’:
+
+    drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
+    separate_wider_delim, separate_wider_position,
+    separate_wider_regex, spread, uncount
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+> 
+> # Read the Excel file
+> xlsx_file <- file.path(datadir,"nsf24336-tab001-005.xlsx")
+> nsf_data <- read_excel(xlsx_file,skip = 3)
+New names:
+• `` -> `...14`
+> 
+> # Find the row with "Economics" and extract the numbers
+> economics_row <- which(str_trim(nsf_data[[1]]) == "Economics")
+> if (length(economics_row) != 3) {
++   stop("Verify data structure")
++ }
+> # The first row will be the all-sexes
+> economics_grads <- nsf_data[economics_row[1],] %>%
++   select(starts_with("Field"),starts_with("2")) %>%
++   # make long with the value of first column being the name of the variable
++   pivot_longer(cols = -1, names_to = "year", values_to = "graduates") 
+select: dropped 2 variables (% change 2013–23, ...14)
+pivot_longer: reorganized (2013, 2014, 2015, 2016, 2017, …) into (year, graduates) [was 1x12, now 11x3]
+>   
+> mean_economics_grads <- economics_grads  %>%
++   # summarize
++   summarise(value = mean(graduates, na.rm = TRUE))  
+summarise: now one row and one column, ungrouped
+> 
+> 
+> latexnums <- mean_economics_grads %>%
++   mutate(pre="\\newcommand{\\",mid="}{",end="}",field="economicsgrads") %>%
++   unite(latexcode,c("pre","field","mid","value","end"),sep = "")
+mutate: new variable 'pre' (character) with one unique value and 0% NA
+        new variable 'mid' (character) with one unique value and 0% NA
+        new variable 'end' (character) with one unique value and 0% NA
+        new variable 'field' (character) with one unique value and 0% NA
+> write(latexnums$latexcode,file=file.path(outputs,"economicsgrads.tex"))
+> 
+> proc.time()
+   user  system elapsed 
+  0.769   0.043   0.975 

@@ -1,0 +1,19 @@
+# convert the restrictions to a LaTeX table
+
+source(here::here("config.R"))
+library(readxl)
+library(xtable)
+library(tidylog)
+
+# Read the restictions, write out LaTeX table
+
+
+excel_to_latex(file.path(datadir,"restrictions.xlsx"), 
+               file.path(outputs,"table_restrictions.tex"), 
+                "Example restrictions",
+                digits = 2)
+
+excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
+               file.path(outputs,"table_stata-licenses.tex"), 
+                "Software licensing internationally",
+                digits = 0)
