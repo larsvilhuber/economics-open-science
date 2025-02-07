@@ -49,7 +49,7 @@ In order to write about ``Open Science,'' a definition is needed. Open science i
     
 \end{quote}
 
-The Open Knowledge Foundation \parencite{open_knowledge_foundation_defining_2024} defines ``open'' as (my emphasis)
+The Open Knowledge Foundation \parencite[OKF]{open_knowledge_foundation_defining_2024} defines ``open'' as (my emphasis)
 
 \begin{quote}
 
@@ -60,6 +60,7 @@ The Open Knowledge Foundation \parencite{open_knowledge_foundation_defining_2024
 Less broadly, \cite{vicente-saez_open_2018} identify a consensus that defines open science as ``transparent and accessible knowledge that is shared and developed through collaborative networks.''
 %
 In this article, I will focus on the what \cite{unesco_understanding_2022} calls open science ``knowledge'' and will briefly discuss ``infrastructures.'' I will highlight how some elements have been quite widespread in economics for some time. I will try to identify limits to fully open accessibility, some of which are intrinsic to the nature of the research conducted in economics, and describe how widespread such limitations may be. In particular, I will highlight how those access restrictions are not, as many think, an impediment to \textbf{open} science, in the sense that aforementioned ``collaborative networks'' can still access these resources. 
+
 
 A key ambiguity will arise in how big such networks need to be in order to be considered ``open.'' Clearly, $n=2$ is not considered a network. The \ac{NBER} defines its affiliated scholars as a network: $n=1804$ as of January 2025, primarily in North America \citep{national_bureau_of_economic_research_affiliated_2025}, but X authors have published Y NBER working papers in 2024 (SOURCE NEEDED). J-PAL has approximately $n=1725$, at 120 universities on all populated continents \citep{abdul_latif_jameel_poverty_action_lab_affiliated_2025}. Between 2001 and June 2024, there had been $n=2023$ researchers on projects that used confidential U.S. Census Bureau in the \ac{FSRDC} \citep{us_census_bureau_uscensusbureaufsrdc-external-census-projects_2024}. In an average year (2013-2023), $n=1238$ students graduate from a U.S. university with a Ph.D. in economics \citep[Table 1-5]{national_science_foundation_doctorate_2024}. In the approximately 30 years since inception of \ac{RePEc}, $n=526$ authors from 52 institutions have published a paper listed on \ac{RePEc} (presumably in economics) \citep{ideasrepec_within_2025}. All of these are measured across different spatio-temporal dimensions. Are they large? Context and purpose matter. Some may intersect. How many U.S. graduate students in the past 10 years have published an NBER working paper and are now at a Norwegian institution? 
 
@@ -77,6 +78,19 @@ One way to start to move away from a polarized perspective of access is to consi
 \label{sec:data_access}
 
 
+One subcomponent of open science, and locus of much attention throughout the literature in the social sciences, are ``open data.'' This in principle easy - why should the data used in research not be open? However, the various caveats that policies and principles include are important to recognize. \parencite{open_knowledge_foundation_defining_2024} mentions ``requirements that preserve provenance and openness,'' which does not take into account privacy. \citet{unesco_understanding_2022} does note  ``human rights, security, personal privacy.'' On the other hand, even much data that is available to almost anybody on the Internet may not actually be ``open. ''  Consider the S\&P~500, viewed in newspaper and many websites \parencite[e.g.][]{sp_dow_jones_indices_llc_sp_2025}, is not ``open data'' because it does not allow for free re-use. OKF defines 
+``open data'' as requiring machine readability, absence of licensing charges, and free re-use, but does not mandate availability via download on the internet, absence of all fees, nor absence of any technical measures, such as a requirement to register and agree to abide by these rules \citep{open_knowledge_foundation_defining_2024}. 
+
+The United States government has traditionally put its data products in the public domain (i.e., without any restrictions on usage or attribution), which makes it ``open'' in the above sense. Many countries have switched their government data to default to open data \parencite{statistics_canada_statistics_2012,uk_government_open_2014}. However, many well known ``public-use'' data are not always ``open'': IPUMS has a redistribution restriction (encapsulated in ``Terms of Use'', not a license), and some geographic data by international statistical offices remain under more stringent licensing requirements in other countries (e.g., United Kingdom). 
+
+Many well-known surveys impose redistribution and usage restrictions that are not consistent with the OKD definition. Many such redistribution restrictions apply to datasets with more detailed personal information collected through surveys, and are meant to ensure continued compliance with ethical rules of behavior, often with informed consent agreements by survey participants and local privacy laws. Notable examples include  PSID \parencite{institute_for_social_research_panel_2024}, World Value Survey \parencite{haerpfer_world_2024}, Demographic Household Surveys \parencite{dhs_program_demographic_2024}, German Socio-Economic Panel \parencite{goebel_german_2019,goebel_socio-economic_2024}, all of which have broad (cost-free) usage, conditional on registration and compliance with usage restrictions. Table~\ref{}
+
+gradations of access, ranging from "sign/click through this agreement before downloading"  to "write a paragraph about what you want to do, but don't share the data"  to "you have to put this on a secure computer and BTW obtain IRB approval for your access". In fact, authors sometimes forget to abide by these rules, and we (data editors) must sometimes remind them of it, or correct the errors after publication ("take-down requests", see <https://aeadataeditor.github.io/posts/2024-11-01-psid-requests>). In fact, I get about 12-15 take-down requests or notifications of inappropriate data publication (or use!) per year (most, luckily, affecting cases that were simply passed through prior to my tenure, but we still miss some).
+
+
+The interaction between licensing, openness, and re-use has ramifications that go beyond the scope of the present article. Good guidance on licensing of scientific data by its creators can be found in \citet{stodden_enabling_2009}.
+
+
 Issues:
 
 Open Access
@@ -87,7 +101,50 @@ Restricted Access
 \section{Access to Software}
 \label{sec:software}
 
-\section{Access to Resources}
+Turning to software, I will again need to define more precisely what I mean by that. I distinguish two key categories of software: \textbf{high-level interpreters} (or more rarely compilers), and \textbf{instructions}. The former will in turn comprise software used in two key but distinct features of the scientific production process: \textbf{data collection} and \textbf{analysis}. 
+
+\textbf{High-level software} for \textbf{analysis} are the flagship software  that receive the most  focus in the social science literature. These are software products such as Stata, MATLAB, R, Julia (see Figure~\ref{fig:software}). Most of these are interpreted languages at the user level, though user-contributed packages may be compiled (R, Julia). Increasingly present is Python, which may be both compiled and interpreted; less common are purely compiled languages such as C or Fortran. We also include here dedicated \ac{GIS} software, mostly used to create maps, though some analytical tasks can also be performed. It arguably may also comprise custom plugins to other software, such as Dynare \citep{adjemian_dynare_2024,cherrier_write_2023}.
+
+\input{figure2}
+
+While many economists use data collected by others, some are primary data generators or collectors, for instance through laboratory or field experiments, as well as surveys. \textbf{Data collection} software in this context are the survey software tools (Qualtrics, LimeSurvey, SurveyCTO) used to conduct surveys (including as part of lab or field experiments), as well as customized experimental software, such as oTree \citep{chen_otreeopen-source_2016} and z-tree \citep{fischbache_z-tree_2021}.
+
+The core of a paper's analysis, however, resides in how the more general software package is manipulated, in combination with the data, via \textbf{instructions}. I do not call these `source code', as that terms tends to be used in conjunction with complex compiled software, such as those listed as \textbf{high-level software}. Rather, these instructions are interpreted code, or compiled just-in-time, in the language used by the high-level software, or, as is still sometimes the case, in the form of instructions to humans on how to manipulate a non-programmed user interface for software.\footnote{In economics, this appears to occur most often for \ac{GIS} software, and sometimes for data extraction software used by data providers.}
+
+Open access, therefore, can work through several channels. Software can have a cost. In economics, it is extremely rare to sell access to the \textbf{instructions}. However, it is quite normal for \textbf{high-level statistical software} and \textbf{data collection software} to be accessible only through purchase. As Figure~\ref{fig:software} shows, the top two statistical software products used in replication packages are commercial closed-source statistical software products: Stata and Matlab. In order to be able to re-use the instructions (code) from academic papers, a software license is required, and must be purchased. 
+
+How much of an impediment to open access is this? Without loss of generality, to illustrate, consider Stata. An academic single-user yearly license as of January 2025 was \$690 for a US-based student. The price is the same for a student in (much poorer) Greece. For a student in Vietnam, the price drops to \$220.\footnote{See source text for data.}  To put this into perspective, the average monthly incomes in each of these countries, which students are unlikely to earn, are \$6,704, \$1,883, and \$343, respectively, and a reasonably powerful laptop a student is likely to have was around \$1,000. 
+
+
+\input{table-stata-by-country}
+
+An informal survey of several economists working with colleagues and students in Latin America, Africa, and Asia uniformly suggested that access to commercial statistical software was often difficult for students, alleviated somewhat when students were fortunate to attend private universities. In fact, in a recent survey (CIDR), respondents were asked to name the top two factors that could support early-career African scholars’ publication success. 46\% of respondents chose 
+`Providing access to datasets and data management tools' as one of the two factors. University staff and students (across multiple disciplines) were also asked which aspect they  most needed funding for, and 38\% mentioned `Data analysis software'. Within top universities, on the other hand, most researchers, including graduate students, will have access to these software products, and even many undergraduates may be able to leverage university computer labs to access these software. Outside of academia, however, it may be more constraining. Precise information is hard to come by.
+
+The landscape is even harder to assess for \textbf{data collection software}. Open source packages otree and z-tree are often used for lab experiments. otree is cited by over by between 1,400 (OpenAlex, as of 2025-01-29) and 2,400 articles (Google Scholar, as of 2025-01-29), z-Tree is cited between 9,000 (OpenAlex) and 12,000 times (Google Scholar), but it is not clear how to benchmark that, given poor software citation practices in economics. Lab as well as field experiments will often use online survey platforms to augment experiments, or as primary data collection tool. Qualtrics, one of the big commercial platforms for surveys, is mentioned (but not cited) over 200,000 times (Google Scholar). Open source alternative LimeSurvey is mentioned about 31,000 times.
+
+(INSERT HERE SOME INFO FROM AEA ARTICLES). 
+
+% how to pull down the full list of Google Scholar citations, and compare to the list of top 10 journals.
+
+
+
+
+
+% In line calculations
+% https://www.worlddata.info/average-income.php
+% US average monthly income: 6,704
+% Greece: 1,883
+% Vietnam:  343
+%
+% STata Educational single-user https://www.stata.com/order/new/edu/single-user-licenses/dl/
+% Stata/MP 2-core, annual license
+% US: $690
+% Greece: $690
+% Vietnam, Student pricing for developing economies $220
+
+
+\section{Access to Other Resources}
 \label{sec:other_resources}
 
 In the template README published by myself and several other data editors in economics \parencite{templateREADMEv1.1}, we emphasize that a README should provide enough instructions for a reasonable person to re-implement the analysis described in the replication package. Here, authors need to take into account that cutting edge methods, including technology, may require more information and instruction than for standard methods. Authors likely do not need to describe how to run an analysis in Stata, given its ubiquitous use in economics, and the ease with which instructions can be found more generally, but they may need to provide detailed step-by-step information if the technology used is rare or bespoke. For instance, the emerging use of \acp{LLM} and \ac{AI} methods is far from the economic mainstream as of the writing of this article. Recent articles are still identifying ways economists scan actually use these tools, both for personal productivity \parencite{korinek_generative_2023} and as part of the technical toolkit \parencite{athey_machine_2019,dell_deep_2024}. Only one of the articles submitted to any of the AEA journals in 2024 used these techniques (to be named, not yet published).
