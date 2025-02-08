@@ -47,9 +47,10 @@ LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-s
 > excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
 +                file.path(outputs,"table_stata-licenses.tex"), 
 +                 "Software licensing internationally",
-+                 digits = 0)
++                 digits = 0,
++                 footnotes = "Amounts in USD as of 2025. Source for Stata license prices: Stata website.")
 LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_stata-licenses.tex 
 > 
 > proc.time()
    user  system elapsed 
-  0.739   0.063   0.956 
+  0.724   0.038   0.930 

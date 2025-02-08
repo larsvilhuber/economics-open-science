@@ -21,12 +21,29 @@ excel_to_latex <- function(excel_file,
                           caption = "Table Caption",
                           digits = 2,
                           align = NULL,
+                          footnotes = NULL,
                           include_rownames = FALSE) {
     
     # Read Excel file
     # excel_file=file.path(datadir,"restrictions.xlsx")
     data <- read_excel(excel_file)
 
+    # Format numbers: commas for thousands and round non-integers to 1 decimal
+    data <- as.data.frame(lapply(data, function(x) {
+        if (is.numeric(x)) {
+            formatted <- ifelse(x %% 1 == 0,  # check if integer
+                              # For integers
+                              ifelse(abs(x) >= 1000,
+                                    format(x, big.mark = ",", scientific = FALSE),
+                                    as.character(x)),
+                              # For non-integers
+                              ifelse(abs(x) >= 1000,
+                                    format(round(x, 1), big.mark = ",", scientific = FALSE),
+                                    as.character(round(x, 1))))
+            return(formatted)
+        }
+        return(x)
+    }))
     # If align is not specified, create default alignment based on data types
     if (is.null(align)) {
         # First position is for row names (if included)
@@ -50,18 +67,27 @@ excel_to_latex <- function(excel_file,
         align_vec <- align
     }
     
-    
     # Convert to LaTeX table
     latex_table <- xtable(data,
                          caption = caption,
                          align = align_vec,
                          digits = digits)
+    # Prepare footnotes if provided
+    if (!is.null(footnotes)) {
+        footnote_text <- paste("\\multicolumn{", ncol(data), 
+                             "}{l}{\\textit{Notes:} ", 
+                             paste(footnotes, collapse = " "),
+                             "}", sep = "")
+        add.to.row <- list(pos = list(nrow(data)),
+                          command = paste("\\midrule", footnote_text, "\n"))
+    } else {
+        add.to.row <- NULL
+    }
     
-    # Write to file with formatting
-    sink(output_file)
     
     # Print LaTeX table with specified formatting
     print(latex_table,
+          file = output_file,
           type = "latex",
           include.rownames = include_rownames,
           floating = TRUE,
@@ -69,9 +95,9 @@ excel_to_latex <- function(excel_file,
           caption.placement = "top",
           latex.environments = c("center"),
           booktabs = TRUE,
-          sanitize.text.function = function(x){x})
+          sanitize.text.function = function(x){x},
+          add.to.row = add.to.row)
     
-    sink()
     
     cat("LaTeX table has been written to", output_file, "\n")
 }
@@ -79,5 +105,8 @@ excel_to_latex <- function(excel_file,
 # Example usage:
 # excel_to_latex("your_file.xlsx", 
 #                "output_table.tex", 
-#                "Your Table Caption",
-#                digits = 2)
+#                digits = 2,
+# caption = "Employee Information",
+#                footnotes = c("Salaries are in USD.", 
+#                            "Data as of 2023."))
+# )

@@ -16,4 +16,5 @@ excel_to_latex(file.path(datadir,"restrictions.xlsx"),
 excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
                file.path(outputs,"table_stata-licenses.tex"), 
                 "Software licensing internationally",
-                digits = 0)
+                digits = 0,
+                footnotes = "Amounts in USD as of 2025. Source for Stata license prices: Stata website.")
