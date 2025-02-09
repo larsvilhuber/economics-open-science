@@ -42,6 +42,7 @@ The following object is masked from ‘package:stats’:
 +                file.path(outputs,"table_restrictions.tex"), 
 +                 "Example restrictions",
 +                 label= "tab:restrictions",
++                 align = c("l","l", "l", "p{4in}"),
 +                 digits = 2)
 LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_restrictions.tex 
 > 
@@ -56,4 +57,4 @@ LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-s
 > 
 > proc.time()
    user  system elapsed 
-  0.673   0.075   0.911 
+  0.706   0.052   0.922 

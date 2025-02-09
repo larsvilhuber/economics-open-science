@@ -12,6 +12,7 @@ excel_to_latex(file.path(datadir,"restrictions.xlsx"),
                file.path(outputs,"table_restrictions.tex"), 
                 "Example restrictions",
                 label= "tab:restrictions",
+                align = c("l","l", "l", "p{4in}"),
                 digits = 2)
 
 excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 

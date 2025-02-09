@@ -14,6 +14,23 @@ for (dir in c(basedir, datadir, codedir, outputs)) {
 
 ##### Functions
 
+# Add sanitize_tex function before the main function
+sanitize_tex <- function(str) {
+    if (is.character(str)) {
+        str <- gsub("&", "\\\\&", str)
+        str <- gsub("%", "\\\\%", str)
+        str <- gsub("_", "\\\\_", str)
+        str <- gsub("#", "\\\\#", str)
+        str <- gsub("\\$", "\\\\$", str)
+        str <- gsub("\\{", "\\\\{", str)
+        str <- gsub("\\}", "\\\\}", str)
+        str <- gsub("~", "\\\\~{}", str)
+        str <- gsub("\\^", "\\\\^{}", str)
+    }
+    return(str)
+}
+
+
 # Requires: readxl, xtable
 # Function to create LaTeX table from Excel
 excel_to_latex <- function(excel_file, 
@@ -29,22 +46,23 @@ excel_to_latex <- function(excel_file,
     # excel_file=file.path(datadir,"restrictions.xlsx")
     data <- read_excel(excel_file)
 
-    # Format numbers: commas for thousands and round non-integers to 1 decimal
+    # Format numbers and sanitize text
     data <- as.data.frame(lapply(data, function(x) {
         if (is.numeric(x)) {
-            formatted <- ifelse(x %% 1 == 0,  # check if integer
-                              # For integers
+            formatted <- ifelse(x %% 1 == 0,  
                               ifelse(abs(x) >= 1000,
                                     format(x, big.mark = ",", scientific = FALSE),
                                     as.character(x)),
-                              # For non-integers
                               ifelse(abs(x) >= 1000,
                                     format(round(x, 1), big.mark = ",", scientific = FALSE),
                                     as.character(round(x, 1))))
             return(formatted)
+        } else {
+            # Sanitize text columns
+            return(as.character(unlist(lapply(x, sanitize_tex))))
         }
-        return(x)
-    }))
+    }), stringsAsFactors = FALSE)
+
     # If align is not specified, create default alignment based on data types
     if (is.null(align)) {
         # First position is for row names (if included)
