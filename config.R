@@ -19,6 +19,7 @@ for (dir in c(basedir, datadir, codedir, outputs)) {
 excel_to_latex <- function(excel_file, 
                           output_file = "table.tex",
                           caption = "Table Caption",
+                          label = "tab:mytable",    # New parameter
                           digits = 2,
                           align = NULL,
                           footnotes = NULL,
@@ -70,6 +71,7 @@ excel_to_latex <- function(excel_file,
     # Convert to LaTeX table
     latex_table <- xtable(data,
                          caption = caption,
+                         label = label,    # Add label here
                          align = align_vec,
                          digits = digits)
     # Prepare footnotes if provided

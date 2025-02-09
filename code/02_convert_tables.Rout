@@ -41,6 +41,7 @@ The following object is masked from ‘package:stats’:
 > excel_to_latex(file.path(datadir,"restrictions.xlsx"), 
 +                file.path(outputs,"table_restrictions.tex"), 
 +                 "Example restrictions",
++                 label= "tab:restrictions",
 +                 digits = 2)
 LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_restrictions.tex 
 > 
@@ -48,10 +49,11 @@ LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-s
 +                file.path(outputs,"table_stata-licenses.tex"), 
 +                 "Software licensing internationally",
 +                 digits = 0,
++                 label = "tab:licensecost",
 +                 align = c("l", "l", "r", "r","r"),
 +                 footnotes = "Amounts in USD as of 2025. Source for Stata license prices: Stata website.")
 LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_stata-licenses.tex 
 > 
 > proc.time()
    user  system elapsed 
-  0.709   0.062   0.934 
+  0.673   0.075   0.911 

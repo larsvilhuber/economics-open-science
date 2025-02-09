@@ -11,11 +11,13 @@ library(tidylog)
 excel_to_latex(file.path(datadir,"restrictions.xlsx"), 
                file.path(outputs,"table_restrictions.tex"), 
                 "Example restrictions",
+                label= "tab:restrictions",
                 digits = 2)
 
 excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
                file.path(outputs,"table_stata-licenses.tex"), 
                 "Software licensing internationally",
                 digits = 0,
+                label = "tab:licensecost",
                 align = c("l", "l", "r", "r","r"),
                 footnotes = "Amounts in USD as of 2025. Source for Stata license prices: Stata website.")
