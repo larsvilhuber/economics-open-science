@@ -1,2 +1,7 @@
 .RData
+confidential
 .Rhistory
+.Rproj.user
+.cache
+.env
+.Renviron

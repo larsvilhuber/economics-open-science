@@ -4,13 +4,71 @@ basedir=here::here()
 datadir=file.path(basedir, "data")
 codedir=file.path(basedir, "code")
 outputs=file.path(basedir, "outputs")
+confdir=file.path(datadir,"confidential")
 
-for (dir in c(basedir, datadir, codedir, outputs)) {
+# Some parameters
+
+## AEA DOI prefix
+
+doi_prefix <- "10.1257"
+
+
+# Some restricted files need to be pulled from Dropbox and need the following values:
+# The URL is composed of "www.dropbox.com", BASE, project name, "&rl=RLKEY" and for download, "&dl=1" 
+#
+#DROPBOX_SECRET_BASE=""
+#DROPBOX_SECRET_RLKEY=""
+#
+#These can be added to a `.Renviron` in this directory, or otherwise grabbed from the environment
+
+
+for (dir in c(basedir, datadir, codedir, outputs, confdir)) {
   if (!dir.exists(dir)) {
     dir.create(dir, recursive = TRUE)
   }
 }
 
+# Populate the confidential dir from Dropbox, issue a message otherwise
+
+confdata.present = FALSE
+
+# Define project by directory, the last component is the project
+
+project.name <- basename(basedir)
+
+# Get the Dropbox files
+if (dir.exists(confdir)) {
+  if (length(dir(confdir)) == 0) {
+    message("Confidential data directory is empty.  Will try to download.")
+    DROPBOX_SECRET_BASE=Sys.getenv("DROPBOX_SECRET_BASE")
+    DROPBOX_SECRET_RLKEY=Sys.getenv("DROPBOX_SECRET_RLKEY")
+    if (DROPBOX_SECRET_BASE != "" & DROPBOX_SECRET_RLKEY != "") {
+      # get the Dropbox files and unpack into confdir
+      DROPBOX.URL = paste0("https://www.dropbox.com/",DROPBOX_SECRET_BASE,"/",
+                           project.name,"?rlkey=",DROPBOX_SECRET_RLKEY,"&dl=1")
+      download.file(DROPBOX.URL,
+                    destfile = file.path(confdir,"download.zip"))
+    }
+  } else {
+    message("Files already there, not re-downloading")
+  }
+  # now check for the ZIP file, and unzip
+    if (file.exists(file.path(confdir,"download.zip"))) {
+        unzip(file.path(confdir,"download.zip"), exdir = confdir)
+        file.remove(file.path(confdir,"download.zip"))
+    }
+}
+# check again
+if (dir.exists(confdir)) {
+  if (length(dir(confdir)) == 0) {
+    message("Confidential data directory is empty.  Please populate it with the confidential data.")
+  } else {    confdata.present = TRUE}
+}
+
+
+## Some data files that can change. Change the names here
+
+jira_access <- "jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx"
 
 ##### Functions
 
