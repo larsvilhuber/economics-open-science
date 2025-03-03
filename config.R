@@ -5,6 +5,7 @@ datadir=file.path(basedir, "data")
 codedir=file.path(basedir, "code")
 outputs=file.path(basedir, "outputs")
 confdir=file.path(datadir,"confidential")
+interwrk=file.path(datadir,"interwrk")
 
 # Some parameters
 
@@ -12,6 +13,24 @@ confdir=file.path(datadir,"confidential")
 
 doi_prefix <- "10.1257"
 
+## NBER prefix
+
+nber_prefix <- "10.3386"
+
+from_date <- "2024-01-01"
+until_date <- "2024-12-31"
+
+# filenames
+
+issns.file <- file.path(datadir,"issns.Rds")
+
+doi.file <- file.path(datadir,"crossref_dois")
+doi.file.Rds <- paste(doi.file,"Rds",sep=".")
+doi.file.csv <- paste(doi.file,"csv",sep=".")
+
+doi.enhanced.file <- file.path(datadir,"crossref_dois_enhanced")
+doi.enhanced.file.Rds <- paste(doi.enhanced.file,"Rds",sep=".")
+doi.enhanced.file.csv <- paste(doi.enhanced.file,"csv",sep=".")
 
 # Some restricted files need to be pulled from Dropbox and need the following values:
 # The URL is composed of "www.dropbox.com", BASE, project name, "&rl=RLKEY" and for download, "&dl=1" 
@@ -22,7 +41,7 @@ doi_prefix <- "10.1257"
 #These can be added to a `.Renviron` in this directory, or otherwise grabbed from the environment
 
 
-for (dir in c(basedir, datadir, codedir, outputs, confdir)) {
+for (dir in c(basedir, datadir, codedir, outputs, confdir, interwrk)) {
   if (!dir.exists(dir)) {
     dir.create(dir, recursive = TRUE)
   }
@@ -188,3 +207,30 @@ excel_to_latex <- function(excel_file,
 #                footnotes = c("Salaries are in USD.", 
 #                            "Data as of 2023."))
 # )
+
+
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+
+pkgTest <- function(x)
+{
+	if (!require(x,character.only = TRUE))
+	{
+		install.packages(x,dep=TRUE)
+		if(!require(x,character.only = TRUE)) stop("Package not found")
+	}
+	return("OK")
+}

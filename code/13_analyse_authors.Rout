@@ -1,0 +1,217 @@
+
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # Identify author stats
+> #
+> 
+> 
+> source(here::here("config.R"))
+Confidential data directory is empty.  Will try to download.
+Confidential data directory is empty.  Please populate it with the confidential data.
+> source(file.path(codedir,"libraries.R"),echo=FALSE)
+Loading required package: rcrossref
+Loading required package: purrr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: stringr
+Loading required package: tidyr
+Loading required package: skimr
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+also installing the dependencies ‘extrafontdb’, ‘Rttf2pt1’, ‘repr’, ‘extrafont’
+
+trying URL 'https://p3m.dev/cran/__linux__/noble/2025-02-27/src/contrib/extrafontdb_1.0.tar.gz'
+Content type 'binary/octet-stream' length 7010 bytes
+==================================================
+downloaded 7010 bytes
+
+trying URL 'https://p3m.dev/cran/__linux__/noble/2025-02-27/src/contrib/Rttf2pt1_1.3.12.tar.gz'
+Content type 'binary/octet-stream' length 273846 bytes (267 KB)
+==================================================
+downloaded 267 KB
+
+trying URL 'https://p3m.dev/cran/__linux__/noble/2025-02-27/src/contrib/repr_1.1.7.tar.gz'
+Content type 'binary/octet-stream' length 127989 bytes (124 KB)
+==================================================
+downloaded 124 KB
+
+trying URL 'https://p3m.dev/cran/__linux__/noble/2025-02-27/src/contrib/extrafont_0.19.tar.gz'
+Content type 'binary/octet-stream' length 54897 bytes (53 KB)
+==================================================
+downloaded 53 KB
+
+trying URL 'https://p3m.dev/cran/__linux__/noble/2025-02-27/src/contrib/skimr_2.1.5.tar.gz'
+Content type 'binary/octet-stream' length 1231295 bytes (1.2 MB)
+==================================================
+downloaded 1.2 MB
+
+* installing *binary* package ‘extrafontdb’ ...
+* DONE (extrafontdb)
+* installing *binary* package ‘Rttf2pt1’ ...
+* DONE (Rttf2pt1)
+* installing *binary* package ‘repr’ ...
+* DONE (repr)
+* installing *binary* package ‘extrafont’ ...
+* DONE (extrafont)
+* installing *binary* package ‘skimr’ ...
+* DONE (skimr)
+
+The downloaded source packages are in
+	‘/tmp/RtmpUBSk9s/downloaded_packages’
+Loading required package: skimr
+Loading required package: tidylog
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:tidyr’:
+
+    drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
+    separate_wider_delim, separate_wider_position,
+    separate_wider_regex, spread, uncount
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+Loading required package: readr
+Loading required package: readxl
+Downloading GitHub repo ropensci/openalexR@HEAD
+
+── R CMD build ─────────────────────────────────────────────────────────────────
+     checking for file ‘/tmp/RtmpUBSk9s/remotes19a07b835eca/ropensci-openalexR-4036596/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpUBSk9s/remotes19a07b835eca/ropensci-openalexR-4036596/DESCRIPTION’
+  ─  preparing ‘openalexR’:
+   checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+  ─  checking for LF line-endings in source and make files and shell scripts
+  ─  checking for empty or unneeded directories
+   Removed empty directory ‘openalexR/vignettes’
+─  building ‘openalexR_1.4.0.tar.gz’
+   
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘openalexR’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (openalexR)
+Warning message:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called ‘skimr’
+> 
+> 
+> 
+> # filenames in config.R
+> 
+> 
+> 
+> # Save files
+> nberdois <- readRDS(file= doi.file.Rds)
+> nrow(nberdois)
+[1] 1307
+> 
+> # subset to the years in-scope: 2024
+> nberdois %>%
++   # nber specific: only published-online
++   rename(published=published.online) %>%
++   mutate(year=substr(published,1,4)) %>%
++   filter(year >= 2024 ) %>%
++   filter(published >= from_date &
++          published <= until_date) -> nberdois.subset
+rename: renamed one variable (published)
+mutate: new variable 'year' (character) with one unique value and 0% NA
+filter: no rows removed
+filter: removed 84 rows (6%), 1,223 rows remaining
+> 
+> authorlist.nber.df <- nberdois.subset %>%
++   select(author,doi) %>%
++   filter(!is.na(author)) %>%
++   tidyr::unnest(author) 
+select: dropped 3 variables (published, title, year)
+filter: no rows removed
+> 
+> unique_authors <- authorlist.nber.df %>%
++   select(given,family) %>%
++   distinct(given,family) %>%
++   arrange(family,given)
+select: dropped 2 variables (sequence, doi)
+distinct: removed 961 rows (24%), 2,966 rows remaining
+> 
+> unique_authors_published <- nrow(unique_authors)
+> 
+> # merge back on the number of authors per article
+> 
+> authorlist.nber.df %>%
++   group_by(doi) %>%
++   summarise(n_authors=n()) %>%
++   ungroup() %>%
++   left_join(nberdois.subset, by="doi") %>%
++   saveRDS(file=doi.enhanced.file.Rds)
+group_by: one grouping variable (doi)
+summarise: now 1,223 rows and 2 columns, ungrouped
+ungroup: no grouping variables remain
+left_join: added 4 columns (published, title, author, year)
+           > rows only in x                    0
+           > rows only in nberdois.subset (    0)
+           > matched rows                  1,223
+           >                              =======
+           > rows total                    1,223
+> 
+> message("Number of unique authors in NBER between ",from_date," - ",until_date,": ",unique_authors_published)
+Number of unique authors in NBER between 2024-01-01 - 2024-12-31: 2966
+> message("Number of articles in NBER between ",from_date," - ",until_date,": ",nrow(nberdois.subset))
+Number of articles in NBER between 2024-01-01 - 2024-12-31: 1223
+> 
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  7.436  18.622   9.241 

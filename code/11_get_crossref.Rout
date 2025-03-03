@@ -1,0 +1,215 @@
+
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> # Getting in-scope articles
+> # Code derived from another project
+> # NOTE: THIS REQUIRES R 4.2.0 and newer packages!
+> #
+> 
+> 
+> 
+> source(here::here("config.R"))
+Confidential data directory is empty.  Will try to download.
+Confidential data directory is empty.  Please populate it with the confidential data.
+> source(file.path(codedir,"libraries.R"),echo=FALSE)
+Loading required package: rcrossref
+Loading required package: purrr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: stringr
+Loading required package: tidyr
+Loading required package: skimr
+Loading required package: tidylog
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:tidyr’:
+
+    drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
+    separate_wider_delim, separate_wider_position,
+    separate_wider_regex, spread, uncount
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+Loading required package: readr
+Loading required package: readxl
+Skipping install of 'openalexR' from a github remote, the SHA1 (40365960) has not changed since last install.
+  Use `force = TRUE` to force installation
+> 
+> 
+> library(rcrossref)
+> 
+> # filenames in config.R
+> 
+> 
+> # Each journal has a ISSN
+> if (!file.exists(issns.file)) {
++   issns <- data.frame(matrix(ncol=3,nrow=10))
++   names(issns) <- c("journal","issn","lastdate")
++   tmp.date <- c("2000-01")
++ issns[1,] <- c("American Economic Journal: Applied Economics","1945-7790",tmp.date)
++ issns[2,] <- c("American Economic Journal: Economic Policy","1945-774X",tmp.date)
++ issns[3,] <- c("American Economic Journal: Macroeconomics", "1945-7715",tmp.date)
++ issns[4,] <- c("American Economic Journal: Microeconomics", "1945-7685",tmp.date)
++ issns[5,] <- c("The American Economic Review","1944-7981",tmp.date)
++ issns[6,] <- c("The American Economic Review","0002-8282",tmp.date)  # print ISSN is needed!
++ issns[7,] <- c("Journal of Economic Literature","2328-8175",tmp.date)
++ issns[8,] <- c("Journal of Economic Perspectives","1944-7965",tmp.date)
++ issns[9,] <- c("American Economic Review: Insights","2640-2068",tmp.date)
++ issns[10,] <- c("National Bureau of Economic Research","0898-2937",tmp.date)
++ 
++   saveRDS(issns %>% filter(!is.na(journal)), file= issns.file)
++ } else {
++   warning(paste("Reusing file: ",issns.file))
++ }
+Warning message:
+Reusing file:  /home/rstudio/economics-open-science/data/issns.Rds 
+> 
+> issns <- readRDS(file = issns.file) %>%
++   filter(journal=="National Bureau of Economic Research")
+filter: removed all rows (100%)
+> 
+> # Darn, NBER does not record the ISSN.
+> 
+> 
+> 
+> if (file.exists(doi.file.Rds) ) {
++   warning(paste("Re-using file:",doi.file.Rds))
++ } else{
++   new.df <- NA
++   for ( x in 1:nrow(issns) ) {
++     message(paste0("Processing ",issns[x,"journal"]," (",issns[x,"issn"],")"))
++     new  <- cr_works(
++                 filter = c(prefix=nber_prefix,from_pub_date=from_date,until_pub_date=until_date),
++                 select=c("DOI","title","published-online","author"),
++                        .progress="text",
++                        cursor = "*")
++     if ( x == 1 ) {
++       new.df <- as.data.frame(new$data)
++     } else {
++       tmp.df <- as.data.frame(new$data)
++       if ( nrow(tmp.df) > 0 ) {
++         new.df <- bind_rows(new.df,tmp.df)
++       } else {
++         warning(paste0("Did not find records"))
++       }
++       rm(tmp.df)
++     }
++   }
++   # filters
++   saveRDS(new.df, file=  file.path(interwrk,"new.Rds"))
++   rm(new)
++ }
+Warning message:
+Re-using file: /home/rstudio/economics-open-science/data/crossref_dois.Rds 
+> 
+> 
+> # filters
+> new.df <- readRDS(file.path(interwrk,"new.Rds"))
+> nrow(new.df)
+[1] 1308
+> new.df %>%
++   filter(!is.null(author)) %>%
++   filter(title!="Front Matter") %>%
++   filter(!str_detect(title,"Volume")) %>%
++   filter(!str_detect(title,"Forthcoming")) %>%
++   # filter(title!="Editor's Note") %>%
++   # More robust
++   filter(str_sub(doi, start= -1)!="i")-> filtered.df
+filter: no rows removed
+filter: no rows removed
+filter: removed one row (<1%), 1,307 rows remaining
+filter: no rows removed
+filter: no rows removed
+> nrow(filtered.df)
+[1] 1307
+> saveRDS(filtered.df, file=  doi.file.Rds)
+> 
+> # clean read-back
+> nberdois <- readRDS(file= doi.file.Rds)
+> nrow(nberdois)
+[1] 1307
+> 
+> # subset to the years in-scope: 2024
+> nberdois %>%
++   # nber specific: only published-online
++   rename(published=published.online) %>%
++   mutate(year=substr(published,1,4)) %>%
++   filter(year >= 2024 ) %>%
++   filter(published >= from_date &
++          published <= until_date) -> nberdois.subset 
+rename: renamed one variable (published)
+mutate: new variable 'year' (character) with one unique value and 0% NA
+filter: no rows removed
+filter: removed 84 rows (6%), 1,223 rows remaining
+> nberdois.subset %>%
++   group_by(year) %>%
++   summarise(Published=n())    -> nberdois.by.year
+group_by: one grouping variable (year)
+summarise: now one row and 2 columns, ungrouped
+> 
+> nberdois.by.year
+# A tibble: 1 × 2
+  year  Published
+  <chr>     <int>
+1 2024       1223
+> 
+> nberdois.by.year %>% ungroup() %>% summarize(n=sum(Published)) -> nberdois.total
+ungroup: no grouping variables remain
+summarize: now one row and one column, ungrouped
+> 
+> nberdois.total
+# A tibble: 1 × 1
+      n
+  <int>
+1  1223
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  1.157   1.424   1.083 
