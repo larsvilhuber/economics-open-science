@@ -63,6 +63,7 @@ print_access_table <- access_table_totals %>%
 kable(print_access_table, 
       format = "latex", 
       booktabs = TRUE, 
+      label = "access_provision",
       caption = "Access categories and whether data can be shared privately") %>%
   kable_styling(latex_options = "hold_position") %>%
   add_footnote("Percentages are calculated as the number of 'Yes' divided by the total number of responses. An article can have multiple categories of data; the sum of responses is therefore higher than the number of articles.", 

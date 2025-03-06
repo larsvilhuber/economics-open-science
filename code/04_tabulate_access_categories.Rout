@@ -104,6 +104,7 @@ The following object is masked from ‘package:dplyr’:
 > kable(print_access_table, 
 +       format = "latex", 
 +       booktabs = TRUE, 
++       label = "access_provision",
 +       caption = "Access categories and whether data can be shared privately") %>%
 +   kable_styling(latex_options = "hold_position") %>%
 +   add_footnote("Percentages are calculated as the number of 'Yes' divided by the total number of responses. An article can have multiple categories of data; the sum of responses is therefore higher than the number of articles.", 
@@ -114,4 +115,4 @@ The following object is masked from ‘package:dplyr’:
 > 
 > proc.time()
    user  system elapsed 
-  0.877   1.440   0.758 
+  0.850   1.498   0.749 
