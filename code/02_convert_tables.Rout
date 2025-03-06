@@ -51,7 +51,7 @@ LaTeX table has been written to /home/rstudio/economics-open-science/outputs/tab
 +                 "Restriction categories",
 +                 label= "tab:categories",
 +                 sheet= 2,
-+                 align = c("l","l", "p{5in}"),
++                 align = c("l","l", "p{4in}"),
 +                 digits = 2)
 LaTeX table has been written to /home/rstudio/economics-open-science/outputs/table_categories.tex 
 > 
@@ -66,4 +66,4 @@ LaTeX table has been written to /home/rstudio/economics-open-science/outputs/tab
 > 
 > proc.time()
    user  system elapsed 
-  0.795   1.402   0.738 
+  0.779   1.488   0.664 

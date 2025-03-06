@@ -20,7 +20,7 @@ excel_to_latex(file.path(datadir,"restrictions.xlsx"),
                 "Restriction categories",
                 label= "tab:categories",
                 sheet= 2,
-                align = c("l","l", "p{5in}"),
+                align = c("l","l", "p{4in}"),
                 digits = 2)
 
 excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
