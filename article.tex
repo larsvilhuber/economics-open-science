@@ -116,19 +116,16 @@ How onerous are access restrictions in general? In my work as Data Editor, it ma
 
 \input{outputs/table_categories}
 
-Table~\ref{tab:access_provision} lists the distribution of the four levels of restrictions, in addition to the no-restriction category, interacted with whether the authors offered to share the files with the data editor. 
+Table~\ref{tab:access_provision} lists the distribution of the four levels of restrictions for the 96 AER articles in 2024, in addition to the no-restriction category, interacted with whether the authors offered to share the files with the data editor.\footnote{Not all offers to share data are taken up, depending on available resources and time.}  Slightly more than 50\% of all articles had no data restrictions, which is a bit lower than long-term averages. However, the combination of no access restriction and `very easy to obtain' (about 68 out of 96, 70\%), is higher than the usual quoted number of around 60\% of access-free data \parencite{herbert_reproduce_2024,einav_economics_2014}. More importantly, out of the 39 data sources that are difficult to obtain, about a third could actually be shared with the data editor. It is also worthwhile highlighting that the `moderately difficult to obtain' tends to be data from research data center networks that have fairly robust mechanisms of access, so that in principle and in practice, many researchers do have access to the same data used in these articles. Arguably, the only data sources that are of immediate concern are data where access is uniquely attributable to the authors of the paper, or where access is no longer possible (e.g., Zillow's ZTRAX program, terminated in 2021). 
+
+
 \input{outputs/table_access_provision}
+
+Concern should be raised, however, for any data that is subject to a gatekeeping mechanism, however objective, impartial, and lightweight it may be at this time, as such mechanisms can and do disappear.  A particular striking example, as of the writing of this article, is access to data from the USAID-funded DHSprogram. Data access of such data was classified as `moderately easy to obtain' in Table~\ref{tab:categories} until February 2025, as it took only a day or two to obtain access subject to a lightweight data use agreement. In February 2025, the second Trump administration shut down USAID and the DHS Program, with very little notice. While the system remained (for a time) accessible to those with prior access permission, no further access requests were accepted. That turns it into a `very difficult to obtain' dataset.\footnote{As of March 2025, efforts are underway to preserve the DHS program data, for instance via IPUMS, and to resuscitate both the access to historical data, as well continue funding new surveys.} These events are a note of caution that any kind of redistribution restriction may very well negatively impact future availability to the research community.
+
 
 %The interaction between licensing, openness, and re-use has ramifications that go beyond the scope of the present article. Good guidance on licensing of scientific data by its creators can be found in \citet{stodden_enabling_2009}.
 
-
-Issues:
-
-Open Access
-
-Restricted Access
-
-% table of data access in AER in 2024 using internal categorization
 
 
 
@@ -142,7 +139,7 @@ Turning to software, I will again need to define more precisely what I mean by t
 
 \input{figure2}
 
-While many economists use data collected by others, some are primary data generators or collectors, for instance through laboratory or field experiments, as well as surveys. \textbf{Data collection} software in this context are the survey software tools (Qualtrics, LimeSurvey, SurveyCTO) used to conduct surveys (including as part of lab or field experiments), as well as customized experimental software, such as oTree \citep{chen_otreeopen-source_2016} and z-tree \citep{fischbache_z-tree_2021}.
+While many economists use data collected by others, some are primary data generators or collectors, for instance through laboratory or field experiments, as well as surveys. \textbf{Data collection} software in this context are the survey software tools (Qualtrics, LimeSurvey, SurveyCTO) used to conduct surveys (including as part of lab or field experiments), as well as customized experimental software, such as oTree \citep{chen_otreeopen-source_2016} and z-tree \citep{fischbacher_z-tree_2021}.
 
 \paragraph{Software instructions (code):} The core of a paper's analysis, however, resides in how the more general software package is manipulated, in combination with the data, via \textbf{instructions}. I do not call these `source code', as that terms tends to be used in conjunction with complex compiled software, such as those listed as \textbf{high-level software}. Rather, these instructions are mostly interpreted code, or compiled just-in-time, in the language used by the high-level software, or, as is still sometimes the case, in the form of instructions to humans on how to manipulate a non-programmed user interface for software.\footnote{In economics, this appears to occur most often for \ac{GIS} software, and sometimes for data extraction software used by data providers.}
 
