@@ -114,6 +114,7 @@ excel_to_latex <- function(excel_file,
                           output_file = "table.tex",
                           caption = "Table Caption",
                           label = "tab:mytable",    # New parameter
+                          sheet = 1,
                           digits = 2,
                           align = NULL,
                           footnotes = NULL,
@@ -121,7 +122,7 @@ excel_to_latex <- function(excel_file,
     
     # Read Excel file
     # excel_file=file.path(datadir,"restrictions.xlsx")
-    data <- read_excel(excel_file)
+    data <- read_excel(excel_file, sheet = sheet)
 
     # Format numbers and sanitize text
     data <- as.data.frame(lapply(data, function(x) {

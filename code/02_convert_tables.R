@@ -15,6 +15,14 @@ excel_to_latex(file.path(datadir,"restrictions.xlsx"),
                 align = c("l","l", "l", "p{4in}"),
                 digits = 2)
 
+excel_to_latex(file.path(datadir,"restrictions.xlsx"),
+               file.path(outputs,"table_categories.tex"), 
+                "Restriction categories",
+                label= "tab:categories",
+                sheet= 2,
+                align = c("l","l", "p{5in}"),
+                digits = 2)
+
 excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
                file.path(outputs,"table_stata-licenses.tex"), 
                 "Software licensing internationally",

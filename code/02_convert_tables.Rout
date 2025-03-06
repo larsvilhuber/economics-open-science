@@ -1,7 +1,7 @@
 
-R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-suse-linux-gnu (64-bit)
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -17,13 +17,13 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-- Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.0]
-- The project is out-of-sync -- use `renv::status()` for details.
 [Previously saved workspace restored]
 
 > # convert the restrictions to a LaTeX table
 > 
 > source(here::here("config.R"))
+Confidential data directory is empty.  Will try to download.
+Confidential data directory is empty.  Please populate it with the confidential data.
 > library(readxl)
 > library(xtable)
 > library(tidylog)
@@ -44,7 +44,16 @@ The following object is masked from ‘package:stats’:
 +                 label= "tab:restrictions",
 +                 align = c("l","l", "l", "p{4in}"),
 +                 digits = 2)
-LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_restrictions.tex 
+LaTeX table has been written to /home/rstudio/economics-open-science/outputs/table_restrictions.tex 
+> 
+> excel_to_latex(file.path(datadir,"restrictions.xlsx"),
++                file.path(outputs,"table_categories.tex"), 
++                 "Restriction categories",
++                 label= "tab:categories",
++                 sheet= 2,
++                 align = c("l","l", "p{5in}"),
++                 digits = 2)
+LaTeX table has been written to /home/rstudio/economics-open-science/outputs/table_categories.tex 
 > 
 > excel_to_latex(file.path(datadir,"stata-licenses-by-country.xlsx"), 
 +                file.path(outputs,"table_stata-licenses.tex"), 
@@ -53,8 +62,8 @@ LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-s
 +                 label = "tab:licensecost",
 +                 align = c("l", "l", "r", "r","r"),
 +                 footnotes = "Amounts in USD as of 2025. Source for Stata license prices: Stata website.")
-LaTeX table has been written to /home/vilhuber/Workspace/Github/economics-open-science/outputs/table_stata-licenses.tex 
+LaTeX table has been written to /home/rstudio/economics-open-science/outputs/table_stata-licenses.tex 
 > 
 > proc.time()
    user  system elapsed 
-  0.789   0.074   1.045 
+  0.795   1.402   0.738 
