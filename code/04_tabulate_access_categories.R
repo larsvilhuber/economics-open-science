@@ -50,14 +50,15 @@ access_table_totals <- access_table %>%
 print_access_table <- access_table_totals %>%
     dplyr::mutate(
         Yes_percent = scales::percent(Yes / Total, accuracy = 0.01),
-        Yes = ifelse(Yes == 0, "n/a", Yes)
+        Yes = ifelse(Yes == 0, "n/a", Yes),
+        Yes_percent = ifelse(Yes == 0,"",Yes_percent)
     ) %>%
 # the percent column should be printed in parenthesis and italics
 # The footnote should explain that the percentages are calculated as the number of "Yes" divided by the total number of responses
     dplyr::mutate(
         Yes_percent = ifelse(Yes_percent == "n/a", Yes_percent, paste0("(", Yes_percent, ")"))
     ) %>%
-    select("Access restrictions"=DCAF_Access_Restrictions_V2,No,Yes,"Percent"=Yes_percent,Total)
+    select("Access restrictions"=DCAF_Access_Restrictions_V2,No,Yes,Total,"Percent"=Yes_percent)
 
 # Create the LaTeX table
 kable(print_access_table, 
