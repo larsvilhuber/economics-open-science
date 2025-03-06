@@ -35,28 +35,26 @@ access_table <- jira_access_cleaned %>%
 
 # Add a row with the column sums
 access_table_totals <- access_table %>%
-    dplyr::bind_rows(
-        tibble::tibble(
-            DCAF_Access_Restrictions_V2 = "Total",
-            Yes = sum(access_table$Yes, na.rm = TRUE),
-            No = sum(access_table$No, na.rm = TRUE),
-            Total = sum(access_table$Total, na.rm = TRUE)
-        )
-    )
+    filter(DCAF_Access_Restrictions_V2 != "No") %>%
+    summarise(No=sum(No),Yes=sum(Yes),Total=sum(Total)) %>%
+    mutate(DCAF_Access_Restrictions_V2 = "Any restriction") %>%
+    select(DCAF_Access_Restrictions_V2,No,Yes,Total)
+
 
 # For the print table, 
 # - replace the DCAF_Access_Restrictions_V2 = No/Yes column with "n/a" if the value is 0
 # - Add a column with the percentage of "Yes" next to the "Yes" column
-print_access_table <- access_table_totals %>%
+print_access_table <- bind_rows(access_table,access_table_totals) %>%
     dplyr::mutate(
         Yes_percent = scales::percent(Yes / Total, accuracy = 0.01),
         Yes = ifelse(Yes == 0, "n/a", Yes),
-        Yes_percent = ifelse(Yes == 0,"",Yes_percent)
+        No  = ifelse(DCAF_Access_Restrictions_V2 == "No","",No),
+        Yes_percent = ifelse(Yes == "n/a","",Yes_percent)
     ) %>%
 # the percent column should be printed in parenthesis and italics
 # The footnote should explain that the percentages are calculated as the number of "Yes" divided by the total number of responses
     dplyr::mutate(
-        Yes_percent = ifelse(Yes_percent == "n/a", Yes_percent, paste0("(", Yes_percent, ")"))
+        Yes_percent = ifelse(Yes_percent == "", Yes_percent, paste0("(", Yes_percent, ")"))
     ) %>%
     select("Access restrictions"=DCAF_Access_Restrictions_V2,No,Yes,Total,"Percent"=Yes_percent)
 
@@ -67,6 +65,8 @@ kable(print_access_table,
       label = "access_provision",
       caption = "Access categories and whether data can be shared privately") %>%
   kable_styling(latex_options = "hold_position") %>%
+  row_spec(1, hline_after = TRUE) %>%
+  row_spec(nrow(print_access_table) - 1, hline_after = TRUE) %>%
   add_footnote("Percentages are calculated as the number of 'Yes' divided by the total number of responses. An article can have multiple categories of data; the sum of responses is therefore higher than the number of articles.", 
                notation = "symbol") %>%
   save_kable(file.path(outputs, "table_access_provision.tex"))
