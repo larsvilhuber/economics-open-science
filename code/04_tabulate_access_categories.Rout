@@ -167,7 +167,7 @@ Loading required package: viridisLite
 +   # Add "Yes" count labels inside bars
 +   geom_text(aes(label = Yes_label_count, y = Yes/2 - 1), 
 +             hjust = -0.3, 
-+             color = "black", 
++             color = "white", 
 +             fontface = "bold",
 +             size = 3.5) +
 +   # Add "NA" count labels inside bars
@@ -216,4 +216,4 @@ Loading required package: viridisLite
 > 
 > proc.time()
    user  system elapsed 
-  1.539   0.666   1.172 
+  1.549   0.764   1.284 

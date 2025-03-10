@@ -126,7 +126,7 @@ access_plot <- ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
   # Add "Yes" count labels inside bars
   geom_text(aes(label = Yes_label_count, y = Yes/2 - 1), 
             hjust = -0.3, 
-            color = "black", 
+            color = "white", 
             fontface = "bold",
             size = 3.5) +
   # Add "NA" count labels inside bars
