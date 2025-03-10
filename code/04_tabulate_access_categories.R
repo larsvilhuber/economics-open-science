@@ -103,8 +103,7 @@ plot_data$DCAF_Access_Restrictions_V2 <- factor(
 maxcount <- max(plot_data$Total)
 
 # Create the horizontal bar graph
-#access_plot <- 
-ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
+access_plot <- ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
   theme_minimal() +
   coord_flip() +
   # Convert data to long format for proper stacking

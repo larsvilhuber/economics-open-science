@@ -144,8 +144,7 @@ Loading required package: viridisLite
 > maxcount <- max(plot_data$Total)
 > 
 > # Create the horizontal bar graph
-> #access_plot <- 
-> ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
+> access_plot <- ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
 +   theme_minimal() +
 +   coord_flip() +
 +   # Convert data to long format for proper stacking
@@ -203,5 +202,18 @@ Loading required package: viridisLite
 +   height = 5,
 +   device = cairo_pdf
 + )
-Error: object 'access_plot' not found
-Execution halted
+> 
+> # Also save as PNG for potential inclusion in presentations
+> ggsave(
++   file.path(outputs, "figure_access_provision.png"),
++   access_plot,
++   width = 8,
++   height = 5,
++   dpi = 300
++ )
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  1.539   0.666   1.172 
