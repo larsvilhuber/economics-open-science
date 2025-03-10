@@ -21,8 +21,7 @@ Type 'q()' to quit R.
 
 > # Tabulate the categories
 > source(here::here("config.R"))
-Confidential data directory is empty.  Will try to download.
-Confidential data directory is empty.  Please populate it with the confidential data.
+Files already there, not re-downloading
 > 
 > library(dplyr)
 
@@ -46,6 +45,7 @@ The following object is masked from ‘package:dplyr’:
     group_rows
 
 > library(stringr)
+> 
 > 
 > # Load the cleaned JIRA access data
 > # Still contains multiple categories in the fields
@@ -112,8 +112,96 @@ The following object is masked from ‘package:dplyr’:
 +                notation = "symbol") %>%
 +   save_kable(file.path(outputs, "table_access_provision.tex"))
 > 
+> # Create a horizontal bar graph visualization
+> library(ggplot2)
+> library(viridis)
+Loading required package: viridisLite
 > 
+> # Prepare data for graph - convert print_access_table back to numeric for plotting
+> plot_data <- bind_rows(access_table, access_table_totals) %>%
++   # Convert factors to character to ensure proper ordering
++   mutate(DCAF_Access_Restrictions_V2 = as.character(DCAF_Access_Restrictions_V2)) %>%
++   # Calculate percentages for labels
++   mutate(
++     Yes_percent = ifelse(Total > 0, Yes/Total, 0),
++     NAx = ifelse(DCAF_Access_Restrictions_V2 == "No",Total,0),
++     No  = if_else(NAx == Total,0,No),
++     Total = ifelse(NAx == Total,0,Total),
++     Yes_label_pct = ifelse(Yes > 0, scales::percent(Yes_percent, accuracy = 0.1), ""),
++     Yes_label_count = ifelse(Yes > 0, as.character(Yes), ""),
++     No_label_count = ifelse(No > 0, as.character(No), ""),
++     NAx_label_count = ifelse(NAx > 0, as.character(NAx), "")
++   )
 > 
-> proc.time()
-   user  system elapsed 
-  0.870   1.472   0.752 
+> # Set the order for the categories
+> plot_data$DCAF_Access_Restrictions_V2 <- factor(
++   plot_data$DCAF_Access_Restrictions_V2,
++   levels = c("Any restriction", "Very Difficult to Obtain", "Moderately Difficult to Obtain", 
++              "Moderately Easy to Obtain", "Very Easy to Obtain", "No")
++ )
+> 
+> # need the max of all total counts - we'll add 10
+> maxcount <- max(plot_data$Total)
+> 
+> # Create the horizontal bar graph
+> #access_plot <- 
+> ggplot(plot_data, aes(x = DCAF_Access_Restrictions_V2)) +
++   theme_minimal() +
++   coord_flip() +
++   # Convert data to long format for proper stacking
++   geom_col(aes(y = maxcount + 10, fill = "No"), width = 0.7, alpha = 0) +
++   geom_col(aes(y = NAx, fill = "NAx"), width = 0.7) +
++   geom_col(aes(y = Total, fill = "No"), width = 0.7) +
++   geom_col(aes(y = Yes, fill = "Yes"), width = 0.7) +
++   # Add "Yes" percentage labels inside bars
++   geom_text(aes(label = Yes_label_pct, y = maxcount + 10 ), 
++             hjust = 0.5, 
++             color = "black", 
++             fontface = "bold",
++             size = 3.5) +
++   # Add "No" count labels outside bars to the right
++   geom_text(aes(label = No_label_count, y = Yes + No/2 - 1), 
++             hjust = -0.3, 
++             color = "white", 
++             fontface = "bold",
++             size = 3.5) +
++   # Add "Yes" count labels inside bars
++   geom_text(aes(label = Yes_label_count, y = Yes/2 - 1), 
++             hjust = -0.3, 
++             color = "black", 
++             fontface = "bold",
++             size = 3.5) +
++   # Add "NA" count labels inside bars
++   geom_text(aes(label = NAx_label_count, y = NAx/2 - 1), 
++             hjust = -0.3, 
++             color = "black", 
++             fontface = "bold",
++             size = 3.5) +
++   scale_fill_manual(values = c("No" = "#1F9E89FF", "Yes" = "#31688EFF", "NAx" = "#B4DE2CFF"),
++                    name = "Can be shared privately",
++                    labels = c("NA","No","Yes")) +
++   labs(
++     title = "Access categories and whether data can be shared privately",
++     x = "",
++     y = "Number of cases"
++   ) +
++   # Add extra space on the right for the external labels
++   #scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
++   theme_minimal() +
++   theme(
++     legend.position = "bottom",
++     #panel.grid.major.y = element_blank(),
++     panel.grid.minor = element_blank(),
++     plot.title = element_text(hjust = 0.5, face = "bold")
++   )
+> 
+> # Save the plot
+> ggsave(
++   file.path(outputs, "figure_access_provision.pdf"),
++   access_plot,
++   width = 8,
++   height = 5,
++   device = cairo_pdf
++ )
+Error: object 'access_plot' not found
+Execution halted
