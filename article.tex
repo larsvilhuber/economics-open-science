@@ -2,15 +2,23 @@
 \documentclass{article}
 \input{preamble}
 
+
 % bibliography files
 
 \addbibresource{from-zotero.bib}
 \addbibresource{references.bib} % generated dynamically by Overleaf
 
 
+\newtoggle{anonymous}
+\newtoggle{draft}
+%\settoggle{anonymous}{true}
+\settoggle{anonymous}{false}
+\settoggle{draft}{false}
 
+\iftoggle{anonymous}{\author{Anonymous}}{
 \author[1]{Lars Vilhuber}
 \affil[1]{Cornell University}
+}
 \title{Reproducibility and Open Science in Economics}
 
 % some numbers
@@ -21,7 +29,8 @@
 
 
 \maketitle
-
+\input{abstract}
+\newpage
 \section{Introduction}
 
 
@@ -41,12 +50,12 @@ The guiding theme will be the \textbf{accessibility} of the key ingredients for 
 In the conclusion, I will identify a few areas where there is (continued) movement towards greater openness. 
 
 
-\begin{itemize}
-\item open data: issues of data access, who can access, where to access, cost
-\item open tools: is proprietary software a problem? what does the economics community dowell, what does it not do well? Stata is great, but costs money
-\item persistence: while there are many solutions for relatively openly available data, what needs to be done for more restricted data (bring example from Swedish data archive, Goncalves case)
-\item collaborative methods: long history of sharing working papers, rarely any issue with sharing code. Possible coding errors may inhibit stronger" standing on others shoulders
-\end{itemize}
+% \begin{itemize}
+% \item open data: issues of data access, who can access, where to access, cost
+% \item open tools: is proprietary software a problem? what does the economics community dowell, what does it not do well? Stata is great, but costs money
+% \item persistence: while there are many solutions for relatively openly available data, what needs to be done for more restricted data (bring example from Swedish data archive, Goncalves case)
+% \item collaborative methods: long history of sharing working papers, rarely any issue with sharing code. Possible coding errors may inhibit stronger" standing on others shoulders
+% \end{itemize}
 
 \section{Concepts}
 
