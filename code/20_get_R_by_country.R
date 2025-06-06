@@ -1,0 +1,6 @@
+library(packageRank)
+cranDownloads(packages = "R", from = "2024-01-01", to = "2024-12-31")
+cran-downloads <- cranDownloads(packages = "R", from = "2024-01-01", to = "2024-12-31")
+plotDownloadsCountry()
+packageCountry(packages = "R")
+packageCountry(packages = "tidyverse")
