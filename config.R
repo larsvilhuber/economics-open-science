@@ -6,6 +6,7 @@ codedir=file.path(basedir, "code")
 outputs=file.path(basedir, "outputs")
 confdir=file.path(datadir,"confidential")
 interwrk=file.path(datadir,"interwrk")
+rawdata=file.path(datadir,"raw")
 
 # Some parameters
 
