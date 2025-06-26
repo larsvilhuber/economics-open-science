@@ -10,4 +10,4 @@ case $USER in
   WORKSPACE=/workspaces
   ;;
 esac
-tag=4.4.2
+tag=4.5.0

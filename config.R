@@ -10,6 +10,10 @@ rawdata=file.path(datadir,"raw")
 
 # Some parameters
 
+## Stata logs
+
+baum.logs <- "http://fmwww.bc.edu/cfb/WebSTAR.log.gz"
+
 ## AEA DOI prefix
 
 doi_prefix <- "10.1257"

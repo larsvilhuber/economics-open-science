@@ -5,3 +5,4 @@ confidential
 .cache
 .env
 .Renviron
+data/**

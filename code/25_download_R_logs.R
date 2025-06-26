@@ -50,3 +50,8 @@ downloaded_files <- purrr::map(date_strings, download_daily_log)
 downloaded_files <- downloaded_files[!sapply(downloaded_files, is.null)]
 
 cat("Downloaded", length(downloaded_files), "files\n")
+
+# Save the list of downloaded files in interwrk as Rds
+saveRDS(downloaded_files, file.path(interwrk, "cran_logs", "downloaded_files_2024.rds"))
+
+

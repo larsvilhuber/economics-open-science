@@ -1,0 +1,156 @@
+
+R version 4.5.0 (2025-04-11) -- "How About a Twenty-Six"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-suse-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
+- Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
+[Previously saved workspace restored]
+
+> # Download log files from Stata archive
+> # Provided by Kit
+> # Takes about 24m15.649s to run
+> 
+> source(file.path(rprojroot::find_root(rprojroot::has_file("config.R")),"config.R"),echo=FALSE)
+Files already there, not re-downloading
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(skimr)
+> library(stringr)
+> library(tidylog)
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+> library(arrow)
+
+Attaching package: ‘arrow’
+
+The following object is masked from ‘package:utils’:
+
+    timestamp
+
+> 
+> # If file is not present, download it. Use the basename of baum.logs
+> 
+> if (!file.exists(file.path(rawdata,basename(baum.logs)))) {
++   download.file(baum.logs,destfile = file.path(rawdata,basename(baum.logs)))
++ }
+trying URL 'http://fmwww.bc.edu/cfb/WebSTAR.log.gz'
+Content type 'application/x-gzip' length 269523944 bytes (257.0 MB)
+==================================================
+downloaded 257.0 MB
+
+> 
+> # 58.240.173.126 - - [23/Feb/2025:03:45:02 -0500] "GET /repec/bocode/f/fsort.ado HTTP/1.1" 200 1549 "-" "Stata/MP 18.0 (54.2.180120) on Macintosh 64-bit (Apple Silicon MacBookAir10,1 12.2.1)"
+> #223.88.237.195 - - [23/Feb/2025:03:45:02 -0500] "GET /repec/bocode/_/_eststo.hlp HTTP/1.0" 200 11 "-" "Stata/MP 15.1 (521.15.1.614) on Windows NT 10.0"
+> #repec.oru.se - - [23/Feb/2025:03:45:02 -0500] "HEAD /repec/bocode/x/xtrevu.ado HTTP/1.1" 200 - "-" "RePEc link checker (https://EconPapers.repec.org/check/)"
+> 
+> log_data <- readLines(file.path(rawdata, basename(baum.logs)))
+> parsed_data <- data.frame(
++   first_field = str_extract(log_data, "^[^ ]+"),
++   path = str_extract(log_data, "(?<=GET |HEAD )[^ ]+"),
++   client = str_extract(log_data, "(?<=\\\" \")[^\"]+")
++ ) %>%
++  filter(grepl("Stata", client)) %>%
++   select(-client)
+filter: removed 3,193,793 rows (15%), 17,710,581 rows remaining
+select: dropped one variable (client)
+> 
+> 
+> # Determine if the first field is an IP address or a client name
+> parsed_data.df <- parsed_data %>%
++   mutate(
++     ipaddress = ifelse(grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA),
++     clientname = ifelse(!grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA)
++   ) %>%
++   select(-first_field) %>%
++   mutate(
++     ipaddress = as.factor(ipaddress),
++     clientname = as.factor(clientname)
++   )
+mutate: new variable 'ipaddress' (character) with 155,422 unique values and 38% NA
+        new variable 'clientname' (character) with 60,797 unique values and 62% NA
+select: dropped one variable (first_field)
+mutate: converted 'ipaddress' from character to factor (0 new NA)
+        converted 'clientname' from character to factor (0 new NA)
+> 
+> skim(parsed_data.df)
+── Data Summary ────────────────────────
+                           Values        
+Name                       parsed_data.df
+Number of rows             17710581      
+Number of columns          3             
+_______________________                  
+Column type frequency:                   
+  character                1             
+  factor                   2             
+________________________                 
+Group variables            None          
+
+── Variable type: character ────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate min max empty n_unique whitespace
+1 path                  0             1  10 247     0    63843          0
+
+── Variable type: factor ───────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate ordered n_unique
+1 ipaddress       6642275         0.625 FALSE     155421
+2 clientname     11068306         0.375 FALSE      60796
+  top_counts                                        
+1 199: 1998238, 158: 36920, 171: 26891, 171: 20948  
+2 hos: 274579, sh0: 176973, sh0: 151339, sh0: 139192
+> 
+> # Clean up, remove the two raw data objects
+> 
+> rm(log_data, parsed_data)
+> 
+> # save the Rds file with compression
+> saveRDS(parsed_data.df, file.path(interwrk, "ssclogs.rds"), compress = TRUE)
+> 
+> # save the data frame in parquet format
+> write_parquet(parsed_data.df, file.path(interwrk, "ssclogs.parquet"))
+> 
+> proc.time()
+    user   system  elapsed 
+1604.832    6.955 1628.978 
