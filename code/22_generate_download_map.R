@@ -118,12 +118,5 @@ download_map <- ggplot() +
 # Save the map
 ggsave(file.path(outputs, "stata_download_map.png"), download_map, width = 10, height = 5, dpi = 300)
 
-# Also save interactive version if plotly is available
-if (requireNamespace("plotly", quietly = TRUE)) {
-  library(plotly)
-  interactive_map <- ggplotly(download_map)
-  htmlwidgets::saveWidget(interactive_map, file.path(outputs, "stata_download_map_interactive.html"))
-  message("Interactive map saved to ", file.path(outputs, "stata_download_map_interactive.html"))
-}
 
 message("Map generation complete. Output saved to ", file.path(outputs, "stata_download_map.png"))

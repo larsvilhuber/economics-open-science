@@ -9,6 +9,11 @@ library(stringr)
 library(tidylog)
 library(arrow)
 
+# Define year range
+
+year_start <- 2024
+year_end <- 2024
+
 # If file is not present, download it. Use the basename of baum.logs
 
 if (!file.exists(file.path(rawdata,basename(baum.logs)))) {
@@ -20,20 +25,25 @@ if (!file.exists(file.path(rawdata,basename(baum.logs)))) {
 #repec.oru.se - - [23/Feb/2025:03:45:02 -0500] "HEAD /repec/bocode/x/xtrevu.ado HTTP/1.1" 200 - "-" "RePEc link checker (https://EconPapers.repec.org/check/)"
 
 log_data <- readLines(file.path(rawdata, basename(baum.logs)))
+
 parsed_data <- data.frame(
   first_field = str_extract(log_data, "^[^ ]+"),
+  date = str_extract(log_data, "(?<=\\[)[^\\]]+"),
   path = str_extract(log_data, "(?<=GET |HEAD )[^ ]+"),
   client = str_extract(log_data, "(?<=\\\" \")[^\"]+")
 ) %>%
  filter(grepl("Stata", client)) %>%
-  select(-client)
-
+  select(-client) 
+head(parsed_data)
 
 # Determine if the first field is an IP address or a client name
 parsed_data.df <- parsed_data %>%
   mutate(
     ipaddress = ifelse(grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA),
-    clientname = ifelse(!grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA)
+    clientname = ifelse(!grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA),
+    # parse date into year
+    date = as.POSIXct(date, format = "%d/%b/%Y:%H:%M:%S %z", tz = "UTC"),
+    year = as.integer(format(date, "%Y"))
   ) %>%
   select(-first_field) %>%
   mutate(

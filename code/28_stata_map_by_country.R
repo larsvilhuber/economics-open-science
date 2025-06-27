@@ -1,5 +1,5 @@
-# R Download Statistics by Country for 2024
-# This script downloads CRAN logs for R downloads in 2024,
+# Stata Download Statistics by Country for 2024
+# This script processes Stata download geolocation data,
 # aggregates by country, creates maps, and computes regional statistics
 
 source(file.path(rprojroot::find_root(rprojroot::has_file("config.R")),"config.R"),echo=FALSE)
@@ -17,31 +17,31 @@ library(xtable)
 library(tidylog)
 
 # Load data from disk
-
-
-all_downloads <- readRDS(file.path(interwrk, "r_downloads_2024_combined.rds"))
-names(all_downloads)
-
+geolocations <- readRDS(file.path(interwrk, "geolocations.rds"))
 
 # Aggregate by country
-country_stats <- all_downloads %>%
-  group_by(country) %>%
+country_stats <- geolocations %>%
+  filter(!is.na(country_code)) %>%
+  group_by(country = country_code) %>%
   summarise(
-    downloads = sum(downloads, na.rm = TRUE),
+    downloads = n(),
     .groups = "drop"
   ) %>%
   arrange(desc(downloads)) %>%
-# Add country names and region information
   mutate(
     country_name = countrycode(country, "iso2c", "country.name"),
     continent = countrycode(country, "iso2c", "continent"),
     region = countrycode(country, "iso2c", "region")
+  # Caused by warning:
+  # ! Some values were not matched unambiguously: RE 
+  # This is captured below by "continent"
   ) %>%
-  filter(!is.na(country_name))  %>% # Remove invalid country codes
+  filter(!is.na(country_name)) %>%
   mutate(
     custom_region = case_when(
       continent == "Europe" ~ "Europe",
       country == "CN" ~ "China",
+      country == "HK" ~ "China",
       continent == "Asia" ~ "Rest of Asia",
       continent == "Africa" ~ "Africa",
       region == "Latin America & Caribbean" ~ "Latin America & Caribbean",
@@ -53,8 +53,11 @@ country_stats <- all_downloads %>%
   )
 
 # Print top 20 countries
-cat("\nTop 20 countries by R downloads in 2024:\n")
+cat("\nTop 20 countries by Stata downloads in 2024:\n")
 print(country_stats %>% head(20) %>% select(country, country_name, downloads, continent, region, custom_region ))
+
+
+# ================ from here, we do this with and without China ================
 
 # Function to generate and save all statistics and figures
 generate_stats_and_figures <- function(country_stats, suffix = "") {
@@ -69,17 +72,17 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
     mutate(Fraction = round(`Regional Downloads`/sum(`Regional Downloads`)*100,2)) %>%
     arrange(desc(`Regional Downloads`))
 
-  cat("\nRegional statistics for R downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
+  cat("\nRegional statistics for Stata downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
   print(regional_stats)
   # Save Latex Table to file using xtable
   print(xtable(regional_stats, 
          include.rownames = FALSE,
-         caption = paste0("Regional Statistics for R Downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
-         label = paste0("tab:r_downloads_regional_stats_2024", suffix),
+         caption = paste0("Regional Statistics for Stata Downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
+         label = paste0("tab:stata_downloads_regional_stats_2024", suffix),
          table.placement = "H",
          size = "small",
          booktabs = TRUE),
-        file = file.path(outputs, paste0("r_downloads_regional_stats_2024", suffix, ".tex")))
+        file = file.path(outputs, paste0("stata_downloads_regional_stats_2024", suffix, ".tex")))
 
   # Collapse further to Global South/North
   global_stats <- regional_stats %>%
@@ -103,25 +106,25 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
     mutate(Fraction = round(Downloads/sum(Downloads)*100,2)) %>%
     arrange(desc(Downloads))
 
-  cat("\nNorth/South statistics for R downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
+  cat("\nNorth/South statistics for Stata downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
   print(global_stats)
   # Save Latex Table to file using xtable
   print(xtable(global_stats, 
          include.rownames = FALSE,
-         caption = paste0("Regional Statistics for R Downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
-         label = paste0("tab:r_downloads_global_stats_2024", suffix),
+         caption = paste0("Regional Statistics for Stata Downloads in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
+         label = paste0("tab:stata_downloads_global_stats_2024", suffix),
          table.placement = "H",
          size = "small",
          booktabs = TRUE),
-        file = file.path(outputs, paste0("r_downloads_global_stats_2024", suffix, ".tex")))
+        file = file.path(outputs, paste0("stata_downloads_global_stats_2024", suffix, ".tex")))
 
   # Save summary statistics
-  write_csv(country_stats, file.path(interwrk, paste0("r_downloads_by_country_2024", suffix, ".csv")))
-  write_csv(regional_stats, file.path(interwrk, paste0("r_downloads_by_region_2024", suffix, ".csv")))
-  write_csv(global_stats, file.path(interwrk, paste0("r_downloads_by_global_2024", suffix, ".csv")))
-  saveRDS(country_stats, file.path(interwrk, paste0("r_downloads_by_country_2024", suffix, ".rds")))
-  saveRDS(regional_stats, file.path(interwrk, paste0("r_downloads_by_region_2024", suffix, ".rds")))
-  saveRDS(global_stats, file.path(interwrk, paste0("r_downloads_by_global_2024", suffix, ".rds")))
+  write_csv(country_stats, file.path(interwrk, paste0("stata_downloads_by_country_2024", suffix, ".csv")))
+  write_csv(regional_stats, file.path(interwrk, paste0("stata_downloads_by_region_2024", suffix, ".csv")))
+  write_csv(global_stats, file.path(interwrk, paste0("stata_downloads_by_global_2024", suffix, ".csv")))
+  saveRDS(country_stats, file.path(interwrk, paste0("stata_downloads_by_country_2024", suffix, ".rds")))
+  saveRDS(regional_stats, file.path(interwrk, paste0("stata_downloads_by_region_2024", suffix, ".rds")))
+  saveRDS(global_stats, file.path(interwrk, paste0("stata_downloads_by_global_2024", suffix, ".rds")))
 
   # Create world map visualization
   world_map <- map_data("world")
@@ -146,7 +149,7 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
   world_plot <- ggplot(world_map_data, aes(x = long, y = lat, group = group)) +
     geom_polygon(aes(fill = downloads), color = "gray70", size = 0.3) +
     scale_fill_viridis_c(
-      name = "R Downloads",
+      name = "Stata Downloads",
       trans = "log10",
       breaks = scales::log_breaks(n = 5),
       labels = scales::label_number(scale_cut = scales::cut_si("")),
@@ -154,8 +157,8 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
       direction = -1
     ) +
     labs(
-      title = paste0("R Downloads by Country in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
-      subtitle = "Data from CRAN download logs"
+      title = paste0("Stata Downloads by Country in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
+      subtitle = "Data from SSC log files"
     ) +
     theme_minimal() +
     theme(
@@ -169,7 +172,7 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
       axis.ticks = element_blank()
     ) +
     coord_fixed(1.3)
-  ggsave(file.path(outputs, paste0("r_downloads_world_map_2024", suffix, ".png")), world_plot, 
+  ggsave(file.path(outputs, paste0("stata_downloads_world_map_2024", suffix, ".png")), world_plot, 
          width = 12, height = 8, dpi = 300, bg = "white")
 
   # Create regional bar chart
@@ -178,7 +181,7 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
     coord_flip() +
     scale_y_continuous(labels = scales::comma_format()) +
     labs(
-      title = paste0("R Downloads by Region in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
+      title = paste0("Stata Downloads by Region in 2024", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
       x = "Region",
       y = "Total Downloads"
     ) +
@@ -188,7 +191,7 @@ generate_stats_and_figures <- function(country_stats, suffix = "") {
       axis.text = element_text(size = 11),
       axis.title = element_text(size = 12)
     )
-  ggsave(file.path(outputs, paste0("r_downloads_regional_2024", suffix, ".png")), regional_plot, 
+  ggsave(file.path(outputs, paste0("stata_downloads_regional_2024", suffix, ".png")), regional_plot, 
          width = 10, height = 6, dpi = 300, bg = "white")
 }
 
@@ -198,14 +201,12 @@ generate_stats_and_figures(country_stats, suffix = "")
 # Second call: remove China
 generate_stats_and_figures(country_stats %>% filter(custom_region != "China"), suffix = "_nochina")
 
-
 # Print final summary
 cat("\n=== SUMMARY ===\n")
 cat("\nFiles saved:\n")
-cat("- ", file.path(outputs, "r_downloads_world_map_2024.png"), "\n")
-cat("- ", file.path(outputs, "r_downloads_regional_2024.png"), "\n")
-cat("- ", file.path(outputs, "r_downloads_regional_stats_2024.tex"), "\n")
-cat("- ", file.path(outputs, "r_downloads_global_stats_2024.tex"), "\n")
-cat("- ", file.path(interwrk, "r_downloads_by_country_2024.csv"), "\n")
-cat("- ", file.path(interwrk, "r_downloads_by_region_2024.csv"), "\n")
-
+cat("- ", file.path(outputs, "stata_downloads_world_map_2024.png"), "\n")
+cat("- ", file.path(outputs, "stata_downloads_regional_2024.png"), "\n")
+cat("- ", file.path(outputs, "stata_downloads_regional_stats_2024.tex"), "\n")
+cat("- ", file.path(outputs, "stata_downloads_global_stats_2024.tex"), "\n")
+cat("- ", file.path(interwrk, "stata_downloads_by_country_2024.csv"), "\n")
+cat("- ", file.path(interwrk, "stata_downloads_by_region_2024.csv"), "\n")

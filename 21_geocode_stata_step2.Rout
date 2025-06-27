@@ -1,0 +1,137 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-suse-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
+- Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
+[Previously saved workspace restored]
+
+> # Geocode IP addresses
+> # Takes about 37.841 seconds to run
+> 
+> source(file.path(rprojroot::find_root(rprojroot::has_file("config.R")),"config.R"),echo=FALSE)
+Files already there, not re-downloading
+> # Need remotes and rgeolocate as well as the Maxmind GeoLite2 database
+> # A free account is required to download the database, see https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(skimr)
+> library(stringr)
+> library(rgeolocate)
+> library(tidylog)
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+> 
+> # by default, do not do the reverse IP lookup
+> 
+> lookup <- FALSE
+> 
+> # If file is not present, do not process.
+> 
+> if (file.exists(file.path(interwrk,"ssclogs.rds"))) {
++   parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds"))
++ } else {
++   stop("ssclogs.rds not found in interwrk directory.  Please run 10_geocode_stata_step1.R first.")
++ }
+> 
+> # For those records that have already been mapped to a domain name, find the IP address
+> # This can take a VERY long time
+> 
+> if ( lookup ) {
++ # Check if the OS is Linux
++ if (Sys.info()["sysname"] == "Linux") {
++   # Will only work on Linux
++   if (nzchar(Sys.which("host"))) {
++                                 
++   parsed_data.df <- parsed_data.df %>%
++     mutate(ipaddress = ifelse(is.na(ipaddress), 
++                                   sapply(clientname, function(name) {
++                                     result <- system(paste0("host ", name), intern = TRUE)
++                                     ipv4 <- str_extract(result, "\\d+\\.\\d+\\.\\d+\\.\\d+")
++                                     ipv4[!is.na(ipv4)][1] # Take the first non-NA IPv4 address
++                                   }),
++                               ipaddress))
++   } else {
++           warning("The 'host' command is not available. Please install it.")
++         }
++ } else {
++   stop("This script is designed to run on Linux. Please run it on a Linux system.")
++ }
++ }
+> # Geolocate the data
+> # Approximate time:  1m14.532s
+> 
+> geolocations <- maxmind(parsed_data.df$ipaddress, 
++                     file.path(rawdata,"GeoLite2-Country.mmdb"),
++                     fields=c("continent_name","country_code", "country_name"))
+> 
+> skim(geolocations)
+── Data Summary ────────────────────────
+                           Values      
+Name                       geolocations
+Number of rows             17710581    
+Number of columns          3           
+_______________________                
+Column type frequency:                 
+  character                3           
+________________________               
+Group variables            None        
+
+── Variable type: character ────────────────────────────────────────────────────
+  skim_variable  n_missing complete_rate min max empty n_unique whitespace
+1 continent_name   6775488         0.617   4  13     0        6          0
+2 country_code     6775913         0.617   2   2     0      175          0
+3 country_name     6775913         0.617   4  27     0      175          0
+> 
+> # Save the geolocated data as Rds file
+> 
+> saveRDS(geolocations, file.path(interwrk,"geolocations.rds"))
+> 
+> 
+> proc.time()
+   user  system elapsed 
+ 39.853   0.533  40.637 
