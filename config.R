@@ -22,8 +22,8 @@ doi_prefix <- "10.1257"
 
 nber_prefix <- "10.3386"
 
-from_date <- "2024-01-01"
-until_date <- "2024-12-31"
+from_date <- "2025-02-01"
+until_date <- "2025-03-01"
 
 # filenames
 

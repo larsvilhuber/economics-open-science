@@ -19,9 +19,6 @@ Type 'q()' to quit R.
 
 Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
 - Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
-- The project is out-of-sync -- use `renv::status()` for details.
-[Previously saved workspace restored]
-
 > # Download log files from Stata archive
 > # Provided by Kit
 > # Takes about 24m15.649s to run
@@ -116,7 +113,8 @@ select: dropped one variable (client)
 +     clientname = ifelse(!grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA),
 +     # parse date into year
 +     date = as.POSIXct(date, format = "%d/%b/%Y:%H:%M:%S %z", tz = "UTC"),
-+     year = as.integer(format(date, "%Y"))
++     year = as.integer(format(date, "%Y")),
++     month = as.integer(format(date, "%m"))
 +   ) %>%
 +   select(-first_field) %>%
 +   mutate(
@@ -127,6 +125,7 @@ mutate: converted 'date' from character to double (0 new NA)
         new variable 'ipaddress' (character) with 155,422 unique values and 38% NA
         new variable 'clientname' (character) with 60,797 unique values and 62% NA
         new variable 'year' (integer) with one unique value and 0% NA
+        new variable 'month' (integer) with 2 unique values and 0% NA
 select: dropped one variable (first_field)
 mutate: converted 'ipaddress' from character to factor (0 new NA)
         converted 'clientname' from character to factor (0 new NA)
@@ -136,12 +135,12 @@ mutate: converted 'ipaddress' from character to factor (0 new NA)
                            Values        
 Name                       parsed_data.df
 Number of rows             17710581      
-Number of columns          5             
+Number of columns          6             
 _______________________                  
 Column type frequency:                   
   character                1             
   factor                   2             
-  numeric                  1             
+  numeric                  2             
   POSIXct                  1             
 ________________________                 
 Group variables            None          
@@ -159,8 +158,12 @@ Group variables            None
 2 hos: 274579, sh0: 176973, sh0: 151339, sh0: 139192
 
 ── Variable type: numeric ──────────────────────────────────────────────────────
-  skim_variable n_missing complete_rate mean sd   p0  p25  p50  p75 p100 hist 
-1 year                  0             1 2025  0 2025 2025 2025 2025 2025 ▁▁▇▁▁
+  skim_variable n_missing complete_rate    mean    sd   p0  p25  p50  p75 p100
+1 year                  0             1 2025    0     2025 2025 2025 2025 2025
+2 month                 0             1    2.02 0.145    2    2    2    2    3
+  hist 
+1 ▁▁▇▁▁
+2 ▇▁▁▁▁
 
 ── Variable type: POSIXct ──────────────────────────────────────────────────────
   skim_variable n_missing complete_rate min                 max                
@@ -180,4 +183,4 @@ Group variables            None
 > 
 > proc.time()
     user   system  elapsed 
-1503.831    3.461 1507.804 
+1609.833    6.160 1624.887 

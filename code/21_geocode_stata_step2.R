@@ -17,7 +17,8 @@ lookup <- FALSE
 # If file is not present, do not process.
 
 if (file.exists(file.path(interwrk,"ssclogs.rds"))) {
-  parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds"))
+  parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds")) %>%
+    filter(date >= from_date & date < until_date) 
 } else {
   stop("ssclogs.rds not found in interwrk directory.  Please run 10_geocode_stata_step1.R first.")
 }

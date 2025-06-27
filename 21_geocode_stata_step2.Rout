@@ -19,8 +19,6 @@ Type 'q()' to quit R.
 
 Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
 - Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
-[Previously saved workspace restored]
-
 > # Geocode IP addresses
 > # Takes about 37.841 seconds to run
 > 
@@ -73,10 +71,12 @@ The following object is masked from ‘package:stats’:
 > # If file is not present, do not process.
 > 
 > if (file.exists(file.path(interwrk,"ssclogs.rds"))) {
-+   parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds"))
++   parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds")) %>%
++     filter(date >= from_date & date < until_date) 
 + } else {
 +   stop("ssclogs.rds not found in interwrk directory.  Please run 10_geocode_stata_step1.R first.")
 + }
+filter: removed 280,470 rows (2%), 17,430,111 rows remaining
 > 
 > # For those records that have already been mapped to a domain name, find the IP address
 > # This can take a VERY long time
@@ -113,7 +113,7 @@ The following object is masked from ‘package:stats’:
 ── Data Summary ────────────────────────
                            Values      
 Name                       geolocations
-Number of rows             17710581    
+Number of rows             17430111    
 Number of columns          3           
 _______________________                
 Column type frequency:                 
@@ -123,9 +123,9 @@ Group variables            None
 
 ── Variable type: character ────────────────────────────────────────────────────
   skim_variable  n_missing complete_rate min max empty n_unique whitespace
-1 continent_name   6775488         0.617   4  13     0        6          0
-2 country_code     6775913         0.617   2   2     0      175          0
-3 country_name     6775913         0.617   4  27     0      175          0
+1 continent_name   6720534         0.614   4  13     0        6          0
+2 country_code     6720959         0.614   2   2     0      175          0
+3 country_name     6720959         0.614   4  27     0      175          0
 > 
 > # Save the geolocated data as Rds file
 > 
@@ -134,4 +134,4 @@ Group variables            None
 > 
 > proc.time()
    user  system elapsed 
- 39.853   0.533  40.637 
+  35.61    0.63   36.65 

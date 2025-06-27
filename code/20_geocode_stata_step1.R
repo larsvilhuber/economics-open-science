@@ -43,7 +43,8 @@ parsed_data.df <- parsed_data %>%
     clientname = ifelse(!grepl("^\\d+\\.\\d+\\.\\d+\\.\\d+$", first_field), first_field, NA),
     # parse date into year
     date = as.POSIXct(date, format = "%d/%b/%Y:%H:%M:%S %z", tz = "UTC"),
-    year = as.integer(format(date, "%Y"))
+    year = as.integer(format(date, "%Y")),
+    month = as.integer(format(date, "%m"))
   ) %>%
   select(-first_field) %>%
   mutate(

@@ -12,8 +12,8 @@ library(patchwork)
 library(ggpattern)
 
 # Load regional stats
-stata_reg <- readRDS(file.path(interwrk, "stata_downloads_by_region_2024_nochina.rds"))
-r_reg <- readRDS(file.path(interwrk, "r_downloads_by_region_2024_nochina.rds"))
+stata_reg <- readRDS(file.path(interwrk, "stata_downloads_by_region_select_nochina.rds"))
+r_reg <- readRDS(file.path(interwrk, "r_downloads_by_region_select_nochina.rds"))
 
 # Combine and compute percent difference for regions
 region_compare <- full_join(
@@ -27,14 +27,14 @@ region_compare <- full_join(
 
 # Save as LaTeX and CSV
 print(xtable(region_compare, digits = 2, caption = "Regional Share of Downloads: Stata vs R", label = "tab:region_compare"),
-      file = file.path(outputs, "compare_region_stats_2024.tex"))
-write_csv(region_compare, file.path(outputs, "compare_region_stats_2024.csv"))
+      file = file.path(outputs, "compare_region_stats_select.tex"))
+write_csv(region_compare, file.path(outputs, "compare_region_stats_select.csv"))
 
 
 
 # Load North/South stats
-stata_ns <- readRDS(file.path(interwrk, "stata_downloads_by_global_2024_nochina.rds"))
-r_ns <- readRDS(file.path(interwrk, "r_downloads_by_global_2024_nochina.rds"))
+stata_ns <- readRDS(file.path(interwrk, "stata_downloads_by_global_select_nochina.rds"))
+r_ns <- readRDS(file.path(interwrk, "r_downloads_by_global_select_nochina.rds"))
 
 # Combine and compute percent difference for North/South
 ns_compare <- full_join(
@@ -48,8 +48,8 @@ ns_compare <- full_join(
 
 # Save as LaTeX and CSV
 print(xtable(ns_compare, digits = 2, caption = "North/South Share of Downloads: Stata vs R", label = "tab:ns_compare"),
-      file = file.path(outputs, "compare_ns_stats_2024.tex"))
-write_csv(ns_compare, file.path(outputs, "compare_ns_stats_2024.csv"))
+      file = file.path(outputs, "compare_ns_stats_select.tex"))
+write_csv(ns_compare, file.path(outputs, "compare_ns_stats_select.csv"))
 
 
 
@@ -107,7 +107,7 @@ region_diff_plot <- region_diff_plot_no_annot +
   annotate("text", x = region_max_pos, y = 0 + spacing_region, label = "More Stata downloads", hjust = 0, vjust = 0.5, size = 4, fontface = "italic", color = "white") +
   annotate("text", x = region_max_neg, y = 0 - spacing_region, label = "More R downloads", hjust = 1, vjust = 0.5, size = 4, fontface = "italic", color = "white")
   
-ggsave(file.path(outputs, "compare_region_diff_2024.png"), region_diff_plot, width = 10, height = 5, dpi = 300)
+ggsave(file.path(outputs, "compare_region_diff_select.png"), region_diff_plot, width = 10, height = 5, dpi = 300)
 
 
 
@@ -138,8 +138,8 @@ ns_diff_plot <- ggplot(ns_compare, aes(x = reorder(`North/South`, Diff), y = Dif
     plot.margin = margin(t = 30, r = 10, b = 10, l = 10)
   )
 
-ggsave(file.path(outputs, "compare_ns_diff_2024.png"), ns_diff_plot, width = 7, height = 3, dpi = 300)
-ggsave(file.path(outputs, "compare_region_diff_2024.png"), region_diff_plot, width = 10, height = 5, dpi = 300)
+ggsave(file.path(outputs, "compare_ns_diff_select.png"), ns_diff_plot, width = 7, height = 3, dpi = 300)
+ggsave(file.path(outputs, "compare_region_diff_select.png"), region_diff_plot, width = 10, height = 5, dpi = 300)
 
 ns_diff_plot_no_ticks <- ns_diff_plot + theme(
   axis.text.x = element_blank(),
@@ -149,15 +149,15 @@ ns_diff_plot_no_ticks <- ns_diff_plot + theme(
 # Combine the ns and region plots (no annotation on region plot)
 combined_plot <- ns_diff_plot_no_ticks / region_diff_plot_no_annot + 
     plot_layout(heights = c(1, 2))
-ggsave(file.path(outputs, "compare_combined_diff_2024.png"), combined_plot, 
+ggsave(file.path(outputs, "compare_combined_diff_select.png"), combined_plot, 
        width = 10, height = 8, dpi = 300)
 
 cat("\n=== SUMMARY ===\n")
 cat("\nFiles saved:\n")
-cat("- ", file.path(outputs, "compare_region_stats_2024.tex"), "\n")
-cat("- ", file.path(outputs, "compare_region_stats_2024.csv"), "\n")
-cat("- ", file.path(outputs, "compare_region_diff_2024.png"), "\n")
-cat("- ", file.path(outputs, "compare_ns_stats_2024.tex"), "\n")
-cat("- ", file.path(outputs, "compare_ns_stats_2024.csv"), "\n")
-cat("- ", file.path(outputs, "compare_ns_diff_2024.png"), "\n")
-cat("- ", file.path(outputs, "compare_combined_diff_2024.png"), "\n")
+cat("- ", file.path(outputs, "compare_region_stats_select.tex"), "\n")
+cat("- ", file.path(outputs, "compare_region_stats_select.csv"), "\n")
+cat("- ", file.path(outputs, "compare_region_diff_select.png"), "\n")
+cat("- ", file.path(outputs, "compare_ns_stats_select.tex"), "\n")
+cat("- ", file.path(outputs, "compare_ns_stats_select.csv"), "\n")
+cat("- ", file.path(outputs, "compare_ns_diff_select.png"), "\n")
+cat("- ", file.path(outputs, "compare_combined_diff_select.png"), "\n")

@@ -34,4 +34,9 @@ fi
 if [[ ! -z $DROPBOX_SECRET_BASE ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e DROPBOX_SECRET_BASE=$DROPBOX_SECRET_BASE" ; fi
 if [[ ! -z $DROPBOX_SECRET_RLKEY ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e DROPBOX_SECRET_RLKEY=$DROPBOX_SECRET_RLKEY" ; fi
 
+[[ -z $(which xdg-open 2>/dev/null) ]] || xdg-open http://localhost:8787
+# for OSX
+[[ -z $(which open 2>/dev/null) ]] ||   open http://localhost:8787
+
+
 docker run $DOCKEREXTRA -e DISABLE_AUTH=true -v "$WORKSPACE":/home/rstudio/${PWD##*/} --rm -p 8787:8787 $dockerrepo:$tag

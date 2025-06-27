@@ -19,9 +19,6 @@ Type 'q()' to quit R.
 
 Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
 - Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
-- The project is out-of-sync -- use `renv::status()` for details.
-[Previously saved workspace restored]
-
 > # Generate a world map of Stata downloads
 > # The map shows circles for each country, with the diameter defined by 
 > # count of downloads normalized by the average download for any country
@@ -107,7 +104,7 @@ The following object is masked from ‘package:stats’:
 +                                                          country_name)) %>%
 +     group_by(map_country) %>%
 +     summarise(download_count = n(), .groups = "drop")
-filter: removed 6,775,913 rows (38%), 10,934,668 rows remaining
+filter: removed 6,720,959 rows (39%), 10,709,152 rows remaining
 mutate: new variable 'map_country' (character) with 173 unique values and 0% NA
 group_by: one grouping variable (map_country)
 summarise: now 173 rows and 2 columns, ungrouped
@@ -128,7 +125,7 @@ distinct: no rows removed
 > # Normalize by median downloads
 > country_downloads <- country_downloads %>%
 +     mutate(normalized_downloads = download_count / median_downloads)
-mutate: new variable 'normalized_downloads' (double) with 166 unique values and 0% NA
+mutate: new variable 'normalized_downloads' (double) with 168 unique values and 0% NA
 > 
 > # Get world map data
 > world_map <- map_data("world")
@@ -225,4 +222,4 @@ Map generation complete. Output saved to /home/vilhuber/Workspace/Github/economi
 > 
 > proc.time()
    user  system elapsed 
- 22.098   0.460  22.844 
+ 10.406   0.417  11.087 

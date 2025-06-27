@@ -40,18 +40,18 @@ download_daily_log <- function(date_str) {
   })
 }
 
-# Generate all dates for 2024
-dates_2024 <- seq(as.Date("2024-01-01"), as.Date("2024-12-31"), by = "day")
-date_strings <- format(dates_2024, "%Y-%m-%d")
+# Generate all dates for select
+dates_select <- seq(as.Date(from_date), as.Date(until_date), by = "day")
+date_strings <- format(dates_select, "%Y-%m-%d")
 
-# Download all daily logs for 2024
-cat("Downloading CRAN logs for 2024...\n")
+# Download all daily logs for select
+cat("Downloading CRAN logs for select...\n")
 downloaded_files <- purrr::map(date_strings, download_daily_log)
 downloaded_files <- downloaded_files[!sapply(downloaded_files, is.null)]
 
 cat("Downloaded", length(downloaded_files), "files\n")
 
 # Save the list of downloaded files in interwrk as Rds
-saveRDS(downloaded_files, file.path(interwrk, "cran_logs", "downloaded_files_2024.rds"))
+saveRDS(downloaded_files, file.path(interwrk, "cran_logs", "downloaded_files_select.rds"))
 
 
