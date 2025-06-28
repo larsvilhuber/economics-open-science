@@ -1,4 +1,4 @@
-repo=verse
+repo=geospatial
 space=rocker
 dockerrepo=$(echo $space/$repo | tr [A-Z] [a-z] | sed 's/-internal//')
 case $USER in
@@ -10,4 +10,4 @@ case $USER in
   WORKSPACE=/workspaces
   ;;
 esac
-tag=4.5.0
+tag=4.5.1

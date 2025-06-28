@@ -115,7 +115,7 @@ sanitize_tex <- function(str) {
 
 # Requires: readxl, xtable
 # Function to create LaTeX table from Excel
-excel_to_latex <- function(excel_file, 
+excel_to_latex <- function(input, 
                           output_file = "table.tex",
                           caption = "Table Caption",
                           label = "tab:mytable",    # New parameter
@@ -124,10 +124,18 @@ excel_to_latex <- function(excel_file,
                           align = NULL,
                           footnotes = NULL,
                           include_rownames = FALSE) {
-    
-    # Read Excel file
-    # excel_file=file.path(datadir,"restrictions.xlsx")
-    data <- read_excel(excel_file, sheet = sheet)
+    # if string, read as a file path, otherwise assume it's a data object
+    if (is.character(input)) {
+        # Check if file exists
+        if (!file.exists(input)) {
+            stop("File does not exist: ", input)
+        } else {
+            data <- read_excel(input, sheet = sheet)
+        }
+    } else {
+        # If input is not a string, assume it's a data frame
+        data <- input
+    }
 
     # Format numbers and sanitize text
     data <- as.data.frame(lapply(data, function(x) {
