@@ -1,0 +1,434 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-suse-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Using binary PPM for Linux distribution: opensuse-leap (version 15.6)
+- Project '~/Workspace/Github/economics-open-science' loaded. [renv 1.1.1]
+> # R Download Statistics by Country for select
+> # This script downloads CRAN logs for R downloads in select,
+> # aggregates by country, creates maps, and computes regional statistics
+> 
+> source(file.path(rprojroot::find_root(rprojroot::has_file("config.R")),"config.R"),echo=FALSE)
+Files already there, not re-downloading
+> 
+> # Load required libraries
+> library(tidyverse)
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+> library(countrycode)
+> library(maps)
+
+Attaching package: ‘maps’
+
+The following object is masked from ‘package:purrr’:
+
+    map
+
+> library(ggplot2)
+> library(viridis)
+Loading required package: viridisLite
+
+Attaching package: ‘viridis’
+
+The following object is masked from ‘package:maps’:
+
+    unemp
+
+> library(scales)
+
+Attaching package: ‘scales’
+
+The following object is masked from ‘package:viridis’:
+
+    viridis_pal
+
+The following object is masked from ‘package:purrr’:
+
+    discard
+
+The following object is masked from ‘package:readr’:
+
+    col_factor
+
+> library(readr)
+> library(lubridate)
+> library(xtable)
+> library(tidylog)
+
+Attaching package: ‘tidylog’
+
+The following objects are masked from ‘package:dplyr’:
+
+    add_count, add_tally, anti_join, count, distinct, distinct_all,
+    distinct_at, distinct_if, filter, filter_all, filter_at, filter_if,
+    full_join, group_by, group_by_all, group_by_at, group_by_if,
+    inner_join, left_join, mutate, mutate_all, mutate_at, mutate_if,
+    relocate, rename, rename_all, rename_at, rename_if, rename_with,
+    right_join, sample_frac, sample_n, select, select_all, select_at,
+    select_if, semi_join, slice, slice_head, slice_max, slice_min,
+    slice_sample, slice_tail, summarise, summarise_all, summarise_at,
+    summarise_if, summarize, summarize_all, summarize_at, summarize_if,
+    tally, top_frac, top_n, transmute, transmute_all, transmute_at,
+    transmute_if, ungroup
+
+The following objects are masked from ‘package:tidyr’:
+
+    drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
+    separate_wider_delim, separate_wider_position,
+    separate_wider_regex, spread, uncount
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+> 
+> # Load data from disk
+> 
+> 
+> all_downloads <- readRDS(file.path(interwrk, "r_downloads_select_combined.rds"))
+> names(all_downloads)
+[1] "country"   "downloads" "date"      "year"      "month"     "day"      
+> 
+> 
+> # Aggregate by country
+> country_stats <- all_downloads %>%
++   group_by(country) %>%
++   summarise(
++     downloads = sum(downloads, na.rm = TRUE),
++     .groups = "drop"
++   ) %>%
++   arrange(desc(downloads)) %>%
++ # Add country names and region information
++   mutate(
++     country_name = countrycode(country, "iso2c", "country.name"),
++     continent = countrycode(country, "iso2c", "continent"),
++     region = countrycode(country, "iso2c", "region")
++   ) %>%
++   filter(!is.na(country_name))  %>% # Remove invalid country codes
++   mutate(
++     custom_region = case_when(
++       continent == "Europe" ~ "Europe",
++       country == "CN" ~ "China",
++       continent == "Asia" ~ "Rest of Asia",
++       continent == "Africa" ~ "Africa",
++       region == "Latin America & Caribbean" ~ "Latin America & Caribbean",
++       region == "North America" ~ "North America",
++       country == "AU" ~ "Australia",
++       continent == "Oceania" ~ "Rest of Oceania",
++       TRUE ~ "Other"
++     )
++   )
+group_by: one grouping variable (country)
+summarise: now 213 rows and 2 columns, ungrouped
+mutate: new variable 'country_name' (character) with 209 unique values and 2% NA
+        new variable 'continent' (character) with 6 unique values and 2% NA
+        new variable 'region' (character) with 8 unique values and 3% NA
+filter: removed 5 rows (2%), 208 rows remaining
+mutate: new variable 'custom_region' (character) with 9 unique values and 0% NA
+Warning message:
+There were 3 warnings in `.fun()`.
+The first warning was:
+ℹ In argument: `country_name = countrycode(country, "iso2c", "country.name")`.
+Caused by warning:
+! Some values were not matched unambiguously: A1, A2, AP, EU
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings. 
+> 
+> # Print top 20 countries
+> print(paste0("\nTop 20 countries by R downloads between ",from_date, " and ", until_date, ":\n"))
+[1] "\nTop 20 countries by R downloads between 2025-02-01 and 2025-03-01:\n"
+> 
+> print(country_stats %>% head(20) %>% select(country, country_name, downloads, continent, region, custom_region ))
+select: columns reordered (country, country_name, downloads, continent, region, …)
+# A tibble: 20 × 6
+   country country_name        downloads continent region          custom_region
+   <chr>   <chr>                   <int> <chr>     <chr>           <chr>        
+ 1 US      United States          430525 Americas  North America   North America
+ 2 CN      China                   18641 Asia      East Asia & Pa… China        
+ 3 IN      India                   16080 Asia      South Asia      Rest of Asia 
+ 4 JP      Japan                   15692 Asia      East Asia & Pa… Rest of Asia 
+ 5 GB      United Kingdom          14336 Europe    Europe & Centr… Europe       
+ 6 ES      Spain                    9447 Europe    Europe & Centr… Europe       
+ 7 ID      Indonesia                8594 Asia      East Asia & Pa… Rest of Asia 
+ 8 AU      Australia                8166 Oceania   East Asia & Pa… Australia    
+ 9 CA      Canada                   8031 Americas  North America   North America
+10 DE      Germany                  7348 Europe    Europe & Centr… Europe       
+11 FR      France                   6727 Europe    Europe & Centr… Europe       
+12 CH      Switzerland              6649 Europe    Europe & Centr… Europe       
+13 CO      Colombia                 6508 Americas  Latin America … Latin Americ…
+14 MX      Mexico                   6412 Americas  Latin America … Latin Americ…
+15 NL      Netherlands              5883 Europe    Europe & Centr… Europe       
+16 HK      Hong Kong SAR China      5602 Asia      East Asia & Pa… Rest of Asia 
+17 IT      Italy                    5451 Europe    Europe & Centr… Europe       
+18 BR      Brazil                   4357 Americas  Latin America … Latin Americ…
+19 ZA      South Africa             3978 Africa    Sub-Saharan Af… Africa       
+20 RU      Russia                   3786 Europe    Europe & Centr… Europe       
+> 
+> # Function to generate and save all statistics and figures
+> generate_stats_and_figures <- function(country_stats, suffix = "") {
++   # Regional statistics
++   regional_stats <- country_stats %>%
++     group_by(custom_region) %>%
++     summarise(
++       countries = n(),
++       `Regional Downloads` = sum(downloads),
++       .groups = "drop"
++     ) %>%
++     mutate(Fraction = round(`Regional Downloads`/sum(`Regional Downloads`)*100,2)) %>%
++     arrange(desc(`Regional Downloads`))
++ 
++   cat("\nRegional statistics for R downloads between selected dates", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
++   print(regional_stats)
++   # Save Latex Table to file using xtable
++   print(xtable(regional_stats, 
++          include.rownames = FALSE,
++          caption = paste0("Regional Statistics for R Downloads", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
++          label = paste0("tab:r_downloads_regional_stats_select", suffix),
++          table.placement = "H",
++          size = "small",
++          booktabs = TRUE),
++         file = file.path(outputs, paste0("r_downloads_regional_stats_select", suffix, ".tex")))
++ 
++   # Collapse further to Global South/North
++   global_stats <- regional_stats %>%
++      mutate(`North/South` = case_when(
++        custom_region == "Europe" ~ "Global North",
++        custom_region == "China" ~ "Global North",
++        custom_region == "Rest of Asia" ~ "Global South",
++        custom_region == "Africa" ~ "Global South",
++        custom_region == "Latin America & Caribbean" ~ "Global South",
++        custom_region == "North America" ~ "Global North",
++        custom_region == "Australia" ~ "Global North",
++        custom_region == "Rest of Oceania" ~ "Global South",
++          TRUE ~ "Other"
++      )) %>%
++     group_by(`North/South`) %>%
++     summarize(
++       Countries = sum(countries),
++       Downloads = sum(`Regional Downloads`),
++     .groups = "drop"
++     ) %>%
++     mutate(Fraction = round(Downloads/sum(Downloads)*100,2)) %>%
++     arrange(desc(Downloads))
++ 
++   cat("\nNorth/South statistics for R downloads in select", ifelse(suffix != "", paste0(" (", suffix, ")"), ""), ":\n")
++   print(global_stats)
++   # Save Latex Table to file using xtable
++   print(xtable(global_stats, 
++          include.rownames = FALSE,
++          caption = paste0("Regional Statistics for R Downloads", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
++          label = paste0("tab:r_downloads_global_stats_select", suffix),
++          table.placement = "H",
++          size = "small",
++          booktabs = TRUE),
++         file = file.path(outputs, paste0("r_downloads_global_stats_select", suffix, ".tex")))
++ 
++   # Save summary statistics
++   write_csv(country_stats, file.path(interwrk, paste0("r_downloads_by_country_select", suffix, ".csv")))
++   write_csv(regional_stats, file.path(interwrk, paste0("r_downloads_by_region_select", suffix, ".csv")))
++   write_csv(global_stats, file.path(interwrk, paste0("r_downloads_by_global_select", suffix, ".csv")))
++   saveRDS(country_stats, file.path(interwrk, paste0("r_downloads_by_country_select", suffix, ".rds")))
++   saveRDS(regional_stats, file.path(interwrk, paste0("r_downloads_by_region_select", suffix, ".rds")))
++   saveRDS(global_stats, file.path(interwrk, paste0("r_downloads_by_global_select", suffix, ".rds")))
++ 
++   # Create world map visualization
++   world_map <- map_data("world")
++   map_data <- country_stats %>%
++     mutate(region = country_name,
++            region = case_when(
++              country_name == "United States" ~ "USA",
++              country_name == "United Kingdom" ~ "UK",
++              country_name == "Czechia" ~ "Czech Republic",
++              country_name == "Bosnia & Herzegovina" ~ "Bosnia and Herzegovina",
++              country_name == "Congo - Kinshasa" ~ "Democratic Republic of the Congo",
++              country_name == "Congo - Brazzaville" ~ "Republic of Congo",
++              country_name == "Myanmar (Burma)" ~ "Myanmar",
++              country_name == "Côte d’Ivoire" ~ "Ivory Coast",
++              country_name == "Eswatini" ~ "Swaziland",
++              TRUE ~ region
++            )) %>%
++     select(region, downloads)
++   world_map_data <- world_map %>%
++     filter(region != "Antarctica") %>%
++     left_join(map_data, by = "region")
++   world_plot <- ggplot(world_map_data, aes(x = long, y = lat, group = group)) +
++     geom_polygon(aes(fill = downloads), color = "gray70", size = 0.3) +
++     scale_fill_viridis_c(
++       name = "R Downloads",
++       trans = "log10",
++       breaks = scales::log_breaks(n = 5),
++       labels = scales::label_number(scale_cut = scales::cut_si("")),
++       na.value = "grey90",
++       direction = -1
++     ) +
++     labs(
++       title = paste0("R Downloads by Country", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
++       subtitle = "Data from CRAN download logs"
++     ) +
++     theme_minimal() +
++     theme(
++       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
++       plot.subtitle = element_text(hjust = 0.5, size = 12),
++       plot.caption = element_text(hjust = 0.5, size = 10),
++       legend.position = "bottom",
++       panel.grid = element_blank(),
++       axis.title = element_blank(),
++       axis.text = element_blank(),
++       axis.ticks = element_blank()
++     ) +
++     coord_fixed(1.3)
++   ggsave(file.path(outputs, paste0("r_downloads_world_map_select", suffix, ".png")), world_plot, 
++          width = 12, height = 8, dpi = 300, bg = "white")
++ 
++   # Create regional bar chart
++   regional_plot <- ggplot(regional_stats, aes(x = reorder(custom_region, `Regional Downloads`), y = `Regional Downloads`)) +
++     geom_col(fill = "steelblue", alpha = 0.8) +
++     coord_flip() +
++     scale_y_continuous(labels = scales::comma_format()) +
++     labs(
++       title = paste0("R Downloads by Region", ifelse(suffix != "", paste0(" (", suffix, ")"), "")),
++       x = "Region",
++       y = "Total Downloads"
++     ) +
++     theme_minimal() +
++     theme(
++       plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
++       axis.text = element_text(size = 11),
++       axis.title = element_text(size = 12)
++     )
++   ggsave(file.path(outputs, paste0("r_downloads_regional_select", suffix, ".png")), regional_plot, 
++          width = 10, height = 6, dpi = 300, bg = "white")
++ }
+> 
+> # First call: with all data
+> generate_stats_and_figures(country_stats, suffix = "")
+group_by: one grouping variable (custom_region)
+summarise: now 9 rows and 3 columns, ungrouped
+mutate: new variable 'Fraction' (double) with 9 unique values and 0% NA
+
+Regional statistics for R downloads between selected dates  :
+# A tibble: 9 × 4
+  custom_region             countries `Regional Downloads` Fraction
+  <chr>                         <int>                <int>    <dbl>
+1 North America                     3               438562    66.6 
+2 Europe                           50                83367    12.7 
+3 Rest of Asia                     48                72724    11.0 
+4 Latin America & Caribbean        42                25316     3.85
+5 China                             1                18641     2.83
+6 Africa                           51                10124     1.54
+7 Australia                         1                 8166     1.24
+8 Rest of Oceania                  11                 1406     0.21
+9 Other                             1                    9     0   
+mutate: new variable 'North/South' (character) with 3 unique values and 0% NA
+group_by: one grouping variable (North/South)
+summarize: now 3 rows and 3 columns, ungrouped
+mutate: new variable 'Fraction' (double) with 3 unique values and 0% NA
+
+North/South statistics for R downloads in select  :
+# A tibble: 3 × 4
+  `North/South` Countries Downloads Fraction
+  <chr>             <int>     <int>    <dbl>
+1 Global North         55    548736     83.4
+2 Global South        152    109570     16.6
+3 Other                 1         9      0  
+mutate: changed 208 values (100%) of 'region' (one fewer NA)
+select: dropped 4 variables (country, country_name, continent, custom_region)
+filter: removed 4,658 rows (5%), 94,680 rows remaining
+left_join: added one column (downloads)
+           > rows only in x          3,293
+           > rows only in map_data (    15)
+           > matched rows           91,387
+           >                       ========
+           > rows total             94,680
+Warning message:
+Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead. 
+> 
+> # Second call: remove China
+> generate_stats_and_figures(country_stats %>% filter(custom_region != "China"), suffix = "_nochina")
+filter: removed one row (<1%), 207 rows remaining
+group_by: one grouping variable (custom_region)
+summarise: now 8 rows and 3 columns, ungrouped
+mutate: new variable 'Fraction' (double) with 8 unique values and 0% NA
+
+Regional statistics for R downloads between selected dates  (_nochina) :
+# A tibble: 8 × 4
+  custom_region             countries `Regional Downloads` Fraction
+  <chr>                         <int>                <int>    <dbl>
+1 North America                     3               438562    68.6 
+2 Europe                           50                83367    13.0 
+3 Rest of Asia                     48                72724    11.4 
+4 Latin America & Caribbean        42                25316     3.96
+5 Africa                           51                10124     1.58
+6 Australia                         1                 8166     1.28
+7 Rest of Oceania                  11                 1406     0.22
+8 Other                             1                    9     0   
+mutate: new variable 'North/South' (character) with 3 unique values and 0% NA
+group_by: one grouping variable (North/South)
+summarize: now 3 rows and 3 columns, ungrouped
+mutate: new variable 'Fraction' (double) with 3 unique values and 0% NA
+
+North/South statistics for R downloads in select  (_nochina) :
+# A tibble: 3 × 4
+  `North/South` Countries Downloads Fraction
+  <chr>             <int>     <int>    <dbl>
+1 Global North         54    530095     82.9
+2 Global South        152    109570     17.1
+3 Other                 1         9      0  
+mutate: changed 207 values (100%) of 'region' (one fewer NA)
+select: dropped 4 variables (country, country_name, continent, custom_region)
+filter: removed 4,658 rows (5%), 94,680 rows remaining
+left_join: added one column (downloads)
+           > rows only in x          6,003
+           > rows only in map_data (    15)
+           > matched rows           88,677
+           >                       ========
+           > rows total             94,680
+> 
+> 
+> # Print final summary
+> cat("\n=== SUMMARY ===\n")
+
+=== SUMMARY ===
+> cat("\nFiles saved:\n")
+
+Files saved:
+> cat("- ", file.path(outputs, "r_downloads_world_map_select.png"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/outputs/r_downloads_world_map_select.png 
+> cat("- ", file.path(outputs, "r_downloads_regional_select.png"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/outputs/r_downloads_regional_select.png 
+> cat("- ", file.path(outputs, "r_downloads_regional_stats_select.tex"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/outputs/r_downloads_regional_stats_select.tex 
+> cat("- ", file.path(outputs, "r_downloads_global_stats_select.tex"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/outputs/r_downloads_global_stats_select.tex 
+> cat("- ", file.path(interwrk, "r_downloads_by_country_select.csv"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/data/interwrk/r_downloads_by_country_select.csv 
+> cat("- ", file.path(interwrk, "r_downloads_by_region_select.csv"), "\n")
+-  /home/vilhuber/Workspace/Github/economics-open-science/data/interwrk/r_downloads_by_region_select.csv 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  3.580   0.199   3.997 
