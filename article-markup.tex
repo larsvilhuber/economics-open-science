@@ -1,0 +1,480 @@
+%!TeX TXS-program:bibliography = txs:///biber
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL ../economics-open-science-old/article.tex                            Sun Jul 13 20:21:12 2025
+%DIF ADD /home/vilhuber/Workspace/Github/economics-open-science/article.tex   Wed Jul 16 22:24:05 2025
+\documentclass{article}
+\input{preamble}
+
+
+% bibliography files
+
+\addbibresource{from-zotero.bib}
+\addbibresource{references.bib} % generated dynamically by Overleaf
+
+
+\newtoggle{anonymous}
+\newtoggle{draft}
+%\settoggle{anonymous}{true}
+\settoggle{anonymous}{false}
+\settoggle{draft}{false}
+
+\iftoggle{anonymous}{\author{Anonymous}}{
+\author[1]{Lars Vilhuber}
+\affil[1]{Cornell University}
+}
+\title{Reproducibility and Open Science in Economics}
+
+% some numbers
+\input{outputs/economicsgrads}
+\input{manual-data}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}} %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF COLORLISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+  moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+  moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+	language=DIFcode, %DIF PREAMBLE
+	basicstyle=\ttfamily, %DIF PREAMBLE
+	columns=fullflexible, %DIF PREAMBLE
+	keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+\lstset{extendedchars=\true,inputencoding=utf8}
+
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+
+\maketitle
+\input{abstract}
+\newpage
+\section{Introduction}
+
+
+As a graduate student in economics at Université de Montréal, reading the economics literature was  easy. While the main university library had all the relevant subscriptions, our department librarian, Fethy Mili, would populate the library of the economics department with multi-hued rows of working papers. Mili was also one of the key creators of what was initially known as \ac{WoPEc} and BibEc (for printed working papers) \citep{krichel_wopec_1997,cruz_cataloging_2000,krichel_economics_2009}, populating the latter since 1993 \citep[][p. 450]{batizlazo_brief_2012}. The overall network, known as \ac{RePEc}, was born contemporaneously with the more widely known arXiv \citep{ginsparg_it_2011} and the more centralized \ac{SSRN} \citep{noauthor_social_2025}. While electronic working papers were mostly free in those days (there was no way to pay for them), Mili's work consisted of sending out postage-paid envelopes to all of the various economics departments that were publishing the working papers, and then cataloging the incoming printed materials electronically, for public consumption. In the end, information about the existence of the working papers was freely available, but access to (printed) working papers still required a small fee to cover the cost of shipping.
+
+I also experienced the openness of code sharing, with code samples by prominent authors being available to graduate students, though discovery was much more difficult at the time.  The \ac{SSC}, primarily but not exclusively for STATA packages, appeared in 1998 \citep{cox_conversation_2010,cox_stata_2022}, providing a convenient and open way to catalog, distribute, and provide open access to additional Stata functionality.\footnote{This kind of functionality was inspired by similar functionality  available for other software, like CPAN for Perl and CRAN for R, but not for most statistical software used by economists.}
+
+Data sharing was harder, of course, with lots of floppies\footnote{\url{https://en.wikipedia.org/wiki/Floppy_disk}} being exchanged, but also the use of departmental FTP\footnote{\url{https://en.wikipedia.org/wiki/File_Transfer_Protocol}} servers (David Card's collection of data, or the NBER's), or even the replication archive of the Journal of Applied Econometrics, instantiated at Queens University in 1994 under the long-running guidance of James McKinnon.\footnote{The JAE archive was migrated to the ZBW's archives in 2022 and can now be found at \url{https://journaldata.zbw.eu/journals/jae}, but legacy files are still visible as of 2024 at \url{http://qed.econ.queensu.ca/jae/legacy.html}.} \DIFdelbegin \DIFdel{. }\DIFdelend On the other hand, administrative data, such as the French administrative data used in AKM required travel to Paris, sitting in a room without windows at an assigned time, and typing the code into the system that had access.\DIFaddbegin \footnote{\DIFaddend For non-local \DIFdelbegin \DIFdel{authors, this meant traveling for extended time periods as a Ph.D. student (Margolis) or spending a sabbatical in Paris (Abowd), neither of which is a cheap endeavor.}%DIFDELCMD < \footnote{%%%
+\DIFdelend \DIFaddbegin \DIFadd{authors, this meant traveling for extended time periods as a Ph.D. student (Margolis) or spending a sabbatical in Paris (Abowd), neither of which is a cheap endeavor. }\DIFaddend Both were, and still are, enjoyable, though.}
+
+When data were available, computing was straightforward: You logged on to the university's big computer, running some variant of Unix, and used whatever software was available. Software licenses were paid by the university, as was the computing hardware itself. Laptops powerful (and light!) enough to do actual work were only then emerging. 
+
+In 2025, there are concerned discussions about the cost of publishing academic articles, of accessing those same academic articles, of the ever increasing use of administrative data \citep{card_expanding_2010,card_expanding_2010-1,chetty_time_2012,einav_economics_2014} that would appear to be hidden behind insurmountable access restrictions,  the use of ``proprietary software'', and the increasing use of large computing infrastructure, all of which would seem to be restricting access to the basic elements of conducting research in economics. In this article, I will draw on my experience working on many aspects of increasing access to data and materials of all kinds, in particular my recent experience as the inaugural data editor of the \ac{AEA} \citep{10.1257/pandp.108.745}, to paint a picture of economics in an era of open science. How different are matters in practice now compared to that early view of the field of economics, back when I was a graduate student?
+%
+In this article, I will discuss the current state of open science in economics as facilitated by and related to reproducibility. I will touch on the tension between accessibility, sharing, and preservation, and some of the approaches that are being implemented, sometimes tentatively, in economics, and sometimes elsewhere. My view will be biased - I am an active participant in this space, primarily via my current appointment as data (and reproducibility) editor of the American Economic Association, but also as a past participant in networks that have and foster access, and a researcher and editor in the space of disclosure limitation.
+
+The guiding theme will be the \textbf{accessibility} of the key ingredients for scholarship: manuscripts (or more generally, documents), data, software, and the necessary technology to combine the latter two in order to produce knowledge as published in manuscripts. My focus will be on the latter three, though I will provide some observations about scholarly publishing in the last section.
+In the conclusion, I will identify a few areas where there is (continued) movement towards greater openness. 
+
+
+% \begin{itemize}
+% \item open data: issues of data access, who can access, where to access, cost
+% \item open tools: is proprietary software a problem? what does the economics community dowell, what does it not do well? Stata is great, but costs money
+% \item persistence: while there are many solutions for relatively openly available data, what needs to be done for more restricted data (bring example from Swedish data archive, Goncalves case)
+% \item collaborative methods: long history of sharing working papers, rarely any issue with sharing code. Possible coding errors may inhibit stronger" standing on others shoulders
+% \end{itemize}
+
+\section{Concepts}
+
+In order to write about ``Open Science,'' a definition is needed. Open science is a surprisingly difficult term to define precisely\DIFaddbegin \DIFadd{, and multiple overlapping definition are commonly referenced}\DIFaddend . 
+%
+\citet{unesco_understanding_2022} sees four components to open \textbf{science}: \textit{open   scientific   knowledge }(publications, data, code, and teaching materials ``openly    available, accessible and reusable for everyone''),     open     science     \textit{infrastructures} (which encompasses both physical infrastructure such as instruments and laboratories, as well as virtual components such as open access publication platforms),     science     \textit{communication} (knowledge translation),  and broad \textit{engagement} beyond the boundaries of the academy. It also recognizes the limitations of such access in a caveat: 
+
+\begin{quote}
+
+...  human rights, security, personal privacy, ... In such  cases,  it  may  still  be  possible  to  share  the  existence  of  such  information or share it among certain users who meet defined access criteria.
+
+\end{quote}
+
+\DIFaddbegin \noindent \DIFaddend The Open Knowledge Foundation \parencite[OKF]{open_knowledge_foundation_defining_2024} defines ``open'' as (my emphasis)
+
+\begin{quote}
+
+    ... anyone can freely access, use, modify, and share for any purpose \textit{(subject, at most, to requirements that preserve provenance and openness)}.
+
+\end{quote}
+
+\DIFaddbegin \noindent \DIFaddend Less broadly, \citet{vicente-saez_open_2018} identify a consensus that defines open science as ``transparent and accessible knowledge that is shared and developed through collaborative networks.''
+%DIF < 
+\DIFaddbegin 
+
+\DIFaddend In this article, I will focus on the what \cite{unesco_understanding_2022} calls open science ``knowledge'' and will briefly discuss ``infrastructures.'' I will highlight how some elements have been quite widespread in economics for some time. I will try to identify limits to fully open accessibility, some of which are intrinsic to the nature of the research conducted in economics, and describe how widespread such limitations may be. In particular, I will highlight how those access restrictions are not, as many think, an impediment to \textbf{open} science, in the sense that aforementioned ``collaborative networks'' can still access these resources. 
+
+
+A key ambiguity will arise in how big such networks need to be in order to be considered ``open.'' \DIFdelbegin \DIFdel{Clearly, $n=2$ is not considered a network}\DIFdelend \DIFaddbegin \DIFadd{Consider the realized size of several relevant networks in economics}\DIFaddend . The \ac{NBER} defines its affiliated scholars as a network: $n=1804$ as of January 2025, primarily in North America \citep{national_bureau_of_economic_research_affiliated_2025}. However, in \nberyear{}, a total of \nberauthorsunique{} authors published \nberpapers{} NBER working papers. J-PAL has approximately $n=1725$ affiliates at 120 universities on all populated continents \citep{abdul_latif_jameel_poverty_action_lab_affiliated_2025}. Between 2001 and June 2024, there had been $n=2023$ researchers on projects that used confidential U.S. Census Bureau in the \ac{FSRDC} \citep{us_census_bureau_uscensusbureaufsrdc-external-census-projects_2024}. In an average year (2013-2023), $n=\economicsgrads{}$ students graduate from a U.S. university with a Ph.D. in economics \citep[Table 1-5]{national_science_foundation_doctorate_2024}. In the approximately 30 years since inception of \ac{RePEc}, $n=526$ authors from 52 institutions in \textbf{Norway} have published a paper listed on \ac{RePEc} (presumably in economics) \citep{ideasrepec_within_2025}. All of these are measured across different spatio-temporal dimensions. Are they large? Context and purpose matter. Some may intersect. How many U.S. graduate students in the past 10 years have published an NBER working paper and are now at a Norwegian institution? %DIF > 
+%DIF >  new
+\DIFaddbegin \DIFadd{It is harder to measure the actual key criterion: How many people can potentially enter the network, become part of it, or, as will be the key use of this concept later, how many people can potentially access data of certain types, accessible via some sort of network. The actual size, relative to the number of potential entrants, is only a proxy for that, and often, a detailed analysis of entry criteria is necessary. For instance, what does it take to enter the network of research data centers (in the US, in France, in Canada, etc.) in order to be able to access the same data as others.  Finally, it may be relevant to measure how diverse these networks are. This matters for the ability of insiders of a certain network to criticize each other. For this, size is not a good measure --- even $n=2$ may be sufficient. 
+}\DIFaddend 
+
+Journals play a key role in this space, and will be an important background to my discussion and experiences, possibly also my biases. Most top economics journals have a data (and possibly code) availability policy.\footnote{For a review of the history of data and code availability policies in economics, see \citet{vlaeminck_dawning_2021}.} The AEA's policy was first implemented in 2005 \citep{bernanke_editorial_2004,american_economic_association_data_2005}. While the focus of early availability policies was on the data, the code often came along for the ride, albeit not always in its most complete form. I am the \ac{AEA}'s inaugural data editor, appointed in 2018 \citep{10.1257/pandp.108.745}. The AEA implemented a new policy in 2019 \citep{AEA-announcement-July-2019,AEA-announcement-July-2019}. Many other economics journals appointed data editors around that time, and  multiple journals coordinated on a common policy core called  \ac{DCAS} \citep{koren_data_2022}, and revised their policies to align with \ac{DCAS}, see \citet{american_economic_association_data_2024} for the AEA.\footnote{These initiatives are not restricted to economics, of course. Political science \citep{noauthor_data_2014,jacoby_american_2015,basile_research_2023}, sociology \citep{sociological_science_manuscript_2018,weeden_crisis_2023}, and general initiatives like the Transparency and Openness Promotion (TOP) guidelines \citep{nosek_promoting_2015}.} A key part of these newer policies was increased pre-publication monitoring of the content of replication packages \citep{10.1257/pandp.108.745,ChristianInt.J.Digit.Curation2018}.
+
+
+One way to start to move away from a binary perspective of access is to consider \textbf{time} as summary metric that captures what is needed in order to access generic resources, whether data, manuscripts, or computing resources. Time might be needed to write an application to access data, or time might be needed in order to obtain access to large-scale computing resources. Time might be needed in order to obtain grant funding that allows to purchase such resources. I choose time, rather than money, as the metric, since it might appear to be slightly more egalitarian, given that much of science has (theoretical) access to subsidies and grants. In the other dimension,  the number of people who have some probability of accessing the resource (the \textbf{size of the network}) can be taken as an approximate measure of openness\DIFaddbegin \DIFadd{, regardless of how interesting or valuable they might consider the data to be}\DIFaddend . Figure~\ref{fig:nxt}, taken from \citet{vilhuber_reproducibility_2023}, serves to illustrate this idea, for access to data, with various institutions that facilitate that access mapped out into the space of time vs. size of network. I will return to this throughout the discussion.
+
+\input{figure1}
+
+\section{Data Access}
+\label{sec:data_access}
+
+One subcomponent of open science, and locus of much attention throughout the literature in the social sciences, are ``open data.'' This in principle easy - why should the data used in research not be open? However, the various caveats that policies and principles include are important to recognize. \DIFdelbegin %DIFDELCMD < \parencite{open_knowledge_foundation_defining_2024} %%%
+\DIFdelend \DIFaddbegin \parencite[OKF]{open_knowledge_foundation_defining_2024} \DIFaddend mentions ``requirements that preserve provenance and openness,'' which does not take into account privacy. \citet{unesco_understanding_2022} does note  ``human rights, security, personal privacy.'' On the other hand, even much data that is available to almost anybody on the Internet may not actually be ``open.''  Consider the S\&P~500, viewed in newspaper and many websites \parencite[e.g.][]{sp_dow_jones_indices_llc_sp_2025}, is not ``open data'' because it does not allow for free re-use. OKF defines 
+``open data'' as requiring machine readability, absence of licensing charges, and free re-use, but does not mandate availability via download on the internet, absence of all fees, nor absence of any technical measures, such as a requirement to register and agree to abide by these rules \citep{open_knowledge_foundation_defining_2024}. 
+
+I will discuss two sub-areas within this space: Secondary data use, and primary data generation. Much of economic research uses data collected by others, such as survey organizations and national statistical offices, but also private company data and various administrative data sources \citep[``organic data'', ][]{groves_designed_2011,groves_three_2011}. Primary data generation is more frequent in behavioral and development economics. 
+
+\paragraph{Secondary data:} The data produced by the United States government are in the public domain (i.e., without any restrictions on usage or attribution), which makes it ``open'' in the above sense \citep[Copyright Act of 1976, ][]{wikipedia_copyright_2025}. Many countries have switched their government data to default to open data \parencite{statistics_canada_statistics_2012,uk_government_open_2014}. However, many well known ``public-use'' data are not always ``open'': IPUMS has a redistribution restriction (encapsulated in ``Terms of Use'', not a license), and some geographic data by international statistical offices remain under more stringent licensing requirements in other countries (e.g., United Kingdom).
+
+Many well-known survey organizations impose redistribution and usage restrictions that are not consistent with the \DIFdelbegin \DIFdel{OKD }\DIFdelend \DIFaddbegin \DIFadd{OKF }\DIFaddend definition. Many such redistribution restrictions apply to datasets with more detailed personal information collected through surveys, and are meant to ensure continued compliance with ethical rules of behavior, often with informed consent agreements by survey participants and local privacy laws. Notable examples include  PSID \parencite{institute_for_social_research_panel_2024}, World Value Survey \parencite{haerpfer_world_2024}, \ac{DHS} Program \parencite{dhs_program_demographic_2024}, German Socio-Economic Panel \parencite{goebel_german_2019,goebel_socio-economic_2024}, all of which have broad (cost-free) usage, conditional on registration and compliance with usage restrictions.\footnote{I come back to the case of the \ac{DHS} Program in Conclusion.} Table~\ref{tab:restrictions} shows a few examples. 
+
+\input{outputs/table_restrictions}
+
+The steps needed to obtain access range from click-through agreements to acknowledge compliance with CC-BY licenses (consistent with open access definitions) to the need to write a paragraph about the purpose on how the data is to be used (maybe consistent), to various commitments to not redistribute the data, all while being cost-free. The first three rows in Table~\ref{tab:restrictions} apply some variant of the latter: While anybody can obtain access, the restriction on redistribution is not consistent with definitions of open access. Yet there are no impediments to actually using the data in research. 
+
+The last three rows of  Table~\ref{tab:restrictions}, however, go further. Researchers using SOEP data must satisfy certain geographical requirements, such as presence of the researcher in the countries covered by \ac{GDPR}, otherwise they can only access a modified version of the data. Similar restrictions apply to the restricted-use data of many other surveys, for instance, the US-based \ac{NLSY}. Users of restricted PSID data must comply with even more stringent rules: secure approval from their institution's ethics board, and use of secure computing environments. Clearly, these restrictions will inhibit broader use of the data per se. Yet these restrictions are not globally very restrictive: There are in Economics alone \economicsgrads{} new US-based researchers being given the ability to request access to geo-restricted NLSY data every year: newly minted Ph.Ds, as noted earlier. A similar number in the EU likely obtain the right to access the geo-restricted SOEP data as well. Despite the restrictions on the use of SOEP data, there are currently \soeppapers{} papers that in some fashion have used the data.\footnote{Source: \url{https://www.diw.de/en/diw_01.c.789503.en/publications_based_on_soep_data__soeplit.html} accessed on 2025-02-08.} 
+The PSID bibliography\footnote{Source: \url{https://psidonline.isr.umich.edu/publications/Bibliography/search.aspx} accessed on 2025-02-08} lists over 1,300 dissertations and over 5,300 articles.
+In the space depicted in Figure~\ref{fig:nxt}, access is very much towards the left of the figure.%
+%
+\footnote{In fact, authors sometimes forget to abide by the rules for these datasets. As AEA Data Editor, I get notified via ``take-down requests'' from data providers 12-15 times per year, including in 2024 from the PSID, and have posted information on how to achieve compliance, at least in some cases, at \url{https://aeadataeditor.github.io/posts/2024-11-01-psid-requests}. Most of the cases affect papers published prior to my tenure, because I do alert authors to  data use agreement violations that I am aware of. Ultimately, however, it is the authors' obligation to remain compliant with such data use agreements.}. 
+
+\paragraph{Organic data:} However, most economists, when asked about data subject to restrictions, will think of ``proprietary data,'' a term often applied to any data that may be subject to restrictions of use and re-use. Access to most administrative data is typically not ``open'' in the sense of \DIFdelbegin \DIFdel{OKD}\DIFdelend \DIFaddbegin \DIFadd{OKF}\DIFaddend , but are they open enough, given the privacy concerns that are attached to these data? Many have argued that access is not broad enough \citep{card_expanding_2010,einav_economics_2014}, while acknowledging the difficulty of addressing privacy and security of the data at scale. \citet{abowd_economic_2018} discuss the challenge of making the choice of between accuracy of (public) statistics and data, and the privacy loss inherent in doing so. \citet{nagaraj_improving_2020} argue that more openness improves scientific progress, and \citet{nagaraj_how_2023} study this in the context of the US system for providing access (\ac{FSRDC}). They note that 4\% of US-based empirical authors have had some access to the FSRDC system. I am not aware of similar studies for other countries, such as France \citep[the equivalent system is the \ac{CASD}, ][]{gadouche_centre_2019} or Canada \citep{currie2015social}. In absolute terms, these networks host several hundred researchers every year. \DIFdelbegin \DIFdel{As per (CENSUS)}\DIFdelend \DIFaddbegin \DIFadd{For the 781 projects using Census Bureau data in the }\ac{FSRDC}\DIFaddend , 2,084 researchers  have had access to \DIFdelbegin \DIFdel{projects involving Census Bureau data since (YEAR).}\DIFdelend \DIFaddbegin \DIFadd{confidential data between 1998 and 2024.}\DIFaddend \footnote{\DIFaddbegin \DIFadd{Own calculations based on Census Bureau data, see }\DIFaddend \url{https://labordynamicsinstitute.github.io/fsrdc-external-census-projects/}\DIFaddbegin \DIFadd{.}\DIFaddend } \citet{nagaraj_how_2023} mention 861 papers \DIFaddbegin \DIFadd{in scientific journals}\DIFaddend . Similar numbers can be obtained for the French (\DIFdelbegin \DIFdel{xxx researchers and }\DIFdelend \DIFaddbegin \DIFadd{6841 researchers from 1109 institutions on 1797 projects with }\DIFaddend 417 publications)\DIFaddbegin \footnote{\DIFadd{From }\url{https://www.casd.eu/} \DIFadd{and }\url{https://www.casd.eu/toutes-les-publications/liste/0/20/} \DIFadd{as of May 2025.}}
+\DIFaddend % https://www.casd.eu/toutes-les-publications/liste/0/20/ 
+% 20 pages à 20 publications et 1 à 17 = 417
+and Canadian (2201 active researchers \DIFaddbegin \DIFadd{from 42 universities }\DIFaddend as of January 2025, \DIFdelbegin \DIFdel{and }\DIFdelend \DIFaddbegin \DIFadd{with }\DIFaddend 3245 papers published between 2000 and May 2024)\footnote{Provided by Grant Gibson, CRDCN, on February 10, 2025.} networks.\footnote{The \citet{nagaraj_how_2023} number only includes papers published by economists. \DIFdelbegin \DIFdel{All other }\DIFdelend \DIFaddbegin \DIFadd{Other }\DIFaddend numbers are counts of researchers and publications in all disciplines, \DIFaddbegin \DIFadd{in non-peer-reviewed publications, }\DIFaddend and include non-economists.} The number of publications from access to these networks is smaller in absolute terms then those from PSID and SOEP, though likely higher in impact \citep{nagaraj_how_2023}.\DIFaddbegin \footnote{\DIFadd{For an analysis of code availability over time for SOEP-based publications, see \mbox{%DIFAUXCMD
+\citet{fink_replication_2025}}\hskip0pt%DIFAUXCMD
+.}}
+\DIFaddend 
+
+\paragraph{Primary data collection:} The discussion of choices made by survey organizations should in principle be applicable when smaller teams of economists, not entire survey organizations, do the primary data collection. Similar to survey organizations, such teams have to balance the privacy of their respondents with the benefits of open science, in particular the broader knowledge to be gained from open access to the data. Many, so it would seem, provide much of the data in replication packages, subject  to de-identification \citep[see ][ for examples]{kopper_j-pal_2020,bjarkefur_development_2021}, though typically not with stronger disclosure avoidance measures similar to those employed by statistical agencies and larger survey institutions \citep[for a brief discussion of the issues and one possible solution, see ][]{mukherjee_assessing_2023}. For research teams, ethics boards and \acp{IRB} have a role to play \citep{grant_opinion_2019}, with some arguing very strongly that greater availability to others (though not blind publication of all data) is required in order to maximize the societal benefits that are the \textit{quid pro quo} for the respondents' consent to their privacy being invaded \citep{meyer_practical_2018,grant_opinion_2019}. Making such data as broadly available, while respecting the privacy of respondents, is precisely what open access to such data promises, \textit{modulo} appropriate access restrictions or data use agreements similar to those outlined in Table~\ref{tab:restrictions}. In general, however, primary data collections do not have access to robust third-party systems that would allow for access similar to the access required by PSID and similar organizations, situated between no access and fully public access. Thus, while access may be requested in ad-hoc fashion via the original authors, this is known to be fraught with problems \citep{watson_many_2022,gabelica_many_2022}. An ideal scenario would see researchers deposit the data they collected in third-party repositories, which then handle issues such as verifying ethics approval and secure access mechanisms. Some full-service repositories, such as \ac{ICPSR} or various national archives, offer such deposits, though they are rarely used by individual researchers in economics.
+%
+% Swedish example
+% Das paper ist
+One example are the data collected and used by \citet{ahrsjo_identity_2024}. The data were collected from public information from the Stockholm District Court. However, in combining individuals' information into a database, the result was subject to \ac{GDPR}, and could not be included in the replication package \citep{ahrsjo_code_2024}. 
+%Ahrsjö, Ulrika, Susan Niknami, and Mårten Palme. “Identity in Court Decision-Making.” American Economic Journal: Economic Policy 16, no. 4 (November 2024): 142–64. https://doi.org/10.1257/pol.20220802.
+%
+% Ahrsjö, Ulrika, Niknami, Susan, and Palme, Mårten. Code for Identity in Court Decision-Making. Nashville, TN: American Economic Association [publisher], 2024. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2024-10-07. https://doi.org/10.3886/E193364V1
+% Im Kontext, die Autoren bauen einen "data set created from court documents from the Stockholm District Court." Den dürfen sie aber nicht, laut ihrer Uni, wegen GDPR veröffentlichen. Also haben sie ihn beim "Swedish National Data Service" hinterlegt:
+%
+% Ahrsjö, U., Niknami, S., & Palme, M. (2023). Data för: Identity in Court Decision-Making (Version 1) [Dataset]. Stockholms universitet. Tillgänglig via: https://doi.org/10.58141/27j7-8606
+However, the authors were able to deposit their pseudoymous data at the Svensk nationell datatjänst (Swedish National Data Service), as a restricted dataset \citep{ahrsjo_data_2023}. The SNDS will verify compliance with Swedish law (e.g., \ac{GDPR}), without requiring future involvement of the original collectors of the data. 
+
+How onerous are access restrictions in general? In my work as Data Editor, it matters less than it would seem at first blush. The AEA asks that authors, when submitting, provide some information on how restrictive the data used in the article are, and whether the authors are able to provide the data editor with a not-for-publication copy, for the purpose of verification.\footnote{\href{https://www.aeaweb.org/journals/forms/data-code-availability}{Data and Code Availability Form}} Table~\ref{tab:categories} lists the four levels of restrictions, with some guidance on how to classify specific data. Access via research data centers, described earlier, generally fit within the `moderately difficult to obtain` category. Many private-sector datasets, relying on personal interactions with individuals within the company, fall into the `very difficult to obtain', because others may never be able to obtain them. Also in these lists are access-restricted data that have been discontinued, and are thus no longer available to anybody, such as Zillow's  ZTRAX program, terminated in 2021 \citep{zillow_zillows_2021}. Authors can list multiple categories, and we review these, possibly adjusting them before we record them in our internal database. 
+
+\input{outputs/table_categories}
+
+Figure~\ref{fig:access} lists the distribution of the four levels of restrictions plus  the no-restriction category, for the \aerpapers{} AER articles in \aeryear{}, interacted with whether the authors offered to share the files with the data editor.\footnote{Not all offers to share data are taken up, depending on available resources and time. Appendix Table~\ref{tab:access_provision} shows the same numbers.}  
+%
+Past studies have found that about between 40\% and 60\% of articles rely on data that are not freely available \parencite{herbert_reproduce_2024,hamermesh_six_2013,chetty_time_2012}. 
+% Einav cite Hamermesh, claim 70% empirical papers, of which a "substantial majority  use data that have been assembled"
+In \aeryear{}, slightly more than 50\% of all articles had no data restrictions at all (included the data in the replicatin package), with another 19\% being `very easy to obtain'. The combined percentage of 70\% is higher than the earlier long-run average.  More importantly, out of the 39 data sources that are difficult to obtain, about a third could  be shared with the data editor. It is also worthwhile highlighting that the `moderately difficult to obtain' tends to be data from research data center networks that have fairly robust mechanisms of access, so that in principle and in practice, many researchers do have access to the same data used in these articles, even when the data editor may not have the time to access these data, and when it is not a legal option for the authors to share the data with the data editor. Arguably, the only data sources that are of immediate concern are data where access is uniquely attributable to the authors of the paper, or where access is no longer possible.
+
+
+\input{figure3}
+
+
+%The interaction between licensing, openness, and re-use has ramifications that go beyond the scope of the present article. Good guidance on licensing of scientific data by its creators can be found in \citet{stodden_enabling_2009}.
+
+
+
+
+
+\section{Access to Software}
+\label{sec:software}
+
+Turning to software, I will again need to define more precisely what I mean by that. I distinguish two key categories of software: \textbf{high-level interpreters} (or more rarely compilers), and \textbf{instructions}. The former will in turn comprise software used in two key but distinct features of the scientific production process: \textbf{data collection} and \textbf{analysis}. 
+
+\paragraph{High-level software} for \textbf{analysis} are the flagship software  that receive the most  focus in the social science literature. These are software products such as Stata, MATLAB, R, Julia (see Figure~\ref{fig:software}). Most of these are interpreted languages at the user level, though user-contributed packages may be compiled (R, Julia). Increasingly present is Python, which may be both compiled and interpreted; less common are purely compiled languages such as C or Fortran. We also include here dedicated \ac{GIS} software, mostly used to create maps, though some analytical tasks can also be performed. It arguably may also comprise custom plugins to other software, such as Dynare \citep{adjemian_dynare_2024,cherrier_write_2023}.
+
+\input{figure2}
+
+While many economists use data collected by others, some are primary data generators or collectors, for instance through laboratory or field experiments, as well as surveys. \textbf{Data collection} software in this context are the survey software tools (Qualtrics, LimeSurvey, SurveyCTO, KoboToolbox) used to conduct surveys (including as part of lab or field experiments), as well as customized experimental software, such as oTree \citep{chen_otreeopen-source_2016} and z-tree \citep{fischbacher_z-tree_2021}.
+
+\paragraph{Software instructions (code):} The core of a paper's analysis, however, resides in how the more general software package is manipulated, in combination with the data, via \textbf{instructions}. I do not call these `source code', as that terms tends to be used in conjunction with complex compiled software, such as those listed as \textbf{high-level software}. Rather, these instructions are mostly interpreted code, or compiled just-in-time, in the language used by the high-level software, or, as is still sometimes the case, in the form of instructions to humans on how to manipulate a non-programmed user interface for software.\footnote{In economics, this appears to occur most often for \ac{GIS} software, and sometimes for data extraction software used by data providers.}
+
+Open access, therefore, can work through several channels. Software can have a cost. In economics, it is extremely rare to sell access to the \textbf{instructions}. However, it is quite normal for \textbf{high-level statistical software} and \textbf{data collection software} to be accessible only through purchase. As Figure~\ref{fig:software} shows, the top two statistical software products used in replication packages are commercial closed-source statistical software products: Stata and Matlab. In order to be able to re-use the instructions (code) from academic papers, a software license is required, and must be purchased. 
+
+How much of an impediment to open access is this? Without loss of generality, to illustrate, consider Stata. An academic single-user yearly license as of January 2025 was \$690 for a US-based student. The price is the same for a student in (much poorer) Greece. For a student in Vietnam, the price drops to \$220.\footnote{See source text for data.}  To put this into perspective, the average monthly incomes in each of these countries, which students are unlikely to earn, are \$6,704, \$1,883, and \$343, respectively, and a reasonably powerful laptop a student is likely to have was around \$1,000. 
+
+
+\input{outputs/table_stata-licenses}
+
+An informal survey of several economists working with colleagues and students in Latin America, Africa, and Asia uniformly suggested that access to commercial statistical software was often difficult for students, alleviated somewhat when students were fortunate to attend private universities. In fact, in a recent survey \DIFdelbegin \DIFdel{(CIDR )}\DIFdelend \DIFaddbegin \DIFadd{conducted by CIDR \mbox{%DIFAUXCMD
+\citep{shipow-cidr}}\hskip0pt%DIFAUXCMD
+}\DIFaddend , respondents were asked to name the top two factors that could support early-career African scholars’ publication success. 
+\DIFdelbegin \DIFdel{46\% of respondents chose 
+`Providing access to datasets and data management tools' as one of the two factors. University staff and students (across multiple disciplines) were also asked which aspect they  most needed funding for, and 38\% mentioned `Data analysis software '.}\DIFdelend %DIF >  new version
+\DIFaddbegin \DIFadd{55\% of African scholars noted that providing access to research resources, such as journals, datasets, and software would improve their journal acceptance rate.%DIF > 
+%DIF > 
+%DIF >  Previously:
+%DIF > 46\% of respondents chose 
+%DIF > `Providing access to datasets and data management tools' as one of the two factors. University staff and students (across multiple disciplines) were also asked which aspect they  most needed funding for, and 38\% mentioned `Data analysis software' \citep{sheth_understanding_nodate}. 
+}\DIFaddend Within top universities, on the other hand, most researchers, including graduate students, will have access to these software products, and even many undergraduates may be able to leverage university computer labs to access these software. \DIFdelbegin \DIFdel{Outside }\DIFdelend \DIFaddbegin \DIFadd{At lower-ranking institutions and outside }\DIFaddend of academia, however, it may be more constraining\DIFaddbegin \DIFadd{, even in Europe or the United States}\DIFaddend . Precise information is hard to come by\DIFdelbegin \DIFdel{.}\DIFdelend \DIFaddbegin \DIFadd{, but  Figure~\ref{fig:downloads} provides some insights whether this might, in fact, hold. The data plotted relates, by various regions, the relative importance of that region in global Stata and R downloads.}\footnote{\DIFadd{See Appendix for a detailed explanation of several important caveats.}}\DIFadd{. The top panel summarizes this by ``Global North'' and ``South,'' and the juxtaposition would suggest that the countries of the Global South are heavier users of the free R software, rather than the paid-for Stata software. However, the bottom panel moderates that view somewhat when breaking this out by continents. It turns out that the richest continent (North America) is the heaviest R user, and that Africa is a heavier user of Stata. Thus, there is, at best, very weak evidence that the cost of software matters, in the aggregate.  
+}
+
+\input{figure4}
+
+
+
+\DIFaddend \footnote{To a smaller degree, the problem also arises for \textbf{compilers}. While there are open-source compilers for Fortran and C (GNU Fortran, LLVM Flang), many economists will use what they consider to be more efficient commercial compilers, which may require the payment of  subscription fees (e.g., Intel, NAG Fortran, PGI (now Nvidia)). More recently, some of the commercial compilers (Intel, Nvidia) have become freely available. Some numerical (non-linear) optimizers (e.g., Gurobi, Knitro) may also require payment of fees, though some limited academic free use may be available.}
+%DIF > 
+%DIF >  In the Central African Republic, one month of internet access costs more than 1.5 times the annual per capita income. \citep[World Development Report 2016, via ][]{schia2018} More broadly, 
+%DIF >  Aside from a broader concern about accessibility of information technology in less developed countries (see f.i. World Development Report 2016), the availability in particular in the education sector is key to improving skills of future workers. However, as the 2016 report points out, `` there is an alarming lack of accurate and timely data on ICT use in the developing world.'' (WD 2016, pg. 219)
+
+The landscape is even harder to assess for \textbf{data collection software}. Open source packages otree and z-tree are often used for lab experiments. otree is cited  by between 1,400 (OpenAlex, as of 2025-01-29) and 2,400 articles (Google Scholar, as of 2025-01-29), z-Tree is cited between 9,000 (OpenAlex) and 12,000 times (Google Scholar), but it is not clear how to benchmark that, given poor software citation practices in economics. Lab as well as field experiments will often use online survey platforms to augment experiments, or as primary data collection tool. Qualtrics, one of the big commercial platforms for surveys, is mentioned (but not cited) over 200,000 times (Google Scholar). Open source alternative LimeSurvey is mentioned about 31,000 times.
+
+%(INSERT HERE SOME INFO FROM AEA ARTICLES). 
+
+% how to pull down the full list of Google Scholar citations, and compare to the list of top 10 journals.
+
+The second channel is through  \textbf{software instructions}. Conditional on having the right high-level software and the appropriate resources (see next section), most economics papers have openly accessible code. The advent of data and code availability policies most certainly has helped, but also reflected attitudes already present in the researcher community. As noted earlier, the AEA's earliest policy was announced in 2004 \citep{bernanke_editorial_2004}, but the oldest replication package curated by the AEA accompanied an 1999 article \citep{frankel_does_1999,frankel_replication_1999} preceding the policy by several years.\footnote{The oldest  replication package in economics may be \citet{koenker_asymptotic_1988-1} in the JAE replication archive, see \url{https://aeadataeditor.github.io/posts/2023-02-02-oldest-replication-package-jae}, which actually contained data processing code, but not the data analysis code. That was only published in a later replication package, \citet{koenker_reproducible_2009}.} The newer policies \citep{AEA-announcement-July-2019,koren_data_2022} required that more code be provided (starting with raw, rather than cleaned data), and the systematic provision of supplementary materials, such as the survey code to use with data collection software. These policies require that the code be made available in a reasonably liberal license, though no specific open source license is specified. Furthermore, most of the top journal's repositories of replication packages are at trusted repositories, and not behind journal paywalls. Thus, software instructions in economics, as associated with the scientific output in journals, is generally cost-free, and almost always available under an open access license. 
+
+
+
+% In line calculations
+% https://www.worlddata.info/average-income.php
+% US average monthly income: 6,704
+% Greece: 1,883
+% Vietnam:  343
+%
+% STata Educational single-user https://www.stata.com/order/new/edu/single-user-licenses/dl/
+% Stata/MP 2-core, annual license
+% US: $690
+% Greece: $690
+% Vietnam, Student pricing for developing economies $220
+
+
+\section{Access to Other Resources}
+\label{sec:other_resources}
+
+In the template README published by myself and several other data editors in economics \parencite{templateREADMEv1.1}, we emphasize that a README should provide enough instructions for a reasonable person to re-implement the analysis described in the replication package. Authors need to take into account that cutting edge methods, including technology, may require more information and instruction than for standard methods. Authors likely do not need to describe how to run an analysis in Stata, given its ubiquitous use in economics, and the ease with which instructions can be found more generally, but they may need to provide detailed step-by-step information if the technology used is rare or bespoke. For instance, the emerging use of \acp{LLM} and \ac{AI} methods is far from the economic mainstream as of the writing of this article. Recent articles are still identifying ways economists scan actually use these tools, both for personal productivity \parencite{korinek_generative_2023} and as part of the technical toolkit \parencite{athey_machine_2019,dell_deep_2024}. 
+%Only one of the articles submitted to any of the AEA journals in 2024 used these techniques (to be named, not yet published).
+
+The most recent modern toolkits are not the only resource constraints that might restrict broad access. While it might be argued that the use of proprietary software is restrictive, it is one of many resource constraints that can be binding for some researchers. Researchers in lower-ranked (and lower-funded) research institutions, including in \acp{LMIC}, may well not have the funds to purchase proprietary software, but access to computers may be equally constraining. The template README requests information on the type of computer that was used by the original researcher, to provide a benchmark to future re-users. Acquiring access to sufficient memory (\ac{RAM}), storage, and use over time of those resources can be expensive, even when renting such resources in cloud environments (which very few researchers appear to be doing). Traditionally, that access may be embedded within a single purchased computer, which may have (in 2024) around 32GB of RAM, 1-2 TB of storage, and have 4-12 compute cores available exclusively to the owner. More complex analyses may require access to shared compute clusters (using hundreds or thousands of compute cores), very large storage arrays (measured in the two- to three-digit TB range), and may require up to 1024 GB of RAM. Cutting edge analyses may require specialized chips, such as one or more \acp{GPU}, or even a cluster of \acp{GPU}. I have observed analyses that may run data cleaning or data acquisition processes for months at a time. 
+
+The vast majority of articles published in economics journals usually require no more computing resources than a modern laptop provides, in all the dimensions enumerated in the previous paragraph. In fact, a formal quantitative measurement of resource usage in economics articles is surprisingly hard to obtain, as most researchers are not very good at reporting the resources they have used to conduct their research. In part, this is because measuring such usage is non-trivial, but to a larger extent, I postulate that this is because most research institutions provide such resources to their researchers in a ``convenient way,'' and researchers conduct research within those constraints. More importantly, however, it suggests an important constraint on how ``open'' access can be for some if not all economics research.
+
+Some newer research requires vastly different types of resources. Studies using raw satellite data may require more than 10TB of data storage \citep{khachiyan_using_2022,khachiyan_data_2022}, may need more than 20,000 compute hours on a cloud provider \citep{rudik_optimal_2020,rudik_data_2020}, or the use of one \citep{dell_deep_2024,dell_data_2025} or dozens \citep{khachiyan_data_2022} \acp{GPU}.\footnote{As of January 2025, the type of \ac{GPU} used by \citet{dell_data_2025}, costs between USD 4500 and USD 7700, or between 2 and 7 times as much as a standard laptop.} Access to the code and data for the papers mentioned is open: The AEA-related replication packages for these articles are licensed under a standard \ac{CC-BY} license. Some of the data not included in the \citet{dell_data_2025} replication package is on Huggingface, also under a \ac{CC-BY} license \citep{silcock_newswire_2024}. Open access to satellite data is one of the canonical examples of the benefits of open access \citep{nagaraj_improving_2020}. In these cases, the computational resources may restrict the benefits of the open access of data and code.
+
+Are such computational constraints a problem? No consistent analysis exists that correlates resource requirements to academic outcomes such as citations, primarily because it is very hard to measure consistently the resource requirements of economic articles. The very small sample in the previous paragraph may serve to illustrate this, but without controls for scientific merit, is purely an indicator. \citet{silcock_newswire_2024} had been downloaded 98 times in December 2024, six months after the arXiv paper associated with it was published \citep{silcock_newswire_2024}. \citet{rudik_data_2020} has had  1432 views, 124 downloads for replication package, as the manuscript \citep{rudik_optimal_2020} has 15 citations. The replication package \citet{khachiyan_data_2022} has  2124 views, 175 downloads, while the manuscript \citep{khachiyan_using_2022} has 5 citations (all as of January 2025). For comparison, the average article in one of the \ac{AEA}'s journals has 908 views and 106 downloads \citep[Table 4]{vilhuber_report_2025}.
+
+% Repository Published Downloads Views Uploads Files Size (GB)
+% ICPSR 5,094 540,713 4,627,310 458 65,812 1,485.94
+%
+%Need: average and median number of views, downloads and citations for packages from the same year in the journals.
+
+\section{The Benefits of Open Science in Economics}
+\label{sec:benefits}
+
+\DIFdelbegin \DIFdel{To illustrate some of the benefits of }\DIFdelend \DIFaddbegin \DIFadd{Tthe discussion about benefits of open science often centers around }\textit{\DIFadd{data}} \DIFadd{availability. The World Bank, in its annual World Development Report, identifies data availability --- for research, for commerce, for education --- as a key contributor, and highlights that many LMIC continue to have impediments to the reliable provision of open access data \mbox{%DIFAUXCMD
+\citep[, pg. 62]{world_bank_world_2021}}\hskip0pt%DIFAUXCMD
+. The (theoretical) optimal level of data availability intersects with privacy, making the optimal level of data availability a non-trivial balance between public and private benefits, and private costs \mbox{%DIFAUXCMD
+\citep{duch-brown_economics_2017,acquisti_economics_2016,abowd_suboptimal_2019,abowd_economic_2018}}\hskip0pt%DIFAUXCMD
+. The more recent discussions (and court cases) surrounding the use of data in the training of large language models have only re-emphasized this tension \mbox{%DIFAUXCMD
+\citep{panettieri_generative_2025}}\hskip0pt%DIFAUXCMD
+.
+}
+
+\DIFadd{A different thread in the discussion brings up normative reasons for transparency, for instance around Mertonian \mbox{%DIFAUXCMD
+\citep{merton1942note} }\hskip0pt%DIFAUXCMD
+norms of openness \mbox{%DIFAUXCMD
+\citep[see ][for an overview]{miguel_evidence_2021}}\hskip0pt%DIFAUXCMD
+. Openness at all stages of research may act as a moderator for publication bias \mbox{%DIFAUXCMD
+\citep{miguel_evidence_2021,brodeur_star_2016}
+}\hskip0pt%DIFAUXCMD
+}
+
+\DIFadd{Some of the  benefits of open science have  been measured indirectly, through increased citations, say. Some recent studies find some advantages for studies with linked (openly available) data \mbox{%DIFAUXCMD
+\citep{piwowar_data_2013,colavizza_citation_2020,christensen_study_2019}}\hskip0pt%DIFAUXCMD
+.}\footnote{\DIFadd{Some of these studies need to be taken with a grain of salt, since they typically measure whether data is referenced, not whether it is actually openly available.}} \DIFadd{The economics literature has emphasized the benefits of (balanced) open science. \mbox{%DIFAUXCMD
+\citet{nagaraj_improving_2020} }\hskip0pt%DIFAUXCMD
+discuss the canonical example of improved data access through (free) public-use data in the context of satellite imagery. Patents can be usefully investigated, since they are both openly viewable but also access-limiting by their very nature. Economists have looked at how restrictiveness, duration, and type of patents affect scientific progress. In general, restrictions reduce social welfare \mbox{%DIFAUXCMD
+\citep{williams_intellectual_2013,murray_mice_2016}}\hskip0pt%DIFAUXCMD
+, even enabling anti-competitive behavior that directly identify welfare loss \mbox{%DIFAUXCMD
+\citep{xie_anticompetitive_2020}}\hskip0pt%DIFAUXCMD
+. The much broader applicability of open science practices is also much more recent, and as of yet, hard to measure. Nevertheless, it appears to be widely accepted in economics, as evidenced by very strong positive attitudes documented in \mbox{%DIFAUXCMD
+\citet{ferguson_survey_2023}}\hskip0pt%DIFAUXCMD
+, as selectively depicted in  Figure~\ref{fig:christensen-fig1b}. The top left part of Figure~\ref{fig:christensen-fig1b} shows behavior (black) and opinions (color scale) in regards to data sharing among economists, with more than 50\% of economists having shared data, but over 90\% being very much or moderately (the two green colors) in favor of sharing data. The right panel illustrates the evolution over time, depicting the proportion of social scientists in the four disciplines (economics, political science, psychology, and sociology) who had adopted an open science practice as of a particular date, showing again the rapid increase in active data sharing amongst economists from around 60\% in 2011 to the 2020 number of over 90\%.  
+}
+
+
+\begin{figure}
+    \centering
+    \begin{tabular}{cc}
+    \includegraphics[width=0.30\linewidth]{data/christensen-2019-fig1b.png}
+
+    &  
+    \includegraphics[width=0.65\linewidth]{data/christensen-2019-fig7.png}
+    \\
+    \includegraphics[width=0.30\linewidth]{data/christensen-2019-fig1-legend.png}
+         &  
+    \includegraphics[width=0.5\linewidth]{data/christensen-2019-fig7-legend.png}
+    \\
+    \end{tabular}
+    \caption{\DIFaddFL{Extracts from \mbox{%DIFAUXCMD
+\citet[Figures 1 and 7]{ferguson_survey_2023}}\hskip0pt%DIFAUXCMD
+, reused under CC-BY 4.0.}}
+    \label{fig:christensen-fig1b}
+\end{figure}
+
+%DIF >  Bars depict support for and reported lifetime usage of two open science practices: posting data or code online and pre-registering hypotheses or analyses. Within each panel, the solid black bar shows the proportion of researchers who report ever using the stated practice in the survey. Below each solid black bar, the next bar in the panel shows the distribution of support for the practice elicited in the survey. Panel a shows data from all respondents, and Panels b–e show responses from researchers identified as economists, political scientists, psychologists, and sociologists, respectively.
+
+%DIF >  The chart shows the cumulative proportion of scholars (who earned their PhD in 2009 or earlier, n = 782) in a given year who adopted an open science practice in that year or previously. Data are taken from responses to the question form “Approximately when was the first time you [OPEN SCIENCE PRACTICE?]”. Panel a shows data from all scholar respondents, and Panels b–e show responses from scholars identified as economists, political scientists, psychologists, and sociologists, respectively. Panels f–h show responses from scholars who self-reported primarily being experimentalists, quantitative non-experimental, and qualitative or theoretical, respectively.
+
+
+
+
+\DIFadd{I want to add to this discussion of benefits three concrete case studies that advance science in economics, while relying heavily on the openness of prior research. The three articles in question  leverage the }\DIFaddend open \DIFdelbegin \DIFdel{science, I describe two recent articles in economics that leverage the }\DIFdelend availability of code and data\DIFaddbegin \DIFadd{, with licenses that allow for re-use, }\DIFaddend to improve econometric methods for future researchers. The first paper relies on the empirical recomputation of prior papers to assess a theoretically ambiguous potential bias in inference. The second paper also focuses on inference, and uses actual data from previous papers to simulate the relevance of the impact. Both then provide new software (R and Stata packages), under open source licenses, to ``fix'' the problem for future studies. \DIFaddbegin \DIFadd{The third study selects studies again where data are available, and leverages the centralized availability of such replication packages to select the studies in their sample. 
+}\DIFaddend 
+
+\citet{roth_pretest_2022}  uses 12 previously published papers to assess whether the usual tests for pre-existing differences in trends when using difference-in-differences methods are properly controlling for power, and the empirical impact on subsequent inference. The theoretical bias is ambiguous, so an empirical evaluation is necessary. The study both leverages the open availability of materials in economic journals, but also illustrates the limitations imposed by imperfect adherence to openness. To wit, Roth writes that he searched for 
+\DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend %DIF > 
+\begin{quote}
+``the phrase “event study” in papers published in the \textit{American Economic Review, American Economic Journal: Applied Economics}, and \textit{American Economic Journal: Economic Policy} between
+2014 and June 2018 ... The search returned 70 total papers that include a figure that the authors describe as an event-study plot.''
+\end{quote}
+\DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend %DIF > 
+but continues to then be limited by lack of data in the majority of cases:
+
+\begin{quote}
+    ``I exclude 43 papers for which data to replicate the main event-study plot were unavailable. \citep[pg. 307]{roth_pretest_2022}''\footnote{He also excludes another 15 papers for reasons not related to data availability.}
+\end{quote}
+
+While it remains unclear whether the excluded papers are non-compliant with the AEA's policy at the time, or whether they have legitimate reasons not to provide the data (Roth does not provide the raw result of his search), the paper is able to make an important methodological point (723 / 415 citations as of January 2025, per Google Scholar/ OpenAlex) because it is able to fully recompute the results in previous papers, apply new tests and methodologies, and come to meaningful recommendations and tools --- Roth provides an (open source) R package to implement his methodology.
+
+\citet{de_chaisemartin_at_2024} use open access information on RCTs (AEA registry) to find 15 RCTs of a particular type (clustered paired or small strata), of which 4 have publicly available data (and reproducible artifacts). They then provide results both on simulations using these data, and in particular, re-estimate the regressions used in those studies and apply their proposed solution, showing that the number of significant effects is reduced by one-third. In other work \citep{de_chaisemartin_two-way_2020,de_chaisemartin_difference--differences_2024}, the results from various other papers are also recomputed to empirically demonstrate the relevance of the proposed methods, and software packages \citep[e.g.][]{de_chaisemartin_chaisemartinpackagesdid_multiplegt_dyn_2025} are developed and made openly available.\footnote{Note that as of January 2025, many of the packages do not have an explicit open source license --- or any license --- applied, a common feature of economists working in the open source world. My presumption is that they simply assume that everybody knows that the code is openly available.} \citet{de_chaisemartin_two-way_2020} has been cited between 2,600 and 4,600 times (OA, GS).
+
+% CH 2020: OA 2692 GS 4649
+% CH 2024: OA 120/160 GS 691
+% CR 2024: OA 8 GS 39
+
+\DIFdelbegin \DIFdel{In both }\DIFdelend \DIFaddbegin \DIFadd{Finally, \mbox{%DIFAUXCMD
+\citet{goldsmith-pinkham_contamination_2024} }\hskip0pt%DIFAUXCMD
+investigate contamination bias (``each treatment’s effect are contaminated by nonconvex averages of the effects of other treatments''). To do so, they search the centralized repository of AEA replication packages}\footnote{\DIFadd{``These studies were identified by a systematic search of papers in the AEA Data and Code Repository.'' }[\DIFadd{pg. 4043}]} \DIFadd{to identify  packages that, crucially, contain data. They then reproduce one of each original paper's specifications, conduct several tests, and conclude that ``economically and statistically meaningful contamination bias }[\DIFadd{is present}] \DIFadd{in two of the three observational studies while showing no evidence for bias in any of the experimental studies.'' (pg. 4046). \mbox{%DIFAUXCMD
+\citet{goldsmith-pinkham_contamination_2024}  }\hskip0pt%DIFAUXCMD
+has been cited between 65 and 118 (OA, GS) times.}\footnote{\DIFadd{Google Scholar citations are directly reported from a view of the article's page on Google Scholar, and may include citations to multiple versions. OpenAlex citations are the sum of citations to all recorded works on OA with the same title and by the same authors.}}
+
+\DIFadd{In each }\DIFaddend of these examples, the ability to access prior data, code, and information is critical to improving future scientific progress\DIFdelbegin \DIFdel{, but is }\DIFdelend \DIFaddbegin \DIFadd{. In some cases, it remains }\DIFaddend limited by both historical and unavoidable limitations on openness\DIFaddbegin \DIFadd{, as well as scaling limitation based on absence of ``push button'' reproducibility}\DIFaddend .
+
+
+% also Goldsmith-Pinkham, Paul, Hull, Peter, and Kolesar, Michal. Data and Code for: Contamination Bias in Linear Regressions. Nashville, TN: American Economic Association [publisher], 2025. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2025-01-03. https://doi.org/10.3886/E207983V1
+%
+\DIFdelbegin %DIFDELCMD < \begin{quote}
+%DIFDELCMD <     %%%
+\DIFdel{``These studies were identified by a systematic search of papers in the AEA Data and Code Repository''
+}%DIFDELCMD < \end{quote}
+%DIFDELCMD < %%%
+\DIFdelend 
+
+
+\section{Open Infrastructure: Publications}
+\label{sec:publications}
+
+The challenges of openly accessible written scholarship are manifold, with the current focus on ``Plan S'', master publication agreements, and in the US, similar efforts under the moniker of the ``Nelson memo'' \parencite{brainard_white_2022,brainard_us_2024}. I note that the economics profession has a very long history of making much of the written knowledge available at very low cost via working papers \parencite{vilhuber_reproducibility_2020}, with the first working papers at the reputable NBER working paper series going back to 1973 \parencite{welch_education_1973}.
+
+\DIFdelbegin \DIFdel{At the time of this writing}\DIFdelend \DIFaddbegin \DIFadd{Over the past eight years}\DIFaddend , I have \DIFaddbegin \DIFadd{or have had }\DIFaddend three editorial appointments. I am the Data Editor for the journals of the \acf{AEA} \DIFdelbegin \DIFdel{, the }\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{10.1257/pandp.108.745}}\hskip0pt%DIFAUXCMD
+,  a column editor for the open access }\ac{HDSR} \DIFadd{\mbox{%DIFAUXCMD
+\citep{vilhuberReinforcingReproducibilityReplicability2023}}\hskip0pt%DIFAUXCMD
+, and until January 2025, the }\DIFaddend joint executive editor for the open access and multi-disciplinary \ac{JPC}, \DIFdelbegin \DIFdel{and I am a column editor for the open access }%DIFDELCMD < \ac{HDSR}%%%
+\DIFdelend \DIFaddbegin \DIFadd{for which I continue to manage the publication infrastructure \mbox{%DIFAUXCMD
+\citep{abowd_changes_2025}}\hskip0pt%DIFAUXCMD
+}\DIFaddend . I will use each of these to highlight a particular pattern in broadening access to publications, without any claim to generality. 
+
+The \ac{AEA} is a not-for-profit organization, as are many other learned societies. It self-publishes eight journals, plus the proceedings of the annual conference, without relying on a commercial publishing house. Depending on the measurement, three of these publications are in the top ten journals in economics \citep{mogstad_statistical_2022-1}. Its publication costs account for about half of its overall operating expenses, and are only partially offset by directly attributable subscription and membership fees \citep{cherry_bekaert_llp_american_2024}. In fact, 6 of the top 10 journals in economics \citep{mogstad_statistical_2022-1} are published by societies (JEL, JEP, Econometrica, AER, Restud, JOLE), some of which have as sole or primary purpose the publication of the journal.\footnote{JOLE is a bit of an outlier, in that one becomes a member of the Society of Labor Economists by subscribing to the journal, rather than the other way around.} A further three journals are primarily associated with economics departments (QJE, JPE, RESTAT), which arguably may not be driven by pure profit. The sole outlier in the top ten is the \ac{JFE}, which is owned by Elsevier, a big commercial publisher. It should be noted that the \ac{EEA} severed its relationship with Elsevier in 2003 for its official journal, creating a journal that is fully owned by the association, adding to the list of society-owned journals in economics \citep{tirole_editorial_2003}. Access to these journals is generally still on a subscription basis (JEP is the exception, being free to read), but given the primarily not-for-profit organization of its owners, personal subscriptions (often via society membership) are quite low, compared to journals in many other sciences. For instance, as of 2024, a personal subscription to the Review of Economic Studies is \$156 or €141 per annum; a yearly membership to the \ac{AEA}, providing access to the seven subscription journals and the proceedings is \$25 for students and researchers in low-income countries, and \$150 at the highest personal income tier. As outlined earlier for the AEA, these subscription fees cover only a small fraction of the production costs. Nevertheless, even these (arguably low) costs do not satisfy ``Plan S'' or ``Nelson memo'' requirements, which require no access cost to the end consumer, and in the case of ``Plan S'', also require a liberal license allowing for re-use.\footnote{``The author(s) [...] grant(s) [...] a free, irrevocable, worldwide, right of access to, and a license to copy, use, distribute, transmit and display the work publicly and to make and distribute derivative works, [...] subject to proper attribution of authorship'' \citep{max-planck-gesellschaft_berlin_2023}. }
+
+Interestingly in the context of the previous sections, all of the society-owned journals in the previous paragraph have appointed  data (reproducibility) editors.\footnote{Two additional societies, not previously mentioned, also employ data editors: the \ac{CEA} and the \ac{WEAI}. }
+
+Since 2018, I have been the executive editor of the \ac{JPC}, an open access multi-disciplinary journal, having taken over the journal from Stephen Fienberg \citep{vilhuber_relaunching_2018}.\footnote{Fienberg, together with Cynthia Dwork and Alan Karr, founded the journal in 2009 \citep{abowd_first_2009}. Fienberg passed away in 2016 \citep{slavkovic_remembering_2018}.  In 2023, I recruited Rachel Cummings to jointly manage the journal.} As of 2024, the journal does not charge submission fees, and is free to read (what is called ``diamond open access.'' Articles default to a Creative Commons Attribution-NonCommercial-NoDerivatives (CC-BY-NC-ND) license, though authors are allowed to choose a more liberal license, for instance to comply with ``Plan S'' (which does not allow for the ``no-derivatives'' part). As executive editor, I have been responsible for all aspects of running the journal, not just finding referees for the articles that I am responsible for. The journal is made available through open-source software called Open Journal System, hosted by its creators at \href{https://pkp.sfu.ca/hosting-services/hosting/journals/}{Simon Fraser University's Public Knowledge Project}, preserved via industry-standard mechanisms (\href{https://clockss.org/about/how-clockss-works/}{CLOCKSS}, a non-profit) in case the journal ever needs to shut down, indexed in a variety of academic indexes, including via assignment of \acs{DOI}. Copy-editing is done through a mixture of professional copy-editors and volunteer work by editors and board members. All editors, including myself, are unpaid, and referees are, like in much of the publishing industry, unpaid volunteers. Yet I do pay bills, for each of the above components of a properly managed, indexed, and preserved academic journal --- and professional copy-editors and university staff do not work for free. I am thus quite aware of the absolute minimum cost of running a (small) journal. Over the years, funding has come from a variety of chaired professorships at Carnegie Mellon (Fienberg), Cornell (Abowd), and Harvard (Dwork). In order to make such funding more robust, a non-profit society was created to better and more robustly structure the funding situation \citep{abowd_launching_2024}. Time will tell if this will stabilize the funding situation, while maintaining the foundational commitment to open access. Others, in particular \href{https://sociologicalscience.com/}{Sociological Science}, have shown that it is feasible to sustainably publish high-quality research 
+
+
+\section{Conclusion}
+
+I have described in this article how open data and code are in the academic literature in economics, and how access to software and hardware resources can be limiting factors. Almost all code is openly accessible in top journals. The vast majority of data is accessible with little to no effort, and a large proportion of the remaining restricted data can be accessed by networks that include thousands of researchers. I provide a few concrete examples where the openness of the data and code available allows others to directly build on prior results. Broader assessments of the benefits of open access are more difficult to measure, in part because the right controls are hard to construct, in part because the community is still only starting to learn how to technically leverage the openness in a large-scale fashion.
+
+Nevertheless, access to networks of data access and financing remains one of the key worries. I am a regular participant in discussions within three research networks that provide access to restriced data (\ac{FSRDC}, \ac{CRDCN}, and \ac{CASD}). Core discussions center around equity and access, and how to balance those criteria while preserving the privacy of the respondents for which these networks act as curators. 
+
+One under-appreciated aspect of open access is that it enables persistence. 
+For any data that is subject to a gatekeeping mechanism, however objective, impartial, and lightweight it may be at the present time, such mechanisms can and do disappear. Every one of the networks that I mention above has a mandate to work within budget constraints, and those budgets are determined fundamentally by external forces, typically government-based funding agencies. A particular striking example, as of the writing of this article, is access to data from the USAID-funded \ac{DHS} program. Data access to DHS data was classified as `moderately easy to obtain' (as per Table~\ref{tab:categories}) until February 2025, as it took only a day or two to obtain access subject to a lightweight data use agreement. My team at the AEA regularly went through the process to obtain data used by other researchers, a process that was easy to navigate even for an undergraduate researcher on my team. In February 2025, the second Trump administration shut down USAID and ``paused'' the DHS program, with very little notice, and no recourse. While the DHS program system was still accessible to those with prior access permission in late February 2025, no further access requests were accepted. That turns it into a `very difficult to obtain' dataset.\footnote{As of March 2025, efforts are underway to preserve the DHS program data, for instance via IPUMS, and to resuscitate both the access to historical data, as well continue funding new surveys.} These events are a note of caution that any kind of redistribution restriction may very well negatively impact future availability to the research community. Whereas journals can subscribe to mechanisms that allow past issues to remain accessible even when the journal is shuttered,\footnote{See \href{https://clockss.org/about/how-clockss-works/}{CLOCKSS}.} and open access software can be preserved by communities with an interest in continued use,\footnote{See f.i. \href{https://www.datarescueproject.org/}{Data Rescue Project}.} no such mechanism exists for most restricted-access data. While open code may ensure we can recompute, and advances in computational infrastructure will bring the current cutting edge into the space of everyday-accessibility, data that are not open can and will disappear. That is concerning.
+
+
+\printbibliography[title={References}]
+
+\appendix
+\appendixpage
+
+\input{outputs/table_access_provision}
+\DIFaddbegin 
+
+\subsection*{\DIFadd{Inferring Stata and R usage}}
+
+\DIFadd{Stata usage is inferred from downloads of Stata packages from the SSC web server, which is the sole official location to obtain these packages. Private mirrors may exist, and not all Stata packages are installed from SSC - both the Stata Journal and Github are likely to be significant sources. Data are obtained from log files from the SSC web server, provided by Kit Baum. R usage is inferred from downloads of  R binaries (for Windows and MacOS). While this is likely to be less frequent than Stata packages, relative patterns are of interest. There is no easy way to obtain the full list of downloads for all packages, other than cycling through several thousand such packages. The data stem from one of dozens of }\ac{CRAN} \DIFadd{mirrors, though this one, managed by Posit PBC, is the first one listed in the list of mirrors that are offered to users. Data in both cases is for February 2025.
+}
+
+\DIFadd{As a first step, these downloads were mapped to countries, and then aggregated by regions (Table~\ref{tab:stata_downloads_regional_stats_select} for Stata, Table~\ref{tab:r_downloads_regional_stats_select} for R).
+%DIF > 
+%DIF > 
+}\input{outputs/stata_downloads_regional_stats_select}
+\input{outputs/r_downloads_regional_stats_select}
+%DIF > 
+\DIFadd{Mapped onto a world map, this provides a pretty picture, though not very informative (Figure~\ref{fig:stata_r_world}).
+}\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{outputs/stata_downloads_world_map_select_nochina.png}
+
+    \includegraphics[width=0.8\textwidth]{outputs/r_downloads_world_map_select_nochina.png}
+    \caption{\DIFaddFL{Downloads of Stata packages and R software, by region, without China. Source: published data by Kit Baum and Posit PBC, own calculations.}}
+    \label{fig:stata_r_world}
+\end{figure}
+\DIFadd{The data suggest that downloads from China are not fully captured by the Posit-managed mirror, possibly because of peculiarities of the Chinese internet infrastructure. While this is possible for other countries as well, it is not fully detectable. I have excluded China from all calculations, but the remaining computations should be regarded as indicative as best. 
+}
+
+\DIFadd{I then aggregate countries and regions into "Global North" and "Global South" (Table~\ref{tab:stata_downloads_global_stats_select_nochina} for Stata, Table~\ref{tab:r_downloads_global_stats_select_nochina} for R). 
+%DIF > 
+%DIF > 
+}\input{outputs/stata_downloads_global_stats_select_nochina}
+\input{outputs/r_downloads_global_stats_select_nochina}
+%DIF > 
+%DIF > 
+\DIFadd{Differencing the two tables  gives the relative importance of Stata versus R, namely that there are relatively more downloads of Stata packages in the Global North than there are of R binaries, suggesting (very tentatively) that Stata usage may be higher in the Global North (Table~\ref{tab:ns_compare})
+Reverting back to smaller regions, however, paints the more nuanced picture referenced in the main text (Table~\ref{tab:region_compare}). Tables~\ref{tab:ns_compare} and~\ref{tab:region_compare} are summarized in Figure~\ref{fig:downloads} in the main text.
+}
+
+\input{outputs/compare_ns_stats_select}
+\input{outputs/compare_region_stats_select}
+\DIFaddend 
+
+\end{document}
+
+
+\end{document}
