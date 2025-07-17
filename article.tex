@@ -334,7 +334,7 @@ For any data that is subject to a gatekeeping mechanism, however objective, impa
 
 Stata usage is inferred from downloads of Stata packages from the SSC web server, which is the sole official location to obtain these packages. Private mirrors may exist, and not all Stata packages are installed from SSC - both the Stata Journal and Github are likely to be significant sources. Data are obtained from log files from the SSC web server, provided by Kit Baum. R usage is inferred from downloads of  R binaries (for Windows and MacOS). While this is likely to be less frequent than Stata packages, relative patterns are of interest. There is no easy way to obtain the full list of downloads for all packages, other than cycling through several thousand such packages. The data stem from one of dozens of \ac{CRAN} mirrors, though this one, managed by Posit PBC, is the first one listed in the list of mirrors that are offered to users. Data in both cases is for February 2025.
 
-As a first step, these downloads were mapped to countries, and then aggregated by regions (Table~\ref{tab:stata_downloads_regional_stats_2024} for Stata, Table~\ref{tab:r_downloads_regional_stats_2024} for R).
+As a first step, these downloads were mapped to countries, and then aggregated by regions (Table~\ref{tab:stata_downloads_regional_stats_select} for Stata, Table~\ref{tab:r_downloads_regional_stats_select} for R).
 %
 %
 \input{outputs/stata_downloads_regional_stats_select}
@@ -343,19 +343,19 @@ As a first step, these downloads were mapped to countries, and then aggregated b
 Mapped onto a world map, this provides a pretty picture, though not very informative (Figure~\ref{fig:stata_r_world}).
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{outputs/stata_downloads_world_map_2024_nochina.png}
+    \includegraphics[width=0.8\textwidth]{outputs/stata_downloads_world_map_select_nochina.png}
 
-    \includegraphics[width=0.8\textwidth]{outputs/r_downloads_world_map_2024_nochina.png}
+    \includegraphics[width=0.8\textwidth]{outputs/r_downloads_world_map_select_nochina.png}
     \caption{Downloads of Stata packages and R software, by region, without China. Source: published data by Kit Baum and Posit PBC, own calculations.}
     \label{fig:stata_r_world}
 \end{figure}
 The data suggest that downloads from China are not fully captured by the Posit-managed mirror, possibly because of peculiarities of the Chinese internet infrastructure. While this is possible for other countries as well, it is not fully detectable. I have excluded China from all calculations, but the remaining computations should be regarded as indicative as best. 
 
-I then aggregate countries and regions into "Global North" and "Global South" (Table~\ref{tab:stata_downloads_global_stats_2024_nochina} for Stata, Table~\ref{tab:r_downloads_global_stats_2024_nochina} for R). 
+I then aggregate countries and regions into "Global North" and "Global South" (Table~\ref{tab:stata_downloads_global_stats_select_nochina} for Stata, Table~\ref{tab:r_downloads_global_stats_select_nochina} for R). 
 %
 %
-\input{outputs/stata_downloads_global_stats_select}
-\input{outputs/r_downloads_global_stats_select}
+\input{outputs/stata_downloads_global_stats_select_nochina}
+\input{outputs/r_downloads_global_stats_select_nochina}
 %
 %
 Differencing the two tables  gives the relative importance of Stata versus R, namely that there are relatively more downloads of Stata packages in the Global North than there are of R binaries, suggesting (very tentatively) that Stata usage may be higher in the Global North (Table~\ref{tab:ns_compare})
