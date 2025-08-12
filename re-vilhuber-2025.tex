@@ -1,25 +1,32 @@
+% !TeX document-id = {c500552c-47fb-465a-a220-a5c65205866b}
 %!TeX TXS-program:bibliography = txs:///biber
-\documentclass{article}
-\input{preamble}
+% !TEX TS-program = lualatex
+\documentclass{Revue-economique}
+%\input{preamble}
+% Shorter stuff
 
+% acronyms
+\usepackage{acronym}
+\input{acronyms}
+\newcommand{\citep}{\parencite}
+\newcommand{\citet}{\textcite}
 
 % bibliography files
 
-\addbibresource{from-zotero.bib}
-\addbibresource{references.bib} % generated dynamically by Overleaf
+\addbibresource[label=Main]{combined-references.bib}
 
 
-\newtoggle{anonymous}
-\newtoggle{draft}
-%\settoggle{anonymous}{true}
-\settoggle{anonymous}{false}
-\settoggle{draft}{false}
-
-\iftoggle{anonymous}{\author{Anonymous}}{
-\author[1]{Lars Vilhuber}
-\affil[1]{Cornell University}
-}
-\title{Reproducibility and Open Science in Economics}
+%\newtoggle{anonymous}
+%\newtoggle{draft}
+%%\settoggle{anonymous}{true}
+%\settoggle{anonymous}{false}
+%\settoggle{draft}{false}
+%
+%\iftoggle{anonymous}{\author{Anonymous}}{
+%\author[1]{Lars Vilhuber}
+%\affil[1]{Cornell University}
+%}
+%\title{Reproducibility and Open Science in Economics}
 
 % some numbers
 \input{outputs/economicsgrads}
@@ -27,9 +34,24 @@
 
 \begin{document}
 
+\begin{Article} [% Ceci correspond à la page de garde du document
+	Titre={Reproducibility and Open Science in Economics},
+	Auteur={Lars Vilhuber\thanks{Cornell University, lars.vilhuber@cornell.edu}}]
+	
+	\begin{resume}
+		% Résumé dans la langue principale
+		\input{abstract}
+	\end{resume}
 
-\maketitle
-\input{abstract}
+
+\motscles{sciences ouvertes; reproductibilité; accès à resources} % Mots-clés en français
+\keywords{open science; reproducibility; ressource access} % Mots-clés en anglais
+
+\jelcode{A11; A13; B40} % Codes JEL
+
+\begin{refsection}[Main] % Corps de texte
+
+
 \newpage
 \section{Introduction}
 
@@ -323,10 +345,9 @@ One under-appreciated aspect of open access is that it enables persistence.
 For any data that is subject to a gatekeeping mechanism, however objective, impartial, and lightweight it may be at the present time, such mechanisms can and do disappear. Every one of the networks that I mention above has a mandate to work within budget constraints, and those budgets are determined fundamentally by external forces, typically government-based funding agencies. A particular striking example, as of the writing of this article, is access to data from the USAID-funded \ac{DHS} program. Data access to DHS data was classified as `moderately easy to obtain' (as per Table~\ref{tab:categories}) until February 2025, as it took only a day or two to obtain access subject to a lightweight data use agreement. My team at the AEA regularly went through the process to obtain data used by other researchers, a process that was easy to navigate even for an undergraduate researcher on my team. In February 2025, the second Trump administration shut down USAID and ``paused'' the DHS program, with very little notice, and no recourse. While the DHS program system was still accessible to those with prior access permission in late February 2025, no further access requests were accepted. That turns it into a `very difficult to obtain' dataset.\footnote{As of March 2025, efforts are underway to preserve the DHS program data, for instance via IPUMS, and to resuscitate both the access to historical data, as well continue funding new surveys.} These events are a note of caution that any kind of redistribution restriction may very well negatively impact future availability to the research community. Whereas journals can subscribe to mechanisms that allow past issues to remain accessible even when the journal is shuttered,\footnote{See \href{https://clockss.org/about/how-clockss-works/}{CLOCKSS}.} and open access software can be preserved by communities with an interest in continued use,\footnote{See f.i. \href{https://www.datarescueproject.org/}{Data Rescue Project}.} no such mechanism exists for most restricted-access data. While open code may ensure we can recompute, and advances in computational infrastructure will bring the current cutting edge into the space of everyday-accessibility, data that are not open can and will disappear. That is concerning.
 
 
-\printbibliography[title={References}]
 
-\appendix
-\appendixpage
+\begin{appendices}
+	% Contenu de l'annexe
 
 \input{outputs/table_access_provision}
 
@@ -342,12 +363,12 @@ As a first step, these downloads were mapped to countries, and then aggregated b
 %
 Mapped onto a world map, this provides a pretty picture, though not very informative (Figure~\ref{fig:stata_r_world}).
 \begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{outputs/stata_downloads_world_map_select_nochina.png}
-
-    \includegraphics[width=0.8\textwidth]{outputs/r_downloads_world_map_select_nochina.png}
-    \caption{Downloads of Stata packages and R software, by region, without China. Source: published data by Kit Baum and Posit PBC, own calculations.}
-    \label{fig:stata_r_world}
+	\centering
+	\includegraphics[width=0.8\textwidth]{outputs/stata_downloads_world_map_select_nochina.png}
+	
+	\includegraphics[width=0.8\textwidth]{outputs/r_downloads_world_map_select_nochina.png}
+	\caption{Downloads of Stata packages and R software, by region, without China. Source: published data by Kit Baum and Posit PBC, own calculations.}
+	\label{fig:stata_r_world}
 \end{figure}
 The data suggest that downloads from China are not fully captured by the Posit-managed mirror, possibly because of peculiarities of the Chinese internet infrastructure. While this is possible for other countries as well, it is not fully detectable. I have excluded China from all calculations, but the remaining computations should be regarded as indicative as best. 
 
@@ -364,7 +385,17 @@ Reverting back to smaller regions, however, paints the more nuanced picture refe
 \input{outputs/compare_ns_stats_select}
 \input{outputs/compare_region_stats_select}
 
+\end{appendices}
+
+\printbibliography % Bibliographie
+\end{refsection}
+
+\end{Article}
+
+
+\appendix
+\appendixpage
+
 \end{document}
 
 
-\end{document}
