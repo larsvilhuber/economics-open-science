@@ -21,8 +21,8 @@ nberdois %>%
   rename(published=published.online) %>%
   mutate(year=substr(published,1,4)) %>%
   filter(year >= 2024 ) %>%
-  filter(published >= from_date &
-         published <= until_date) -> nberdois.subset
+  filter(published >= pub_from_date &
+         published <= pub_until_date) -> nberdois.subset
 
 authorlist.nber.df <- nberdois.subset %>%
   select(author,doi) %>%
@@ -45,8 +45,8 @@ authorlist.nber.df %>%
   left_join(nberdois.subset, by="doi") %>%
   saveRDS(file=doi.enhanced.file.Rds)
 
-message("Number of unique authors in NBER between ",from_date," - ",until_date,": ",unique_authors_published)
-message("Number of articles in NBER between ",from_date," - ",until_date,": ",nrow(nberdois.subset))
+message("Number of unique authors in NBER between ",pub_from_date," - ",pub_until_date,": ",unique_authors_published)
+message("Number of articles in NBER between ",pub_from_date," - ",pub_until_date,": ",nrow(nberdois.subset))
 
 
 

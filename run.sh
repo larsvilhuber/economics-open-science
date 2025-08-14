@@ -12,4 +12,4 @@ R CMD BATCH --no-restore --no-save code/26_aggregate_data.R
 R CMD BATCH --no-restore --no-save code/27_map_R_by_country.R 
 R CMD BATCH --no-restore --no-save code/28_stata_map_by_country.R 
 R CMD BATCH --no-restore --no-save code/29_compare_stata_r_by_region.R 
-R CMD BATCH --no-restore --no-save code/libraries.R 
+R CMD BATCH --no-restore --no-save code/99_zz_info.R

@@ -1,0 +1,73 @@
+─ Session info ───────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.5.1 (2025-06-13)
+ os       openSUSE Leap 15.6
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       America/Montreal
+ date     2025-08-13
+ pandoc   3.1.11.1 @ /usr/bin/pandoc
+ quarto   1.6.40 @ /home/vilhuber/bin/quarto
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ ! package     * version date (UTC) lib source
+ P cachem        1.1.0   2024-05-16 [?] CRAN (R 4.5.0)
+   cli           3.6.5   2025-04-23 [1] RSPM (R 4.5.1)
+ P devtools      2.4.5   2022-10-11 [?] RSPM
+ P digest        0.6.37  2024-08-19 [?] RSPM (R 4.5.0)
+ P ellipsis      0.3.2   2021-04-29 [?] RSPM
+ P fastmap       1.2.0   2024-05-15 [?] CRAN (R 4.5.0)
+ P fs            1.6.5   2024-10-30 [?] RSPM (R 4.5.0)
+ P glue          1.8.0   2024-09-30 [?] CRAN (R 4.5.0)
+ P here          1.0.1   2020-12-13 [?] RSPM (R 4.5.0)
+ P htmltools     0.5.8.1 2024-04-04 [?] RSPM (R 4.5.0)
+ P htmlwidgets   1.6.4   2023-12-06 [?] RSPM (R 4.5.0)
+ P httpuv        1.6.15  2024-03-26 [?] RSPM (R 4.5.0)
+ P later         1.4.1   2024-11-27 [?] RSPM (R 4.5.0)
+ P lifecycle     1.0.4   2023-11-07 [?] CRAN (R 4.5.0)
+ P magrittr      2.0.3   2022-03-30 [?] CRAN (R 4.5.0)
+ P memoise       2.0.1   2021-11-26 [?] CRAN (R 4.5.0)
+   mime          0.13    2025-03-17 [1] RSPM (R 4.5.0)
+ P miniUI        0.1.1.1 2018-05-18 [?] RSPM (R 4.5.0)
+ P pkgbuild      1.4.8   2025-05-26 [?] RSPM
+ P pkgload       1.4.0   2024-06-28 [?] RSPM
+ P profvis       0.4.0   2024-09-20 [?] RSPM
+ P promises      1.3.2   2024-11-28 [?] RSPM (R 4.5.0)
+ P purrr         1.0.4   2025-02-05 [?] CRAN (R 4.5.0)
+ P R6            2.6.1   2025-02-15 [?] CRAN (R 4.5.0)
+ P Rcpp          1.0.14  2025-01-12 [?] RSPM (R 4.5.0)
+ P remotes       2.5.0   2024-03-17 [?] RSPM (R 4.5.0)
+   renv          1.1.1   2025-02-07 [1] RSPM (R 4.5.0)
+   rlang         1.1.6   2025-04-11 [1] RSPM (R 4.5.1)
+ P rprojroot     2.0.4   2023-11-05 [?] RSPM (R 4.5.0)
+ P sessioninfo   1.2.3   2025-02-05 [?] RSPM
+ P shiny         1.10.0  2024-12-14 [?] RSPM (R 4.5.0)
+ P urlchecker    1.0.1   2021-11-30 [?] RSPM
+ P usethis       3.1.0   2024-11-26 [?] RSPM
+ P vctrs         0.6.5   2023-12-01 [?] CRAN (R 4.5.0)
+ P xtable        1.8-4   2019-04-21 [?] RSPM (R 4.5.0)
+
+ [1] /home/vilhuber/Workspace/Github/economics-open-science/renv/library/linux-opensuse-leap-15.6/R-4.5/x86_64-suse-linux-gnu
+ [2] /home/vilhuber/.cache/R/renv/sandbox/linux-opensuse-leap-15.6/R-4.5/x86_64-suse-linux-gnu/60c4e220
+
+ P ── Loaded and on-disk path mismatch.
+
+──────────────────────────────────────────────────────────────────────────────
+               _                           
+platform       x86_64-suse-linux-gnu       
+arch           x86_64                      
+os             linux-gnu                   
+system         x86_64, linux-gnu           
+status                                     
+major          4                           
+minor          5.1                         
+year           2025                        
+month          06                          
+day            13                          
+svn rev        88306                       
+language       R                           
+version.string R version 4.5.1 (2025-06-13)
+nickname       Great Square Root           

@@ -9,14 +9,13 @@ library(stringr)
 library(tidylog)
 library(arrow)
 
-# Define year range
-
-year_start <- 2024
-year_end <- 2024
-
 # If file is not present, download it. Use the basename of baum.logs
 
 if (!file.exists(file.path(rawdata,basename(baum.logs)))) {
+  # create directory first
+  if (!dir.exists(rawdata)) {
+    dir.create(rawdata, recursive = TRUE)
+  }
   download.file(baum.logs,destfile = file.path(rawdata,basename(baum.logs)))
 }
 

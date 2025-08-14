@@ -20,7 +20,7 @@ if (file.exists(file.path(interwrk,"ssclogs.rds"))) {
   parsed_data.df <- readRDS(file.path(interwrk,"ssclogs.rds")) %>%
     filter(date >= from_date & date < until_date) 
 } else {
-  stop("ssclogs.rds not found in interwrk directory.  Please run 10_geocode_stata_step1.R first.")
+  stop("ssclogs.rds not found in interwrk directory.  Please run 20_geocode_stata_step1.R first.")
 }
 
 # For those records that have already been mapped to a domain name, find the IP address
@@ -50,8 +50,19 @@ if (Sys.info()["sysname"] == "Linux") {
 # Geolocate the data
 # Approximate time:  1m14.532s
 
+maxind.db <- system.file("extdata","GeoLite2-Country.mmdb", package = "rgeolocate")
+# let's see if it is there
+if (!file.exists(maxind.db)) {
+  # let's try the manually downloaded version
+  file.path(rawdata,"GeoLite2-Country.mmdb") -> maxind.db
+  if (!file.exists(maxind.db)) {
+    stop("GeoLite2-Country.mmdb not found in rawdata directory. Please download it from Maxmind and place it there.")
+  }
+} 
+
+
 geolocations <- maxmind(parsed_data.df$ipaddress, 
-                    file.path(rawdata,"GeoLite2-Country.mmdb"),
+                    maxind.db,
                     fields=c("continent_name","country_code", "country_name"))
 
 skim(geolocations)

@@ -15,7 +15,7 @@ library(tidylog)
 if (file.exists(file.path(interwrk,"geolocations.rds"))) {
   geolocations <- readRDS(file.path(interwrk,"geolocations.rds"))
 } else {
-  stop("geolocations.rds not found in interwrk directory. Please run 11_geocode_stata_step2.R first.")
+  stop("geolocations.rds not found in interwrk directory. Please run 21_geocode_stata_step2.R first.")
 }
   # Rename some countries to match the names in the map data
 country_name_map <- c(

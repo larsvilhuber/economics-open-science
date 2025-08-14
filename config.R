@@ -21,7 +21,10 @@ doi_prefix <- "10.1257"
 ## NBER prefix
 
 nber_prefix <- "10.3386"
+pub_from_date <- "2024-01-01"
+pub_until_date <- "2024-12-31"
 
+## Other dates
 from_date <- "2025-02-01"
 until_date <- "2025-03-01"
 

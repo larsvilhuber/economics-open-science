@@ -49,7 +49,7 @@ if (file.exists(doi.file.Rds) ) {
   for ( x in 1:nrow(issns) ) {
     message(paste0("Processing ",issns[x,"journal"]," (",issns[x,"issn"],")"))
     new  <- cr_works(
-                filter = c(prefix=nber_prefix,from_pub_date=from_date,until_pub_date=until_date),
+                filter = c(prefix=nber_prefix,from_pub_date=pub_from_date,until_pub_date=pub_until_date),
                 select=c("DOI","title","published-online","author"),
                        .progress="text",
                        cursor = "*")
@@ -66,25 +66,18 @@ if (file.exists(doi.file.Rds) ) {
     }
   }
   # filters
-  saveRDS(new.df, file=  file.path(interwrk,"new.Rds"))
-  rm(new)
+  nrow(new.df)
+  new.df %>%
+    filter(!is.null(author)) %>%
+    filter(title!="Front Matter") %>%
+    filter(!str_detect(title,"Volume")) %>%
+    filter(!str_detect(title,"Forthcoming")) %>%
+    # filter(title!="Editor's Note") %>%
+    # More robust
+    filter(str_sub(doi, start= -1)!="i")-> filtered.df
+  nrow(filtered.df)
+  saveRDS(filtered.df, file=  doi.file.Rds)
 }
-
-
-# filters
-new.df <- readRDS(file.path(interwrk,"new.Rds"))
-nrow(new.df)
-new.df %>%
-  filter(!is.null(author)) %>%
-  filter(title!="Front Matter") %>%
-  filter(!str_detect(title,"Volume")) %>%
-  filter(!str_detect(title,"Forthcoming")) %>%
-  # filter(title!="Editor's Note") %>%
-  # More robust
-  filter(str_sub(doi, start= -1)!="i")-> filtered.df
-nrow(filtered.df)
-saveRDS(filtered.df, file=  doi.file.Rds)
-
 # clean read-back
 nberdois <- readRDS(file= doi.file.Rds)
 nrow(nberdois)
@@ -95,8 +88,8 @@ nberdois %>%
   rename(published=published.online) %>%
   mutate(year=substr(published,1,4)) %>%
   filter(year >= 2024 ) %>%
-  filter(published >= from_date &
-         published <= until_date) -> nberdois.subset 
+  filter(published >= pub_from_date &
+         published <= pub_until_date) -> nberdois.subset 
 nberdois.subset %>%
   group_by(year) %>%
   summarise(Published=n())    -> nberdois.by.year
