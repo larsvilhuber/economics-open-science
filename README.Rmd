@@ -1,0 +1,726 @@
+---
+title: "Code and Data for: Reproducibility and Open Science in Economics"
+author:
+  - Lars Vilhuber
+date: 2025-06-19
+pubdate: "2025"
+pubdoi: "10.1234/something"
+publoc: "Zenodo"
+pubversion: "V1"
+output:
+  html_document: 
+    keep_md: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 1
+  word_document: default
+  pdf_document: 
+    toc: true
+    number_sections: true
+    toc_depth: 1
+editor_options: 
+  chunk_output_type: console
+bibliography: 
+  - combined-references.bib
+  - grateful-refs.bib
+csl: _readme/chicago-author-date.csl
+tutorial: false
+github: https://github.com/social-science-data-editors/readme-rmarkdown
+---
+
+
+```{r setup,echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval=FALSE)
+
+# We configure all path shortcuts in a single file
+source(file.path(rprojroot::find_rstudio_root_file(),"config.R"),echo=FALSE)
+readmelib <- file.path(rprojroot::find_rstudio_root_file(),"_readme")
+
+# This allows us to re-use stuff, but condition on whether we are 
+# running the README or not.
+# This can be ignored if the only R code is this README.
+
+we.are.README <- TRUE
+max.packages  <- 1000
+
+# For portability and the ability to run this code in other projects,
+# we did NOT use `renv`, but simply use some explicit installation of libraries.
+# You should NOT use this without relying on some package management system! Docker, renv, etc.
+
+#source(file.path(basepath,"global-libraries.R"),echo=FALSE)
+
+# While we may not need all of these libraries, we load them here, to get accurate citations.
+source(file.path(codedir,"libraries.R"),echo=FALSE)
+
+# we need two packages just for the Readme
+source(file.path(readmelib,"libraries.R"), echo=FALSE)
+
+# Any additional parameters (not paths, not libraries) are defined in the config file.
+#source(file.path(programs,"config.R"), echo=FALSE)
+
+# These are the libraries we use in the README.
+
+# library(knitr)
+# library(readr)
+# library(dplyr)
+# library(tidyr)
+# library(readxl)
+# library(stringr)
+
+```
+
+```{r tutorial-notice, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 This is only an example of a code-generated README, for demonstration purposes. To turn off these instructions, set the parameter <code>tutorial</code> to <code>false</code> in the front matter. \n')
+  cat('For additional installation information, see <a href="NOTES.md">NOTES.md</a>. The source code can be found at\n')
+  cat(paste0('<a href="', rmarkdown::metadata$github, '">', rmarkdown::metadata$github, '</a>.\n'))
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+```{r tutorial-titles, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Start off by naming the journal that you are submitting this to, and all the usual title and authorship information. If you want to be fancy, also add a suggested citation. Here, it is generated from the same YAML information as the Markdown is already using, plus some information about publication date and DOI.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+> File prepared for **Revue Economique**.
+
+
+# Cite as
+
+```{r citation,echo=FALSE,results='asis',eval=TRUE}
+# Extract citation info from YAML frontmatter
+cite_authors <- paste(rmarkdown::metadata$author, collapse = "; ")
+cite_title <- rmarkdown::metadata$title
+cite_date <- rmarkdown::metadata$pubdate
+cite_doi <- rmarkdown::metadata$pubdoi
+
+cat(sprintf("> %s, %s, \"%s\", %s, %s, https://doi.org/%s",
+            cite_authors, cite_date, cite_title, rmarkdown::metadata$publoc, rmarkdown::metadata$pubversion, cite_doi))
+```
+
+
+[![DOI:`r cite_doi`](https://zenodo.org/badge/DOI/`r cite_doi`.svg)](https://doi.org/`r cite_doi`)
+
+
+# Overview
+
+
+
+```{r tutorial-overview, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 You will need to create your own summary! But note the use of the data citations. This README heavily uses bibliographic files, see the YAML info and the various <code>bib</code> files.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+The code in this replication package constructs most tables and figures from outside data sources.  The code is in R. The replication package also includes PNG and PDF copies of screenshots and external figures, as noted below.
+
+# Data Availability and Provenance Statements
+
+
+
+```{r tutorial-avail, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Be clear about which data you can include. This may not be obvious from just the list we later include.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+All data are public, and can be redistributed. 
+
+## Statement about Rights
+
+- [x] I certify that the author(s) of the manuscript have legitimate access to and permission to use the data used in this manuscript. 
+- [x] I certify that the author(s) of the manuscript have documented permission to redistribute/publish the data contained within this replication package. Appropriate permission are documented in the [LICENSE.txt](LICENSE.txt) file.
+
+
+## License for Data
+
+
+
+```{r tutorial-data-license, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Note that this is not just an omnibus license. We explicitly state the license under which we obtained some of the data that we are redistributing here.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+- Data from @openalex-data are obtained under a [CC0](https://creativecommons.org/publicdomain/zero/1.0/) Public Domain attribution.
+- Data fom @crossref-data is "is open and available for reuse without restriction" ([https://www.crossref.org/documentation/retrieve-metadata/](https://www.crossref.org/documentation/retrieve-metadata/))
+
+All derivative data contained herein, if not otherwise encumbered, is available under a [CC-BY-NC-4.0](https://creativecommons.org/licenses/by-nc/4.0/legalcode) license. Usage by commercial entities is permitted, reselling the data is not.
+
+
+## Summary of Availability
+
+- [x] All data **are** publicly available.
+- [ ] Some data **cannot be made** publicly available.
+- [ ] **No data can be made** publicly available.
+
+
+
+```{r tutorial-file-check, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Here we leverage the fact that we are running code to also embed some checks. The immediately following section on Files Failing Checks should not appear in the final version! It will show in this example because the repository does not contain any data files, and thus fails the check..\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+```{r summary_data,echo=FALSE,eval=TRUE}
+normative.file <- file.path(readmelib,"datafiles.xlsx")
+# parse the data directory to list all files that are actually present
+#  and compare to the normative list
+
+
+real.file <- list.files(datadir,recursive=TRUE,full.names=TRUE) %>%
+  as.data.frame()
+names(real.file) <- "Filename"
+#  Add the same columns as for the normative file
+real.file <- real.file %>%
+  mutate(`Data Source` = NA,
+         Provided = "Yes",
+         Ignore = "No",
+         Order = NA) %>%
+         # remove the base path and replace with "."
+  mutate(Filename = str_replace(Filename,paste0("^",basedir),"."))
+
+# write it out as an Excel file for ease of editing
+write_xlsx(real.file,file.path(readmelib,"datafiles-draft.xlsx"))
+
+# The draft file can now be edited, and then saved as datafiles.xlsx.
+
+datafiles <- read_excel(normative.file) %>%
+  arrange(Order,`Data Source`) %>%
+  filter(Ignore != "Yes") %>%
+# find files present
+  mutate(Provided.real = file.exists(Filename),
+         Provided.norm = (Provided == "Yes"),
+         congruence   = Provided.real == Provided.norm)
+
+table(datafiles$congruence) %>% as.data.frame() -> check.files
+
+check.files.true <- check.files %>% filter(Var1=="TRUE") %>% pull(Freq)
+check.files.failure <- nrow(datafiles) - check.files.true
+if ( is.numeric(check.files.failure) & check.files.failure > 0 ) {
+  warning(paste0(check.files.failure," files fail check - are present but should be absent"))
+}
+check.files.duplicates <- datafiles %>% distinct(Filename) 
+check.files.duplicates.n <- nrow(datafiles) - nrow(check.files.duplicates)
+
+if ( is.numeric(check.files.duplicates.n) & check.files.duplicates.n > 0 ) {
+  warning(paste0(check.files.duplicates.n," files are duplicates - error!"))
+}
+
+```
+```{r print_check,echo=FALSE,results='asis',eval=TRUE}
+
+
+if ( is.numeric(check.files.failure) & check.files.failure > 0 ) {
+   cat('### Files failing check\n')
+   cat(' \n')
+   cat('> This list is only printed out when the normative provision of the files (i.e., whether the file should be present in the public replication package) does not match the actual presence of the file.\n')
+   cat('> \n')
+   cat('> This entire section disappears when everything is in order!\n')
+   cat('> \n')
+   cat(paste0('> The normative list is maintainaed MANUALLY in ',normative.file,', and should be updated whenever the normative provision of files changes.\n'))
+   datafiles %>% 
+    filter(!congruence) %>%
+    select(`Data Source`,Filename,Provided.real,Provided.norm) %>%
+  kable()
+}
+
+```
+
+```{r print_check_real,echo=FALSE,results='asis',eval=TRUE}
+
+
+if ( is.numeric(check.files.failure) & check.files.failure > 0 ) {
+   cat('### Files present\n')
+   cat(' \n')
+   cat('> This list is only printed out when the normative provision of the files (i.e., whether the file should be present in the public replication package) does not match the actual presence of the file.\n')
+   cat('> \n')
+   cat('> This entire section disappears when everything is in order!\n')
+   cat('> \n')
+   cat(paste0('> The normative list is maintainaed MANUALLY in ',normative.file,', and should be updated from the draft file.\n'))
+   real.file %>% 
+    select(`Data Source`,Filename,Provided,Order) %>%
+  kable()
+}
+
+```
+
+```{r print_check_dups,echo=FALSE,results='asis',eval=TRUE}
+
+if ( is.numeric(check.files.duplicates.n) & check.files.duplicates.n > 0 ) {
+  cat('### Files that are duplicates')
+   cat(' ')
+   datafiles %>% 
+     group_by(Filename) %>%
+     summarise(count=n()) %>%
+     filter(count>1) %>%
+     left_join(datafiles %>% select(`Data Source`,Filename)) %>%
+    select(`Data Source`,Filename,count) %>%
+  kable()
+}
+```
+
+## Complete List of Data Files by Data Source
+
+
+
+```{r tutorial-data-provided, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Done right, this should list all the data files used by th code. Maintaining this is manual, but could be automated further, though that is tricky.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+The following table lists the complete set of data files **used** by the code, and whether they are provided as part of the replication package.
+
+
+```{r show_table,echo=FALSE,results='asis',eval=TRUE}
+
+
+datafiles %>% select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+
+## Details on each Data Source
+
+
+
+```{r tutorial-data-details, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 We then write text that cites the data, and explains more details. No way to automate this, but we do list the actual files drawn from each of these sources.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+### @raw-data-2019 
+
+The data were collected through the methods described in the paper. Data were collected over several years, and deposited at @raw-data-2019 in 2019, with replicator names replaced by random identifiers. 
+
+```{r own_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==1|Order==11) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+### Crossref data
+
+Crossref were extracted as needed to obtain bibliographic information (author names, article titles, publication dates) [@crossref-data], using the `rcrossref` package to query the API `. The database itself is free to access. More information about it can be read in @crossref-paper . Note that data can and is updated, so running the query again 
+
+```{r crossref_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==2|Order==12) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+### openAlex data
+
+Data were accessed in 2023 to increase the time series covered by the bibliometric analysis [@openalex-data]. The openAlex database is described in @openalex2022. OpenAlex data are accessed via an API, and computed statistics, such as the h-index, are limited to the past 10 years. We therefore had to recompute some numbers. We also saved our extract, as future extracts may have different numbers, due to improvements in entity disambiguation (author names) and other factors outside of our control.
+
+Not all data elements are complete in the openAlex data. We output data for various quality checks, and did manual research to "impute" attributes such as affiliations. All "overrides" are captured in a separate file. 
+
+Thus, the openAlex data has (a) the raw data as downloaded; (b) the problematic data, as output for manual review (c) the edited/imputed data as used to complement the downloaded data.
+
+```{r openalex_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==3|Order==13) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+# Computational requirements
+
+
+
+```{r tutorial-comp1, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 There are a few ways to document the software requirements. You could do this manually. Here, we use the fact that we used Docker, to parse the Dockerfile itself. Note that in this tutorial, the Dockerfile stems from an actual paper, and the specific Docker was not actually used to run this README! In practice, you would run this with the same Docker that you used to conduct the analysis, and the two should be in sync.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+## Software Requirements
+
+
+```{r prepare_sys,echo=FALSE,eval=TRUE}
+# Read the rocker image
+# Here: custom to our `myconfig.sh`
+readLines(file.path(".myconfig.sh")) %>% as.data.frame() -> dockerfile
+names(dockerfile) <- "line"
+docker.repo <- dockerfile %>% filter(str_detect(line,"^repo")) %>% separate(line,into=c("key","value"),sep="=") %>% pull(value)  
+docker.space <- dockerfile %>% filter(str_detect(line,"^space")) %>% separate(line,into=c("key","value"),sep="=") %>% pull(value)  
+docker.tag <- dockerfile %>% filter(str_detect(line,"^tag")) %>% separate(line,into=c("key","value"),sep="=") %>% pull(value)  
+
+docker.image <- paste0(docker.space,"/",docker.repo,":",docker.tag)
+
+# find libraries
+as.data.frame(list.files(".",pattern="*.R$",recursive=TRUE)) -> library.files
+names(library.files) <- "file"
+
+
+
+```
+
+- [x] The replication package contains one or more programs to install all dependencies and set up the necessary directory structure. 
+
+- `r version$version.string` on `r version$system`
+  - Docker image is used (see appendix), with system libraries defined by the relevant image (`r docker.image`) (optional, but recommended)
+  - RSPM (now [Posit Package Manager, PPM](https://packagemanager.posit.co/client/)) is used, set to the time-stamped date defined by the container image (`r docker.image`)
+  - Libraries are managed through `renv`.
+
+
+
+```{r tutorial-comp2, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 We leverage the fact that all of our library-loading code is in program files that have the word "libraries" in them, so we parse the project directories for these files. You would do this differently if using renv, see the appendix for how to document libraries in that case.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+```{r list_libs,echo=FALSE,eval=TRUE,results='asis'}
+# Dynamically finding library files, since we use several
+
+library.files %>% filter(str_detect(file,"librar")) %>% rename(`Libraries are defined in` = file) %>% kable()
+
+# could be extended to other types of configuration files, e.g., `setup.do`
+
+```
+
+### Software citations
+
+
+```{r tutorial-comp3, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 Few economists cite the software they use, but it is really important to recognize the work that others have done, and which we re-use. There is a nice R package (what else) that allows you to cite all the packages that are loaded. We write out the file in a first run (it might not exist), and the second run will have it available for Markdown to create the appropriate reference section.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+Only directly loaded libraries are cited. For all libraries used in the runtime environment, see the Appendix.
+
+```{r create_r_cites,echo=FALSE,results='asis',eval=TRUE,warning=FALSE}
+# We should really load all the libraries that are used in the paper here, too. That comes from 
+# having all the library files listed in the CONFIG section of this Rmarkdown file, even if they are not used.
+# This needs to be run once by hand, and will be fine in the second round.
+cite_packages(output = "table", out.format=c("md"), out.dir = ".") %>% kable()
+```
+
+
+## Controlled Randomness
+
+
+```{r tutorial-system, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 The information here must be manually edited. The Template README provides categories, for ease of classification.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+- [ ] Random seed is set at line _____ of program ______
+- [x] No Pseudo random generator is used in the analysis described here.
+
+Note that re-running the API queries (turned off by default) **will** generate different data, which is likely to affect the regression output.
+
+## Memory, Runtime, Storage Requirements
+
+### Summary
+
+Approximate time needed to reproduce the analyses on a standard (CURRENT YEAR) desktop machine (when not running API queries):
+
+- [ ] <10 minutes
+- [x] 10-60 minutes
+- [ ] 1-2 hours
+- [ ] 2-8 hours
+- [ ] 8-24 hours
+- [ ] 1-3 days
+- [ ] 3-14 days
+- [ ] > 14 days
+
+API queries can take a long time, are not guaranteed to work, and are not guaranteed to return the same results. All API queries are stored as of the last run, and made available in the replication package.
+
+Approximate storage space needed:
+
+- [ ] < 25 MBytes
+- [x] 25 MB - 250 MB
+- [ ] 250 MB - 2 GB
+- [ ] 2 GB - 25 GB
+- [ ] 25 GB - 250 GB
+- [ ] > 250 GB
+
+- [ ] Not feasible to run on a desktop machine, as described below.
+
+### Details
+
+
+```{r tutorial-system2, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 We do get some information programmatically. If running this on Windows, it will not work as-is, adjust as necessary.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+The code was last run on 
+
+```{bash,eval=TRUE,echo=FALSE,results='asis'}
+source _readme/linux-system-info.sh
+```
+
+- `r version$version.string` on `r version$system`
+
+
+
+# Description of programs/code
+
+
+
+```{r tutorial-code, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 We maintain a description of all the programs that we use, and then simply print out the ones that are found on the system. The high-level description must be manually edited.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+Each numbered R program can be run independently, in the sequence implied by the numbering scheme. 
+A convenience bash main script (`run.sh`) to run all programs is provided in the root of the project, and will run all data cleaning and analysis programs.
+
+Of note, several programs leverage APIs, which can yield different results, and might take  long time. The programs will detect previously downloaded data files, and skip the download part if those files are present. To start with a fresh download, delete the following files:
+
+
+Internet access is required to run the programs, 
+
+- to download the key input files 
+
+
+##  License for Code
+
+
+The code (all files ending in `.R`, `.Rmd`, and `.sh`) is licensed under a BSD license. See [LICENSE.txt](LICENSE.txt) for details.
+
+# Instructions to Replicators
+
+If using Docker image on Linux or macOS system:
+
+- run `start_rstudio.sh` and connect to [https://localhost:8787](https://localhost:8787)
+- in the "Terminal" of the RStudio app, run `bash ./run.sh`
+
+or equivalently,
+
+- in the terminal of a computer with Docker installed, run `bash ./run_docker.sh ./run.sh`
+
+Alternative ways to run this (these were not tested):
+
+- optionally, before running project code, run `Rscript -e "renv::init()"` (on Windows, `Rscript.exe -e "renv::init()"` ) to isolate the project libraries from your system (assumes `renv` is installed, see [renv](https://rstudio.github.io/renv/articles/renv.html)).
+- Using the same R version as described above, run each program individually as desired, in the order indicated above.
+
+## Details
+
+> INSTRUCTIONS: The following list needs to be manually maintained!
+
+```{r program_details, echo=FALSE,eval=TRUE,results='asis'}
+programs_info <- read_excel("_readme/programs-info.xlsx") %>%
+  mutate(File.exists = file.exists(Filename)) %>%
+  filter(File.exists) %>%
+  select(-File.exists)
+kable(programs_info)
+```
+
+
+# List of tables and programs
+
+
+The provided code reproduces:
+
+- [x] All numbers provided in text in the paper
+- [x] All tables and figures in the paper
+- [ ] Selected tables and figures in the paper, as explained and justified below.
+
+The code also produces numerous tables which were not included in the paper. 
+
+```{r table_details, echo=FALSE,eval=TRUE,results='asis',warning=FALSE,message=FALSE}
+# we constructed this in two takes
+# - parse all Latex files for their label and filename
+# - parse all R code for the word "table", to get the filename
+#  'grep table_ */*.R | sed 's+out=file.path(Outputs,"+text/analysis/+' | sed 's+=file.path(TexIncludes,"+text/includes/+' | sed 's+"))++' | sed 's+")++' | sed 's+:+,+' | sed 's+outtext+text+' > _readme/tables_programs.csv'
+# - some hand-cleaning
+
+tables_programs <- read_csv("_readme/tables_programs.csv", 
+    col_names = FALSE) 
+names(tables_programs) <- c("Program","LaTeX file")
+
+table_info <- read_excel("_readme/table-mapping.xlsx") %>%
+  mutate(number = as.numeric(str_remove(`Table number`,"A")),
+         appendix = str_detect(`Table number`,"A")) %>%
+  filter(!is.na(`Table number`)) %>%
+  group_by(appendix)%>%
+  arrange(number,.by_group = TRUE) %>%
+  ungroup()
+
+programs_table_info <- left_join(table_info,tables_programs,by="LaTeX file") %>%
+  select(`Table number`,Program,`LaTeX file`)
+
+kable(programs_table_info )
+```
+
+---
+
+# Acknowledgements
+
+This README based on the template (V1.1) created by @template-readme. 
+
+# References
+
+
+```{r tutorial-references, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 None of these references are added by hand, they are here because somewhere in the text, we included them. Reference management for a README!\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
+
+
+
+<div id="refs"></div>
+
+#  Appendix {-} 
+
+## Appendix: System and package info
+
+Packages are listed here if they are loaded by the code.
+
+```{r sysinfo,eval=TRUE,echo=FALSE}
+# we don't want to capture what the Rmarkdown session is running, but rather, what the computational session is running
+if (! file.exists(file.path(codedir,"99_zz_info.txt"))) {
+system(paste0("cd ",codedir," && R CMD BATCH 99_zz_info.R"))
+}
+```
+
+```{r includetext,echo=FALSE,eval=TRUE}
+cat(readLines(file.path(codedir,"99_zz_info.txt")), sep = '\n')
+
+```
+
+## Appendix: R Libraries Available on This System
+
+This lists the packages that are installed. If you are not using a package environment manager, this list might be very long and useless.
+
+```{r list_packages,echo=FALSE,eval=TRUE,results='asis'}
+# Check if renv is available and active
+renv_active <- FALSE
+if (requireNamespace("renv", quietly = TRUE)) {
+  tryCatch({
+    if (file.exists("renv.lock")) {
+      renv_active <- TRUE
+      cat("### renv Environment Detected\n\n")
+      
+      # Get renv status
+      lockfile <- jsonlite::read_json("renv.lock")
+      renv_packages <- lockfile$Packages
+      
+      # Create a data frame of renv packages
+      package_info <- data.frame(
+        Package = names(renv_packages),
+        Version = sapply(renv_packages, function(x) x$Version %||% "Unknown"),
+        Source = sapply(renv_packages, function(x) x$Source %||% "Unknown"),
+        stringsAsFactors = FALSE
+      )
+      
+      # Check which packages are actually installed
+      installed_packages <- installed.packages()[,"Package"]
+      package_info$Installed <- package_info$Package %in% installed_packages
+      
+      # Sort by package name
+      package_info <- package_info[order(package_info$Package), ]
+      
+      
+    } else {
+      renv_active <- FALSE
+    }
+  }, error = function(e) {
+    renv_active <<- FALSE
+  })
+}
+
+if (!renv_active) {
+  cat("### Standard R Environment\n\n")
+  cat("No renv environment detected. Listing installed packages from library paths:\n\n")
+  
+  # Get installed packages
+  installed_pkgs <- installed.packages()
+  
+  # Create a cleaner view
+  package_info <- data.frame(
+    Package = installed_pkgs[,"Package"],
+    Version = installed_pkgs[,"Version"],
+    LibPath = installed_pkgs[,"LibPath"],
+    stringsAsFactors = FALSE
+  )
+  
+  # Sort by package name and show first 50 to avoid overwhelming output
+  package_info <- package_info[order(package_info$Package), ]
+  
+  cat(paste0("Total packages installed: ", nrow(package_info), "\n\n"))
+  if ( max.packages < nrow(package_info) ) {
+    cat(paste0("Showing first ",max.packages," packages out of ",nrow(package_info)," (sorted alphabetically):\n\n"))
+  }
+}
+```
+
+```{r list_packages_output,echo=FALSE,eval=TRUE,results='asis'}
+ 
+  kable(head(package_info, max.packages), 
+        caption = paste0("List of installed packages (", nrow(package_info), " total)"))
+  
+```
+
