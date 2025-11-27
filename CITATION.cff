@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "Code and Data for: Reproducibility and Open Science in Economics"
+authors:
+  - family-names: Vilhuber
+    given-names: Lars
+    orcid: 0000-0001-5733-8932
+date-released: 2025-11-27
+version: "V0.8"
+doi: 10.1234/something
+repository-code: https://github.com/larsvilhuber/economics-open-science
+license: BSD-3-Clause
+message: "If you use this deposit, please cite it as below."
+type: software
+abstract: >
+  This deposit contains code and data for the paper "Reproducibility and Open Science in Economics", published in Revue Economique.
+  The code is in R and constructs most tables and figures from outside data sources.
+  All data are public and redistributable, with derivative data available under a CC-BY-NC-4.0 license unless otherwise noted.

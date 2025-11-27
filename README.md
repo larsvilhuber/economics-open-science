@@ -89,117 +89,9 @@ All derivative data contained herein, if not otherwise encumbered, is available 
 
 
 
-### Files failing check
- 
-> This list is only printed out when the normative provision of the files (i.e., whether the file should be present in the public replication package) does not match the actual presence of the file.
-> 
-> This entire section disappears when everything is in order!
-> 
-> The normative list is maintainaed MANUALLY in /home/rstudio/economics-open-science/_readme/datafiles.xlsx, and should be updated whenever the normative provision of files changes.
 
 
-|Data Source     |Filename                                                                  |Provided.real |Provided.norm |
-|:---------------|:-------------------------------------------------------------------------|:-------------|:-------------|
-|Vilhuber (2025) |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |TRUE          |FALSE         |
-|Vilhuber (2025) |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |TRUE          |FALSE         |
-|Baum (2025)     |./data/raw/WebSTAR.log.gz                                                 |TRUE          |FALSE         |
-|Baum (2025)     |./data/interwrk/geolocations.rds                                          |TRUE          |FALSE         |
-|Baum (2025)     |./data/interwrk/ssclogs.parquet                                           |TRUE          |FALSE         |
-|Baum (2025)     |./data/interwrk/ssclogs.rds                                               |TRUE          |FALSE         |
 
-### Files present
- 
-> This list is only printed out when the normative provision of the files (i.e., whether the file should be present in the public replication package) does not match the actual presence of the file.
-> 
-> This entire section disappears when everything is in order!
-> 
-> The normative list is maintainaed MANUALLY in /home/rstudio/economics-open-science/_readme/datafiles.xlsx, and should be updated from the draft file.
-
-
-|Data Source |Filename                                                                  |Provided |Order |
-|:-----------|:-------------------------------------------------------------------------|:--------|:-----|
-|NA          |./data/christensen-2019-fig1-legend.png                                   |Yes      |NA    |
-|NA          |./data/christensen-2019-fig1b.png                                         |Yes      |NA    |
-|NA          |./data/christensen-2019-fig7-legend.png                                   |Yes      |NA    |
-|NA          |./data/christensen-2019-fig7.png                                          |Yes      |NA    |
-|NA          |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |Yes      |NA    |
-|NA          |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |Yes      |NA    |
-|NA          |./data/confidential/readme.txt                                            |Yes      |NA    |
-|NA          |./data/crdcn-Publications-Export-2025-February-11-0901.csv                |Yes      |NA    |
-|NA          |./data/crossref_dois_enhanced.Rds                                         |Yes      |NA    |
-|NA          |./data/crossref_dois.Rds                                                  |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-01-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-02-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-03-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-04-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-05-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-06-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-07-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-08-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-09-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-10-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-11-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-12-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-13-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-14-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-15-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-16-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-17-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-18-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-19-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-20-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-21-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-22-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-23-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-24-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-25-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-26-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-27-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-02-28-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/2025-03-01-r.csv.gz                             |Yes      |NA    |
-|NA          |./data/interwrk/cran_logs/downloaded_files_select.rds                     |Yes      |NA    |
-|NA          |./data/interwrk/geolocations.rds                                          |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_country_select_nochina.csv                 |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_country_select_nochina.rds                 |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_country_select.csv                         |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_country_select.rds                         |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_global_select_nochina.csv                  |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_global_select_nochina.rds                  |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_global_select.csv                          |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_global_select.rds                          |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_region_select_nochina.csv                  |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_region_select_nochina.rds                  |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_region_select.csv                          |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_by_region_select.rds                          |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_select_combined.csv                           |Yes      |NA    |
-|NA          |./data/interwrk/r_downloads_select_combined.rds                           |Yes      |NA    |
-|NA          |./data/interwrk/ssclogs.parquet                                           |Yes      |NA    |
-|NA          |./data/interwrk/ssclogs.rds                                               |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_country_select_nochina.csv             |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_country_select_nochina.rds             |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_country_select.csv                     |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_country_select.rds                     |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_global_select_nochina.csv              |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_global_select_nochina.rds              |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_global_select.csv                      |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_global_select.rds                      |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_region_select_nochina.csv              |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_region_select_nochina.rds              |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_region_select.csv                      |Yes      |NA    |
-|NA          |./data/interwrk/stata_downloads_by_region_select.rds                      |Yes      |NA    |
-|NA          |./data/issns.Rds                                                          |Yes      |NA    |
-|NA          |./data/jira_access_cleaned.csv                                            |Yes      |NA    |
-|NA          |./data/jira_access_cleaned.Rds                                            |Yes      |NA    |
-|NA          |./data/nsf24336-tab001-005.xlsx                                           |Yes      |NA    |
-|NA          |./data/ProjectsAllMetadata_25JUN2024.xlsx                                 |Yes      |NA    |
-|NA          |./data/PSID Bibliography Search.pdf                                       |Yes      |NA    |
-|NA          |./data/raw/WebSTAR.log.gz                                                 |Yes      |NA    |
-|NA          |./data/restrictions.xlsx                                                  |Yes      |NA    |
-|NA          |./data/Screenshot 2025-02-08 at 19-49-29 PSID Bibliography Search.png     |Yes      |NA    |
-|NA          |./data/Screenshot 2025-05-16 at 14-49-46 CASD - Centre d'accès[...].png   |Yes      |NA    |
-|NA          |./data/signal-2025-06-27-10-20-09-831.jpg                                 |Yes      |NA    |
-|NA          |./data/sources.txt                                                        |Yes      |NA    |
-|NA          |./data/stata-licenses-by-country.xlsx                                     |Yes      |NA    |
 
 
 
@@ -220,8 +112,8 @@ The following table lists the complete set of data files **used** by the code, a
 |Ferguson et al (2023)     |./data/christensen-2019-fig1b.png                                         |TRUE     |
 |Ferguson et al (2023)     |./data/christensen-2019-fig7-legend.png                                   |TRUE     |
 |Ferguson et al (2023)     |./data/christensen-2019-fig7.png                                          |TRUE     |
-|Vilhuber (2025)           |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |TRUE     |
-|Vilhuber (2025)           |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |TRUE     |
+|Vilhuber (2025)           |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |FALSE    |
+|Vilhuber (2025)           |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |FALSE    |
 |CRAN                      |./data/interwrk/cran_logs/2025-02-01-r.csv.gz                             |TRUE     |
 |CRAN                      |./data/interwrk/cran_logs/2025-02-02-r.csv.gz                             |TRUE     |
 |CRAN                      |./data/interwrk/cran_logs/2025-02-03-r.csv.gz                             |TRUE     |
@@ -253,7 +145,7 @@ The following table lists the complete set of data files **used** by the code, a
 |CRAN                      |./data/interwrk/cran_logs/2025-03-01-r.csv.gz                             |TRUE     |
 |NSF (2024)                |./data/nsf24336-tab001-005.xlsx                                           |TRUE     |
 |U.S. Census Bureau (2024) |./data/ProjectsAllMetadata_25JUN2024.xlsx                                 |TRUE     |
-|Baum (2025)               |./data/raw/WebSTAR.log.gz                                                 |TRUE     |
+|Baum (2025)               |./data/raw/WebSTAR.log.gz                                                 |FALSE    |
 |Vilhuber (2025)           |./data/jira_access_cleaned.csv                                            |TRUE     |
 |Vilhuber (2025)           |./data/jira_access_cleaned.Rds                                            |TRUE     |
 |CrossRef                  |./data/crossref_dois_enhanced.Rds                                         |TRUE     |
@@ -273,9 +165,9 @@ The following table lists the complete set of data files **used** by the code, a
 |CRAN                      |./data/interwrk/r_downloads_by_region_select.rds                          |TRUE     |
 |CRAN                      |./data/interwrk/r_downloads_select_combined.csv                           |TRUE     |
 |CRAN                      |./data/interwrk/r_downloads_select_combined.rds                           |TRUE     |
-|Baum (2025)               |./data/interwrk/geolocations.rds                                          |TRUE     |
-|Baum (2025)               |./data/interwrk/ssclogs.parquet                                           |TRUE     |
-|Baum (2025)               |./data/interwrk/ssclogs.rds                                               |TRUE     |
+|Baum (2025)               |./data/interwrk/geolocations.rds                                          |FALSE    |
+|Baum (2025)               |./data/interwrk/ssclogs.parquet                                           |FALSE    |
+|Baum (2025)               |./data/interwrk/ssclogs.rds                                               |FALSE    |
 |Baum (2025)               |./data/interwrk/stata_downloads_by_country_select_nochina.csv             |TRUE     |
 |Baum (2025)               |./data/interwrk/stata_downloads_by_country_select_nochina.rds             |TRUE     |
 |Baum (2025)               |./data/interwrk/stata_downloads_by_country_select.csv                     |TRUE     |
@@ -321,12 +213,20 @@ The figures were taken from @ferguson_survey_2023 and are only reformatted here 
 
 The access statistics were extracted by me from internal AEA systems used by the AEA Data Editor. Similar statistics are published in @vilhuber_report_2025. The direct extracts are confidential and not provided, but the code produces distributable data, which are included here.
 
+Users with access to the confidential data need to specify environment variables 
+
+```
+#DROPBOX_SECRET_BASE=""
+#DROPBOX_SECRET_RLKEY=""
+```
+
+in their `.Renviron` file or Unix environment, to allow the code to download the confidential data from a private Dropbox folder. The data will be preserved for 5 years after publication of the manuscript.
 
 
 |Data Source     |Filename                                                                  |Provided |
 |:---------------|:-------------------------------------------------------------------------|:--------|
-|Vilhuber (2025) |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |TRUE     |
-|Vilhuber (2025) |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |TRUE     |
+|Vilhuber (2025) |./data/confidential/Jira Export CSV (my defaults) 20250218210036.csv      |FALSE    |
+|Vilhuber (2025) |./data/confidential/jira-search-84765891-47e0-43ec-874d-365f527ef997.xlsx |FALSE    |
 |Vilhuber (2025) |./data/jira_access_cleaned.csv                                            |TRUE     |
 |Vilhuber (2025) |./data/jira_access_cleaned.Rds                                            |TRUE     |
 
@@ -349,10 +249,10 @@ Stata download statistics were provided by Kit Baum in February 2025. They are n
 
 |Data Source       |Filename                                                      |Provided |
 |:-----------------|:-------------------------------------------------------------|:--------|
-|Baum (2025)       |./data/raw/WebSTAR.log.gz                                     |TRUE     |
-|Baum (2025)       |./data/interwrk/geolocations.rds                              |TRUE     |
-|Baum (2025)       |./data/interwrk/ssclogs.parquet                               |TRUE     |
-|Baum (2025)       |./data/interwrk/ssclogs.rds                                   |TRUE     |
+|Baum (2025)       |./data/raw/WebSTAR.log.gz                                     |FALSE    |
+|Baum (2025)       |./data/interwrk/geolocations.rds                              |FALSE    |
+|Baum (2025)       |./data/interwrk/ssclogs.parquet                               |FALSE    |
+|Baum (2025)       |./data/interwrk/ssclogs.rds                                   |FALSE    |
 |Baum (2025)       |./data/interwrk/stata_downloads_by_country_select_nochina.csv |TRUE     |
 |Baum (2025)       |./data/interwrk/stata_downloads_by_country_select_nochina.rds |TRUE     |
 |Baum (2025)       |./data/interwrk/stata_downloads_by_country_select.csv         |TRUE     |

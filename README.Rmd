@@ -357,6 +357,14 @@ datafiles %>%
 
 The access statistics were extracted by me from internal AEA systems used by the AEA Data Editor. Similar statistics are published in @vilhuber_report_2025. The direct extracts are confidential and not provided, but the code produces distributable data, which are included here.
 
+Users with access to the confidential data need to specify environment variables 
+
+```
+#DROPBOX_SECRET_BASE=""
+#DROPBOX_SECRET_RLKEY=""
+```
+
+in their `.Renviron` file or Unix environment, to allow the code to download the confidential data from a private Dropbox folder. The data will be preserved for 5 years after publication of the manuscript.
 
 ```{r aea_data,echo=FALSE,eval=TRUE,results='asis'}
 
