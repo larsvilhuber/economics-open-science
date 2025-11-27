@@ -14,15 +14,12 @@ output:
     toc: yes
     toc_depth: 1
   word_document: default
-  pdf_document: 
-    toc: true
-    number_sections: true
-    toc_depth: 1
 editor_options: 
   chunk_output_type: console
 bibliography: 
   - combined-references.bib
   - grateful-refs.bib
+  - _readme/readme.bib
 csl: _readme/chicago-author-date.csl
 tutorial: false
 github: https://github.com/social-science-data-editors/readme-rmarkdown
@@ -32,10 +29,33 @@ github: https://github.com/social-science-data-editors/readme-rmarkdown
 ```{r setup,echo=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(eval=FALSE)
+# set this to true for debugging and development
+knitr::opts_chunk$set(message=FALSE)
+knitr::opts_chunk$set(warning=FALSE)
+
+
 
 # We configure all path shortcuts in a single file
 source(file.path(rprojroot::find_rstudio_root_file(),"config.R"),echo=FALSE)
 readmelib <- file.path(rprojroot::find_rstudio_root_file(),"_readme")
+
+# When running interactively (not via knit), rmarkdown::metadata is not available
+# This code reads the YAML header and makes it available
+if (is.null(tryCatch(rmarkdown::metadata, error = function(e) NULL)) ||
+    length(tryCatch(rmarkdown::metadata, error = function(e) list())) == 0) {
+  readme_file <- file.path(rprojroot::find_rstudio_root_file(), "README.Rmd")
+  yaml_text <- readLines(readme_file, warn = FALSE)
+  yaml_start <- which(yaml_text == "---")[1]
+  yaml_end <- which(yaml_text == "---")[2]
+  if (!is.na(yaml_start) && !is.na(yaml_end)) {
+    yaml_content <- paste(yaml_text[(yaml_start+1):(yaml_end-1)], collapse = "\n")
+    .metadata <- yaml::yaml.load(yaml_content)
+    # Unlock the binding, assign the metadata, then lock it again
+    unlockBinding("metadata", asNamespace("rmarkdown"))
+    assign("metadata", .metadata, envir = asNamespace("rmarkdown"))
+    lockBinding("metadata", asNamespace("rmarkdown"))
+  }
+}
 
 # This allows us to re-use stuff, but condition on whether we are 
 # running the README or not.
@@ -160,7 +180,6 @@ if (rmarkdown::metadata$tutorial) {
 }
 ```
 
-- Data from @openalex-data are obtained under a [CC0](https://creativecommons.org/publicdomain/zero/1.0/) Public Domain attribution.
 - Data fom @crossref-data is "is open and available for reuse without restriction" ([https://www.crossref.org/documentation/retrieve-metadata/](https://www.crossref.org/documentation/retrieve-metadata/))
 
 All derivative data contained herein, if not otherwise encumbered, is available under a [CC-BY-NC-4.0](https://creativecommons.org/licenses/by-nc/4.0/legalcode) license. Usage by commercial entities is permitted, reselling the data is not.
@@ -322,24 +341,24 @@ if (rmarkdown::metadata$tutorial) {
 ```
 
 
-### @raw-data-2019 
+### @ferguson_survey_2023
 
-The data were collected through the methods described in the paper. Data were collected over several years, and deposited at @raw-data-2019 in 2019, with replicator names replaced by random identifiers. 
+The figures were taken from @ferguson_survey_2023 and are only reformatted here for illustration. Original document, including figures, is under a [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/) license.
 
-```{r own_data,echo=FALSE,eval=TRUE,results='asis'}
+```{r christensen,echo=FALSE,eval=TRUE,results='asis'}
 
 datafiles %>% 
-  filter(Order==1|Order==11) %>%
+  filter(Order==1) %>%
   select(`Data Source`,Filename,Provided = Provided.real) %>%
   kable()
 ```
 
+### Access statistics for AEA journals
 
-### Crossref data
+The access statistics were extracted by me from internal AEA systems used by the AEA Data Editor. Similar statistics are published in @vilhuber_report_2025. The direct extracts are confidential and not provided, but the code produces distributable data, which are included here.
 
-Crossref were extracted as needed to obtain bibliographic information (author names, article titles, publication dates) [@crossref-data], using the `rcrossref` package to query the API `. The database itself is free to access. More information about it can be read in @crossref-paper . Note that data can and is updated, so running the query again 
 
-```{r crossref_data,echo=FALSE,eval=TRUE,results='asis'}
+```{r aea_data,echo=FALSE,eval=TRUE,results='asis'}
 
 datafiles %>% 
   filter(Order==2|Order==12) %>%
@@ -347,19 +366,137 @@ datafiles %>%
   kable()
 ```
 
+### Crossref data
 
-### openAlex data
+Data were accessed in 2024  [@crossref-data]. The CrossRef database is described in @crossref-paper. CrossRef data are accessed via an API, and can be updated over time. The derived data are included in this deposit. I use a hand-curated list of ISSNs to identify publishers.
 
-Data were accessed in 2023 to increase the time series covered by the bibliometric analysis [@openalex-data]. The openAlex database is described in @openalex2022. OpenAlex data are accessed via an API, and computed statistics, such as the h-index, are limited to the past 10 years. We therefore had to recompute some numbers. We also saved our extract, as future extracts may have different numbers, due to improvements in entity disambiguation (author names) and other factors outside of our control.
 
-Not all data elements are complete in the openAlex data. We output data for various quality checks, and did manual research to "impute" attributes such as affiliations. All "overrides" are captured in a separate file. 
-
-Thus, the openAlex data has (a) the raw data as downloaded; (b) the problematic data, as output for manual review (c) the edited/imputed data as used to complement the downloaded data.
-
-```{r openalex_data,echo=FALSE,eval=TRUE,results='asis'}
+```{r crossref_data,echo=FALSE,eval=TRUE,results='asis'}
 
 datafiles %>% 
   filter(Order==3|Order==13) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+### Stata download data
+
+Stata download statistics were provided by Kit Baum in February 2025. They are not included here, because they contain IP addresses. Derivative files are provided.
+
+```{r stata_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==7|Order==17) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### R download statistics
+
+R download statistics for the Rstudio servers were downloaded in March 2025. 
+
+
+```{r r_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==4|Order==14) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### NSF Doctorate Recipients @national_science_foundation_doctorate_2024
+
+The Excel file was downloaded in January 2025, and was created in 2024 by the National Center for Science and Engineering Statistics. Numbers were manually inserted into the text. Data published by the NSF is habitually in the public domain, no copyright is claimed in the United States.
+
+
+```{r nsf_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==5|Order==15) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### @us_census_bureau_uscensusbureaufsrdc-external-census-projects_2024
+
+The Excel file with participants in Census Bureau-related research projects was downloaded in January 2025 from Github. As of June 2025, the Github repository had been made private. Data published by the U.S. Census Bureau is habitually in the public domain, no copyright is claimed in the United States.
+
+
+
+```{r census_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==6|Order==16) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### Data on Norwegian economists
+
+The data on Norwegian economists was obtained from the RePEc page @ideasrepec_within_2025, and manually transcribed.
+
+### Data on NBER affiliates
+
+Data on the number of NBER affiliates was observed from the NBER website @national_bureau_of_economic_research_affiliated_2025, and manually transcribed.
+
+### Data on J-PAL affiliates
+
+Data on the number of J-PAL affiliates was observed from the J-PAL website
+@abdul_latif_jameel_poverty_action_lab_affiliated_2025 and manually transcribed.
+
+### Data on PSID publications
+
+Data on the number of PSID publications was obtained from the PSID website. A PDF and screenshot are provided in this package. The website and date accessed are listed in Footnote 10.
+
+
+```{r psid_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==22) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### Data on SOEP publications
+
+Data on the number of SOEP publications was obtained from the SOEP website. The website and date accessed are listed in Footnote 9.
+
+### Data on CASD publications
+
+Data on the number of CASD publications was obtained from the CASD website. A screenshot is provided in this package. The website and date accessed are listed in Footnote 13.
+
+
+```{r casd_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==23) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### Data on CRDCN publications
+
+Data on the number of CRDCN-related publications was obtained from Grant Gibson, see Footnote 14. The data are observable on the CRDCN website, but hard to scrape. The data file is provided here, with Gibson's permission.
+
+```{r crdcn_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==24) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+### Data on Stata licenses and computer costs
+
+Stata licenses were obtained in June 2025 from the StataCorp website. Laptop prices were observed on HP.com website for the USA and Germany for roughly similar models, and on  Shopee.vn for Vietnam. A screenshot for Vietnam is included.
+
+<img src="./data/signal-2025-06-27-10-20-09-831.jpg" alt="Shoppee.vn screenshot" width="200px" />
+
+```{r stata_pc_data,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==21) %>%
   select(`Data Source`,Filename,Provided = Provided.real) %>%
   kable()
 ```
@@ -393,8 +530,8 @@ docker.tag <- dockerfile %>% filter(str_detect(line,"^tag")) %>% separate(line,i
 docker.image <- paste0(docker.space,"/",docker.repo,":",docker.tag)
 
 # find libraries
-as.data.frame(list.files(".",pattern="*.R$",recursive=TRUE)) -> library.files
-names(library.files) <- "file"
+as.data.frame(list.files(".",pattern="*.R$",recursive=TRUE)) -> r.files
+names(r.files) <- "file"
 
 
 
@@ -403,8 +540,8 @@ names(library.files) <- "file"
 - [x] The replication package contains one or more programs to install all dependencies and set up the necessary directory structure. 
 
 - `r version$version.string` on `r version$system`
-  - Docker image is used (see appendix), with system libraries defined by the relevant image (`r docker.image`) (optional, but recommended)
-  - RSPM (now [Posit Package Manager, PPM](https://packagemanager.posit.co/client/)) is used, set to the time-stamped date defined by the container image (`r docker.image`)
+  - Docker image is used, with system libraries defined by the relevant image ([`r docker.image`](https://hub.docker.com/r/`r docker.space`)) (optional, but recommended)
+  -  [Posit Package Manager, PPM](https://packagemanager.posit.co/client/) is used, set to the time-stamped date defined by the container image (`r docker.image`)
   - Libraries are managed through `renv`.
 
 
@@ -418,10 +555,15 @@ if (rmarkdown::metadata$tutorial) {
 }
 ```
 
-```{r list_libs,echo=FALSE,eval=TRUE,results='asis'}
+```{r list_libs,echo=FALSE,message=FALSE,eval=TRUE,results='asis'}
 # Dynamically finding library files, since we use several
 
-library.files %>% filter(str_detect(file,"librar")) %>% rename(`Libraries are defined in` = file) %>% kable()
+library.files <- r.files %>% filter(str_detect(file,"librar")) %>% 
+  # exclude libraries in the `renv` directory
+  filter(!str_detect(file,"renv/")) 
+
+library.files %>%
+  rename(`Libraries are defined in` = file) %>% kable()
 
 # could be extended to other types of configuration files, e.g., `setup.do`
 
@@ -439,12 +581,13 @@ if (rmarkdown::metadata$tutorial) {
 }
 ```
 
-Only directly loaded libraries are cited. For all libraries used in the runtime environment, see the Appendix.
+Only directly loaded libraries are cited. 
 
 ```{r create_r_cites,echo=FALSE,results='asis',eval=TRUE,warning=FALSE}
 # We should really load all the libraries that are used in the paper here, too. That comes from 
 # having all the library files listed in the CONFIG section of this Rmarkdown file, even if they are not used.
 # This needs to be run once by hand, and will be fine in the second round.
+
 cite_packages(output = "table", out.format=c("md"), out.dir = ".") %>% kable()
 ```
 
@@ -507,13 +650,12 @@ if (rmarkdown::metadata$tutorial) {
 }
 ```
 
-The code was last run on 
+The code was last run on (see [Appendix](#appendix-system-and-package-info))
 
-```{bash,eval=TRUE,echo=FALSE,results='asis'}
-source _readme/linux-system-info.sh
-```
-
-- `r version$version.string` on `r version$system`
+- R version 4.5.1 (2025-06-13)
+- os:      openSUSE Leap 15.6
+- Processor: 13th Gen Intel(R) Core(TM) i7-1365U, 12 cores
+- Memory available: 30GB memory
 
 
 
@@ -559,12 +701,21 @@ or equivalently,
 
 Alternative ways to run this (these were not tested):
 
-- optionally, before running project code, run `Rscript -e "renv::init()"` (on Windows, `Rscript.exe -e "renv::init()"` ) to isolate the project libraries from your system (assumes `renv` is installed, see [renv](https://rstudio.github.io/renv/articles/renv.html)).
+- optionally, before running project code, run `Rscript -e "renv::restore()"` (on Windows, `Rscript.exe -e "renv::restore()"` ) to isolate the project libraries from your system (assumes `renv` is installed, see [renv](https://rstudio.github.io/renv/articles/renv.html)).
 - Using the same R version as described above, run each program individually as desired, in the order indicated above.
 
 ## Details
 
-> INSTRUCTIONS: The following list needs to be manually maintained!
+
+
+```{r tutorial-code2, echo=FALSE, results='asis', eval=TRUE}
+if (rmarkdown::metadata$tutorial) {
+  cat('<div class="alert alert-info">\n')
+  cat('📚 The following list needs to be manually maintained!.\n')
+  cat('</div>\n')
+  cat('\n')
+}
+```
 
 ```{r program_details, echo=FALSE,eval=TRUE,results='asis'}
 programs_info <- read_excel("_readme/programs-info.xlsx") %>%
@@ -575,7 +726,7 @@ kable(programs_info)
 ```
 
 
-# List of tables and programs
+# List of tables, figures, and programs
 
 
 The provided code reproduces:
@@ -584,38 +735,61 @@ The provided code reproduces:
 - [x] All tables and figures in the paper
 - [ ] Selected tables and figures in the paper, as explained and justified below.
 
-The code also produces numerous tables which were not included in the paper. 
+The code also produces numerous tables which were not included in the paper, and are used for the in-text numbers. 
 
-```{r table_details, echo=FALSE,eval=TRUE,results='asis',warning=FALSE,message=FALSE}
-# we constructed this in two takes
-# - parse all Latex files for their label and filename
-# - parse all R code for the word "table", to get the filename
-#  'grep table_ */*.R | sed 's+out=file.path(Outputs,"+text/analysis/+' | sed 's+=file.path(TexIncludes,"+text/includes/+' | sed 's+"))++' | sed 's+")++' | sed 's+:+,+' | sed 's+outtext+text+' > _readme/tables_programs.csv'
-# - some hand-cleaning
+```{r table_details, echo=FALSE,eval=FALSE,results='asis',warning=FALSE,message=FALSE}
 
-tables_programs <- read_csv("_readme/tables_programs.csv", 
-    col_names = FALSE) 
-names(tables_programs) <- c("Program","LaTeX file")
 
 table_info <- read_excel("_readme/table-mapping.xlsx") %>%
-  mutate(number = as.numeric(str_remove(`Table number`,"A")),
-         appendix = str_detect(`Table number`,"A")) %>%
   filter(!is.na(`Table number`)) %>%
-  group_by(appendix)%>%
-  arrange(number,.by_group = TRUE) %>%
+  group_by(Appendix)%>%
+  arrange(`Table number`,.by_group = TRUE) %>%
+  select(-`LaTeX label`) %>%
   ungroup()
 
-programs_table_info <- left_join(table_info,tables_programs,by="LaTeX file") %>%
-  select(`Table number`,Program,`LaTeX file`)
+cat("\n**Main text**\n\n")
 
-kable(programs_table_info )
+kable(table_info %>% filter(Appendix=="No") %>% select(-Appendix))
+
+
+cat("\n**Appendix**\n\n")
+
+kable(table_info %>% filter(Appendix=="Yes") %>% select(-Appendix))
 ```
 
+
+```{r figure_details, echo=FALSE,eval=FALSE,results='asis',warning=FALSE,message=FALSE}
+
+
+figure_info <- read_excel("_readme/figure-mapping.xlsx") %>%
+  filter(!is.na(`Figure number`)) %>%
+  group_by(Appendix)%>%
+  arrange(`Figure number`,.by_group = TRUE) %>%
+  select(-`LaTeX label`) %>%
+  ungroup()
+
+cat("\n**Main text**\n\n")
+
+kable(figure_info %>% filter(Appendix=="No") %>% select(-Appendix))
+
+
+cat("\n**Appendix**\n\n")
+
+kable(figure_info %>% filter(Appendix=="Yes") %>% select(-Appendix))
+```
 ---
 
 # Acknowledgements
 
-This README based on the template (V1.1) created by @template-readme. 
+This README based on the template (V1.1) created by @templateREADMEv1.1 
+
+README was compiled on 
+
+```{bash,eval=TRUE,echo=FALSE,results='asis'}
+source _readme/linux-system-info.sh
+```
+- `r version$version.string` on `r version$system`
+
 
 # References
 

@@ -1,3 +1,12 @@
+# check if we are in a renv environment
+if (file.exists("renv.lock")) {
+  renv::restore()
+  } else {
+    message("No renv environment detected")
+  }
+  
+
+
 # Path names
 
 basedir=here::here()
