@@ -2,11 +2,11 @@
 title: "Code and Data for: Reproducibility and Open Science in Economics"
 author:
   - Lars Vilhuber
-date: 2025-06-19
+date: 2025-11-27
 pubdate: "2025"
-pubdoi: "10.1234/something"
+pubdoi: "10.5281/zenodo.17739648"
 publoc: "Zenodo"
-pubversion: "V1"
+pubversion: "v20251127b"
 output:
   html_document: 
     keep_md: yes

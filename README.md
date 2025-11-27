@@ -2,11 +2,11 @@
 title: "Code and Data for: Reproducibility and Open Science in Economics"
 author:
   - Lars Vilhuber
-date: 2025-06-19
+date: 2025-11-27
 pubdate: "2025"
-pubdoi: "10.1234/something"
+pubdoi: "10.5281/zenodo.17739648"
 publoc: "Zenodo"
-pubversion: "V1"
+pubversion: "v20251127b"
 output:
   html_document: 
     keep_md: yes
@@ -38,10 +38,10 @@ github: https://github.com/social-science-data-editors/readme-rmarkdown
 
 # Cite as
 
-> Lars Vilhuber, 2025, "Code and Data for: Reproducibility and Open Science in Economics", Zenodo, V1, https://doi.org/10.1234/something
+> Lars Vilhuber, 2025, "Code and Data for: Reproducibility and Open Science in Economics", Zenodo, v20251127b, https://doi.org/10.5281/zenodo.17739648
 
 
-[![DOI:10.1234/something](https://zenodo.org/badge/DOI/10.1234/something.svg)](https://doi.org/10.1234/something)
+[![DOI:10.5281/zenodo.17739648](https://zenodo.org/badge/DOI/10.5281/zenodo.17739648.svg)](https://doi.org/10.5281/zenodo.17739648)
 
 
 # Overview
