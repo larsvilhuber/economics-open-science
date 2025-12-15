@@ -1,6 +1,8 @@
 # Run all R scripts in independent sessions
 # This R script runs the same programs as run.sh but in separate R sessions
 
+renv::restore()
+
 # List of scripts to run in order
 scripts <- c(
   "code/01_compute_econphd.R",
