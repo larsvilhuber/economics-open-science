@@ -46,10 +46,11 @@ cat("Starting batch execution of R scripts...\n\n")
 for (script in scripts) {
   success <- run_script(script)
   if (!success) {
-    cat("Stopping execution due to error in", script, "\n")
+    error("Stopping execution due to error in", script, "\n")
     break
   }
   cat("\n")
 }
 
 cat("Batch execution completed.\n")
+
