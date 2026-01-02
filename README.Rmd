@@ -374,6 +374,20 @@ datafiles %>%
   kable()
 ```
 
+### Historical software usage in AEA replication packages
+
+Data were accessed in 2025 from the Github repository at <https://github.com/AEADataEditor/aea-supplement-migration/releases/tag/v20200515>. Code was adapted for better layout.
+
+```{r aea_migration,echo=FALSE,eval=TRUE,results='asis'}
+
+datafiles %>% 
+  filter(Order==5) %>%
+  select(`Data Source`,Filename,Provided = Provided.real) %>%
+  kable()
+```
+
+
+
 ### Crossref data
 
 Data were accessed in 2024  [@crossref-data]. The CrossRef database is described in @crossref-paper. CrossRef data are accessed via an API, and can be updated over time. The derived data are included in this deposit. I use a hand-curated list of ISSNs to identify publishers.
