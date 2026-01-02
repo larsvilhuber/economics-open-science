@@ -96,16 +96,27 @@ region_diff_plot_no_annot <- ggplot(region_compare, aes(x = reorder(custom_regio
     x = NULL,
     y = NULL
   ) +
-  theme_minimal() +
+  theme_minimal(base_size = 18) +
   theme(
-    plot.margin = margin(t = 30, r = 10, b = 10, l = 10)
+    plot.margin = margin(t = 30, r = 10, b = 10, l = 10),
+    axis.text = element_text(size=18)
+	    	  
   )
 
 # Add annotations
 region_diff_plot <- region_diff_plot_no_annot +
   # Annotate the columns so text is inside the bars and aligned with zero
-  annotate("text", x = region_max_pos, y = 0 + spacing_region, label = "More Stata downloads", hjust = 0, vjust = 0.5, size = 4, fontface = "italic", color = "white") +
-  annotate("text", x = region_max_neg, y = 0 - spacing_region, label = "More R downloads", hjust = 1, vjust = 0.5, size = 4, fontface = "italic", color = "white")
+  annotate("text", x = region_max_pos, 
+           y = 0 + spacing_region, 
+           label = "More Stata downloads", 
+           hjust = 0, vjust = 0.5, 
+           size = 4, 
+           fontface = "italic", color = "white") +
+  annotate("text", x = region_max_neg, 
+           y = 0 - spacing_region, 
+           label = "More R downloads", 
+           hjust = 1, vjust = 0.5, 
+           size = 4, fontface = "italic", color = "white")
   
 ggsave(file.path(outputs, "compare_region_diff_select.png"), region_diff_plot, width = 10, height = 5, dpi = 300)
 
@@ -124,18 +135,19 @@ ns_diff_plot <- ggplot(ns_compare, aes(x = reorder(`North/South`, Diff), y = Dif
   coord_flip() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
   # Annotate the columns so text is inside the bars and aligned with zero
-  annotate("text", x = "Global North", y = 0 + spacing, label = "More Stata downloads", 
-          hjust = 0, vjust = 0.5, size = 4, fontface = "italic", color = "white") +
-  annotate("text", x = "Global South", y = 0 - spacing, label = "More R downloads", 
-          hjust = 1, vjust = 0.5, size = 4, fontface = "italic", color = "white") +
+  annotate("text", x = "Global North", y = 0 + spacing, label = "More Stata\ndownloads", 
+          hjust = 0, vjust = 0.5, size = 4.5, fontface = "italic", color = "white") +
+  annotate("text", x = "Global South", y = 0 - spacing, label = "More R\ndownloads", 
+          hjust = 1, vjust = 0.5, size = 4.5, fontface = "italic", color = "white") +
   scale_y_continuous(labels = label_percent(scale = 1), limits = c(ymin, ymax)) +
   labs(
     x = NULL,
     y = NULL
   ) +
-  theme_minimal() +
+  theme_minimal(base_size = 18) +
   theme(
-    plot.margin = margin(t = 30, r = 10, b = 10, l = 10)
+    plot.margin = margin(t = 30, r = 10, b = 10, l = 10),
+    axis.text = element_text(size=18)
   )
 
 ggsave(file.path(outputs, "compare_ns_diff_select.png"), ns_diff_plot, width = 7, height = 3, dpi = 300)
@@ -150,7 +162,7 @@ ns_diff_plot_no_ticks <- ns_diff_plot + theme(
 combined_plot <- ns_diff_plot_no_ticks / region_diff_plot_no_annot + 
     plot_layout(heights = c(1, 2))
 ggsave(file.path(outputs, "compare_combined_diff_select.png"), combined_plot, 
-       width = 10, height = 8, dpi = 300)
+       width = 10, height = 5, dpi = 300)
 
 cat("\n=== SUMMARY ===\n")
 cat("\nFiles saved:\n")
